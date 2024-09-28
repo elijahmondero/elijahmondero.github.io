@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Box, Text } from "@react-three/drei";
-import { Group, Mesh, MeshBasicMaterial } from "three";
+import { Group, MeshBasicMaterial } from "three";
 
 function RotatingBox() {
   const mesh = useRef<Group>(null!);
@@ -10,7 +10,7 @@ function RotatingBox() {
   return (
     <group ref={mesh}>
       <Box args={[2.5, 1, 1]}>
-        <meshBasicMaterial attach="material" color={"white"} />
+        <MeshBasicMaterial attach="material" color={"white"} />
       </Box>
       <Text
         position={[0, 0, 0.51]} // Front face
