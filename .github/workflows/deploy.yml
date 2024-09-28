@@ -26,7 +26,6 @@ jobs:
       run: npm run build
       working-directory: elijahmondero
 
-    # Add git user config here
     - name: Configure Git
       run: |
         git config --global user.name "Elijah Mondero"
@@ -34,7 +33,11 @@ jobs:
       working-directory: elijahmondero
 
     - name: Deploy to GitHub Pages
-      run: npm run deploy
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        npm run deploy
       working-directory: elijahmondero
 
     - name: Clean up the cache (optional)
