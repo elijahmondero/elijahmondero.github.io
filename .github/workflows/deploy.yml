@@ -20,12 +20,16 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: elijahmondero
 
     - name: Build the project
       run: npm run build
+      working-directory: elijahmondero
 
     - name: Deploy to GitHub Pages
       run: npm run deploy
+      working-directory: elijahmondero
 
     - name: Clean up the cache (optional)
       run: rm -rf node_modules
+      working-directory: elijahmondero
