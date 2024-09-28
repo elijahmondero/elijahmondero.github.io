@@ -26,6 +26,13 @@ jobs:
       run: npm run build
       working-directory: elijahmondero
 
+    # Add git user config here
+    - name: Configure Git
+      run: |
+        git config --global user.name "Elijah Mondero"
+        git config --global user.email "elijahmondero@gmail.com"
+      working-directory: elijahmondero
+
     - name: Deploy to GitHub Pages
       run: npm run deploy
       working-directory: elijahmondero
