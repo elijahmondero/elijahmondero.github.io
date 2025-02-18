@@ -1,3 +1,12 @@
 [
-    { "id": 1, "title": "Welcome to The Tech Oracle", "excerpt": "Discover the latest in technology, AI, and more. Join us on this journey of innovation and discovery." }
+  {
+    "id": "3fed128c",
+    "title": ".NET 9 Release: What's New and Improved",
+    "excerpt": "Discover the latest features, breaking changes, and updates in the .NET 9 release, including new security measures, API changes, and improvements in C# 13."
+  },
+  {
+    "id": 1,
+    "title": "Welcome to The Tech Oracle",
+    "excerpt": "Discover the latest in technology, AI, and more. Join us on this journey of innovation and discovery."
+  }
 ]
