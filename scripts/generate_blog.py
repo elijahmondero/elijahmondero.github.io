@@ -4,12 +4,18 @@ import sys
 import uuid
 from datetime import datetime
 from langchain_openai import AzureChatOpenAI
-from langchain.agents import create_react_agent
+from langchain.agents import create_react_agent, AgentExecutor
 from langchain.tools import Tool
 from langchain_core.prompts import PromptTemplate
+from langchain import hub
 from langchain_core.output_parsers import JsonOutputParser
 import requests
 from bs4 import BeautifulSoup
+from typing import List
+from langchain_core.tools import tool
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Azure OpenAI configuration
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
@@ -26,20 +32,30 @@ llm = AzureChatOpenAI(
 )
 
 # Scraping tool
-def scrape_links(links):
+def scrape_links(links: str) -> str:
+    try:
+        # Parse the JSON string into a list of URLs
+        links_list = json.loads(links)
+        if not isinstance(links_list, list) or not all(isinstance(link, str) for link in links_list):
+            raise ValueError("Input must be a JSON string representing a list of strings")
+    except json.JSONDecodeError as e:
+        raise ValueError("Input must be a valid JSON string representing a list of strings") from e
+
     scraped_content = []
-    for link in links:
-        try:
-            response = requests.get(link, timeout=10)
-            if response.status_code == 200:
-                soup = BeautifulSoup(response.content, 'html.parser')
-                text = soup.get_text(separator="\n", strip=True)
-                scraped_content.append(text[:5000])  # Limit to 5000 chars per link
-            else:
-                scraped_content.append(f"Failed to scrape {link}: Status {response.status_code}")
-        except Exception as e:
-            scraped_content.append(f"Error scraping {link}: {str(e)}")
+    print(links)
+    for link in links_list:
+        response = requests.get(link, timeout=10)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.content, 'html.parser')
+            text = soup.get_text(separator="\n", strip=True)
+            scraped_content.append(text[:5000])  # Limit to 5000 chars per link
+        else:
+            scraped_content.append(f"Failed to scrape {link}: Status {response.status_code}")
+    
     return "\n\n".join(scraped_content)
+
+def convert_to_json(json_value: dict) -> str:
+    return json.dumps(json_value)
 
 # Blog post generation
 def generate_blog_post(prompt):
@@ -47,45 +63,77 @@ def generate_blog_post(prompt):
         Tool(
             name="scrape",
             func=scrape_links,
-            description="Useful for scraping content from web links."
+            description="Useful for scraping content from web links. You need to pass http links as a list."
+        ),
+        Tool(
+            name="blog_json",
+            func=convert_to_json,
+            description="Converts blog post into json. Pass title, excerpt, fullPost, datePosted, postedBy, tags and sources. Always use this."
         )
     ]
 
-    # Create agent with structured output
-    parser = JsonOutputParser()
-    format_instructions = parser.get_format_instructions()
+    #  # Create agent with structured output
+    # format_instructions = """
+    # {{
+    #     "title": "string",
+    #     "excerpt": "string",
+    #     "fullPost": "string",
+    #     "datePosted": "string",
+    #     "postedBy": "string",
+    #     "tags": ["string"],
+    #     "sources": ["string"]
+    # }}
+    # """
 
-    prompt_template = PromptTemplate(
-        template="""
-        Generate a blog post in JSON format with the following structure:
-        {format_instructions}
+    # prompt_template = PromptTemplate(
+    #     template=f"""
+        
+    #     Generate a blog post in JSON format with the following structure:
+    #     {format_instructions}
 
-        Prompt: {prompt}
-        Tools: {tools}
-        Tool Names: {tool_names}
-        Agent Scratchpad: {agent_scratchpad}
-        """,
-        input_variables=["prompt", "tools", "tool_names", "agent_scratchpad"],
-        partial_variables={"format_instructions": format_instructions}
-    )
+    #     You have access to the following tools:
+
+    #     {tools}
+
+        
+    #     """,
+    #     input_variables=["prompt", "tools", "tool_names", "agent_scratchpad"]
+    # )
 
     agent = create_react_agent(
         llm=llm,
         tools=tools,
-        prompt=prompt_template
+        prompt=hub.pull("hwchase17/react")
     )
-    
 
-    response = agent.invoke({
-        "prompt": prompt,
-        "tool_names": "scrape",       # if you have just one tool; otherwise list them as needed
-        "agent_scratchpad": "",       # start with an empty scratchpad
-        "intermediate_steps": []      # supply an empty list so that the agent can later append its reasoning
-    })
+    agent_executor = AgentExecutor(agent=agent, tools=tools)
+
+    prompt = f"{prompt}. Use the tool blog_json to convert the blog post into JSON format and return this output."
+
+    response = agent_executor.invoke({"input": prompt})
 
     print("Raw LLM output:", response)
-    
-    return parser.parse(response["output"])
+
+    try:
+        parsed_response = json.loads(response["output"])
+        return parsed_response
+    except json.JSONDecodeError as e:
+        print(f"Error parsing LLM output: {str(e)}")
+        print("LLM output that caused the error:", response["output"])
+        return None
+
+    # # Ensure the parsed response has the correct format
+    # blog_post = {
+    #     "title": parsed_response.get("title", ""),
+    #     "excerpt": parsed_response.get("excerpt", ""),
+    #     "fullPost": parsed_response.get("fullPost", ""),
+    #     "datePosted": datetime.utcnow().isoformat() + "Z",
+    #     "postedBy": "Elijah Mondero",
+    #     "tags": parsed_response.get("tags", []),
+    #     "sources": parsed_response.get("sources", [])
+    # }
+
+    # return blog_post
 
 # Save blog post to file
 def save_post(title, excerpt, full_post, tags):
@@ -133,23 +181,25 @@ if __name__ == "__main__":
 
     prompt = sys.argv[1]
 
-    try:
-        blog_data = generate_blog_post(prompt)
-        required_keys = {"title", "excerpt", "fullPost", "tags"}
-        
-        if not all(key in blog_data for key in required_keys):
-            raise ValueError("Generated blog post is missing required fields.")
+    # try:
+    blog_data = generate_blog_post(prompt)
+    required_keys = {"title", "excerpt", "fullPost", "tags"}
 
-        post_file, post_data = save_post(
-            blog_data["title"],
-            blog_data["excerpt"],
-            blog_data["fullPost"],
-            blog_data["tags"]
-        )
+    print(blog_data)
+    
+    if not all(key in blog_data for key in required_keys):
+        raise ValueError("Generated blog post is missing required fields.")
 
-        update_index(post_data["id"], blog_data["title"], blog_data["excerpt"])
-        print(f"Blog post saved: {post_file}")
+    post_file, post_data = save_post(
+        blog_data["title"],
+        blog_data["excerpt"],
+        blog_data["fullPost"],
+        blog_data["tags"]
+    )
 
-    except Exception as e:
-        print(f"Error generating blog post: {str(e)}")
-        sys.exit(1)
+    update_index(post_data["id"], blog_data["title"], blog_data["excerpt"])
+    print(f"Blog post saved: {post_file}")
+
+    # except Exception as e:
+    #     print(f"Error generating blog post: {str(e)}")
+    #     sys.exit(1)
