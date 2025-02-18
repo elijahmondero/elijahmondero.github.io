@@ -158,8 +158,8 @@ def save_post(title, excerpt, full_post, tags):
         "sources": []
     }
 
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    post_filename = os.path.join(script_dir, "../public/posts", f"{post_id}.json")
+    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    post_filename = os.path.join(repo_root, "public/posts", f"{post_id}.json")
     print("Post filename:", post_filename)
     os.makedirs(os.path.dirname(post_filename), exist_ok=True)
 
@@ -170,8 +170,8 @@ def save_post(title, excerpt, full_post, tags):
 
 # Update blog index
 def update_index(post_id, title, excerpt):
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    index_file = os.path.join(script_dir, "../public/posts/index.json")
+    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    index_file = os.path.join(repo_root, "public/posts/index.json")
     print("Index file:", index_file)
     index_data = []
 
