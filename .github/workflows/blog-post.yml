@@ -33,6 +33,11 @@ jobs:
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
         run: python scripts/generate_blog.py "${{ github.event.inputs.prompt }}"
 
+      - name: List files before commit
+        run: |
+          echo "Files before commit:"
+          ls -R
+
       - name: Commit and push changes
         run: |
           BRANCH_NAME="blog-post-$(date +%s)"
@@ -40,7 +45,9 @@ jobs:
           git checkout -b "$BRANCH_NAME"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add elijahmondero/
+          git add elijahmondero/public/posts/*.json
+          echo "Staged files:"
+          git status
           git commit -m "Generated blog post from workflow"
           git push origin "$BRANCH_NAME"
 
