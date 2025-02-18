@@ -49,9 +49,9 @@ const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost }) => {
 
   return (
     <div className="full-post">
+              
       <Helmet>
-        <title>{post.title} - The Tech Oracle</title>
-        <meta name="description" content={post.excerpt} />
+
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "http://schema.org",
@@ -71,6 +71,8 @@ const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost }) => {
           })}
         </script>
       </Helmet>
+      <title>{post.title} - The Tech Oracle</title>
+      <meta name="description" content={post.excerpt} />
       <h2>{post.title}</h2>
       <ReactMarkdown>{post.fullPost}</ReactMarkdown>
       <p className="meta"><strong>Posted by:</strong> {post.postedBy} on {formatDateTime(post.datePosted)}</p>

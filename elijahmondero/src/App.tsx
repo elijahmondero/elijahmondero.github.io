@@ -49,11 +49,15 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Helmet>
+      <Helmet>
+          <title>The Tech Oracle by Elijah Mondero</title>
+          <meta name="description" content="A blog about the latest in technology by Elijah Mondero" />
+        </Helmet>
         <header className="App-header">
           <h1><Link to="/" className="home-link">The Tech Oracle</Link></h1>
         </header>
         <main>
+       
           <Routes>
             <Route path="/" element={
               <>
@@ -77,7 +81,6 @@ function App() {
             <Route path="/post/:id" element={<FullPost posts={fullPosts} fetchFullPost={fetchFullPost} />} />
           </Routes>
         </main>
-        </Helmet>
       </div>
     </Router>
   );
