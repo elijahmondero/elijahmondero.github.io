@@ -1,0 +1,15 @@
+{
+  "id": "63feb511",
+  "title": ".NET 9 Release: What's New",
+  "excerpt": "Explore the latest features, updates, and breaking changes introduced in .NET 9.",
+  "fullPost": "Microsoft has unveiled the latest version of its development platform, .NET 9, bringing a host of new features, updates, and breaking changes. This release focuses on enhancing security, improving cross-platform cryptographic support, and refining the overall developer experience.\n\n### .NET Security\n.NET 9 introduces several updates to its security features, including cross-platform cryptography enhancements. These updates ensure that applications built on .NET are more secure and resilient against potential threats.\n\n### Breaking Changes\nDevelopers should be aware of several breaking changes in this release. Key changes include modifications to nullability annotations in Windows Forms, deprecation of certain MonoVM runtime packages, and the removal of the in-box BinaryFormatter implementation. Additionally, floating point-to-integer conversions are now saturating, and several methods have altered behaviors.\n\n### Fundamental Enhancements\nThe core .NET platform has seen significant improvements. New articles and updates cover CA2022: Avoid inexact read with Stream.Read, and CA2265: Do not compare Span<T> to null or default. Configuration source generators have also been introduced, providing more efficient ways to handle configuration data.\n\n### C# Language Updates\nThe C# language, a key component of the .NET ecosystem, also receives notable updates. C# 13 introduces new errors and warnings related to ref struct types, partial type, and member declarations. Enhancements also include better conversion from collection expressions and improved support for partial properties.\n\n### SDK and Tooling\nThe SDK and tooling for .NET 9 have been updated to streamline the development process. These updates ensure that developers have access to the latest tools and features to build robust and efficient applications.\n\nIn summary, .NET 9 is a significant step forward for the platform, bringing critical security updates, breaking changes that developers need to be aware of, and enhancements across the board. For a detailed overview of all changes and updates, refer to the official documentation.",
+  "datePosted": "2025-02-18T10:03:16.700358Z",
+  "postedBy": "Elijah Mondero",
+  "tags": [
+    "Microsoft",
+    ".NET",
+    "Software Development",
+    ".NET 9"
+  ],
+  "sources": []
+}
