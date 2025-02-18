@@ -82,6 +82,9 @@ def generate_blog_post(prompt):
         "agent_scratchpad": "",       # start with an empty scratchpad
         "intermediate_steps": []      # supply an empty list so that the agent can later append its reasoning
     })
+
+    print("Raw LLM output:", response)
+    
     return parser.parse(response["output"])
 
 # Save blog post to file
