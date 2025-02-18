@@ -158,7 +158,9 @@ def save_post(title, excerpt, full_post, tags):
         "sources": []
     }
 
-    post_filename = f"public/posts/{post_id}.json"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    post_filename = os.path.join(script_dir, "../public/posts", f"{post_id}.json")
+    print("Post filename:", post_filename)
     os.makedirs(os.path.dirname(post_filename), exist_ok=True)
 
     with open(post_filename, "w") as f:
@@ -168,7 +170,9 @@ def save_post(title, excerpt, full_post, tags):
 
 # Update blog index
 def update_index(post_id, title, excerpt):
-    index_file = "public/posts/index.json"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    index_file = os.path.join(script_dir, "../public/posts/index.json")
+    print("Index file:", index_file)
     index_data = []
 
     if os.path.exists(index_file):
