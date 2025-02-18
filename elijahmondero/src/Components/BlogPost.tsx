@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 interface BlogPostProps {
   title: string;
@@ -27,6 +28,20 @@ const formatDateTime = (dateTime: string) => {
 const BlogPost: React.FC<BlogPostProps> = ({ title, excerpt, link, datePosted, dateModified, postedBy, modifiedBy }) => {
   return (
     <div className="blog-post">
+        <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "http://schema.org",
+            "@type": "BlogPosting",
+            "headline": title,
+            "description": excerpt,
+            "author": postedBy,
+            "datePublished": datePosted,
+            "dateModified": dateModified,
+            "url": window.location.href
+          })}
+        </script>
+      </Helmet>
       <h2>{title}</h2>
       <p>{excerpt}</p>
       <p className="meta"><strong>Posted by:</strong> {postedBy} on {formatDateTime(datePosted)}</p>

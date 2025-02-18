@@ -3,6 +3,7 @@ import './App.css';
 import BlogPost from './Components/BlogPost';
 import FullPost from './Components/FullPost';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 interface Post {
   title: string;
@@ -48,6 +49,7 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <Helmet>
         <header className="App-header">
           <h1><Link to="/" className="home-link">The Tech Oracle</Link></h1>
         </header>
@@ -75,6 +77,7 @@ function App() {
             <Route path="/post/:id" element={<FullPost posts={fullPosts} fetchFullPost={fetchFullPost} />} />
           </Routes>
         </main>
+        </Helmet>
       </div>
     </Router>
   );

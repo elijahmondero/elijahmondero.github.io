@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import { Helmet } from 'react-helmet';
 
 interface Post {
   title: string;
@@ -48,6 +49,28 @@ const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost }) => {
 
   return (
     <div className="full-post">
+      <Helmet>
+        <title>{post.title} - The Tech Oracle</title>
+        <meta name="description" content={post.excerpt} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "http://schema.org",
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "description": post.excerpt,
+            "author": post.postedBy,
+            "datePublished": post.datePosted,
+            "dateModified": post.dateModified,
+            "url": window.location.href,
+            "articleBody": post.fullPost,
+            "keywords": post.tags.join(', '),
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": window.location.href
+            }
+          })}
+        </script>
+      </Helmet>
       <h2>{post.title}</h2>
       <ReactMarkdown>{post.fullPost}</ReactMarkdown>
       <p className="meta"><strong>Posted by:</strong> {post.postedBy} on {formatDateTime(post.datePosted)}</p>
