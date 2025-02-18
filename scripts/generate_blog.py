@@ -61,8 +61,10 @@ def generate_blog_post(prompt):
         {format_instructions}
         
         Prompt: {prompt}
+        Tools: {tool_names}
+        Agent Scratchpad: {agent_scratchpad}
         """,
-        input_variables=["prompt"],
+        input_variables=["prompt", "tool_names", "agent_scratchpad"],
         partial_variables={"format_instructions": format_instructions}
     )
 
