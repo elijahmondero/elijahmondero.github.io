@@ -36,12 +36,12 @@ jobs:
       - name: Commit and push changes
         run: |
           BRANCH_NAME="blog-post-$(date +%s)"
-          git checkout -b $BRANCH_NAME
+          git checkout -b "$BRANCH_NAME"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add public/posts/
           git commit -m "Generated blog post from workflow"
-          git push origin $BRANCH_NAME
+          git push origin "$BRANCH_NAME"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
