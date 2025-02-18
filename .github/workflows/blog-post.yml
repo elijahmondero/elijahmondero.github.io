@@ -33,21 +33,20 @@ jobs:
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
         run: python scripts/generate_blog.py "${{ github.event.inputs.prompt }}"
 
-      - name: List files before commit
-        run: |
-          echo "Files before commit:"
-          ls -R
-
-      - name: Delete unwanted file
+      - name: Prepare Pull Request
         run: |
           if [ -f "=1.0.0" ]; then
             rm "=1.0.0"
           fi
+          echo "Files before commit:"
+          ls -R
+          BRANCH_NAME="blog-post-$(date +%s)"
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: blog-post-$(date +%s)
+          branch: ${{ env.BRANCH_NAME }}
           title: "New Blog Post"
           body: "Automated blog post creation from workflow"
           base: main
