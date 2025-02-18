@@ -29,7 +29,12 @@ function App() {
   useEffect(() => {
     fetch('/posts/index.json')
       .then(response => response.json())
-      .then(data => setPosts(data));
+      .then(data => {
+        setPosts(data);
+        data.forEach((post: PostMetadata) => {
+          fetchFullPost(post.id);
+        });
+      });
   }, []);
 
   const fetchFullPost = (id: number) => {
