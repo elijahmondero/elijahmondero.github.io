@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
 interface Post {
   title: string;
@@ -14,8 +15,8 @@ interface Post {
 }
 
 interface FullPostProps {
-  posts: { [key: string]: Post }; // Change key type to string
-  fetchFullPost: (id: string) => void; // Change id type to string
+  posts: { [key: string]: Post };
+  fetchFullPost: (id: string) => void;
 }
 
 const formatDateTime = (dateTime: string) => {
@@ -33,7 +34,7 @@ const formatDateTime = (dateTime: string) => {
 
 const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost }) => {
   const { id } = useParams<{ id: string }>();
-  const postId = id; // No need to parse, use as string
+  const postId = id;
 
   useEffect(() => {
     fetchFullPost(postId);
@@ -48,7 +49,7 @@ const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost }) => {
   return (
     <div className="full-post">
       <h2>{post.title}</h2>
-      <p>{post.fullPost}</p>
+      <ReactMarkdown>{post.fullPost}</ReactMarkdown>
       <p className="meta"><strong>Posted by:</strong> {post.postedBy} on {formatDateTime(post.datePosted)}</p>
       {post.dateModified && post.modifiedBy && (
         <p className="meta"><strong>Modified by:</strong> {post.modifiedBy} on {formatDateTime(post.dateModified)}</p>
