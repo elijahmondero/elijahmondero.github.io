@@ -1,0 +1,18 @@
+{
+  "id": "cd258dd8",
+  "title": "What's New in .NET 9",
+  "excerpt": "Explore the latest features and updates in .NET 9, including security enhancements, breaking changes, new fundamentals, and SDK tooling improvements.",
+  "fullPost": "The release of .NET 9 brings with it a host of new features and updates across various aspects of the framework.\n\n**Security Enhancements**: .NET 9 introduces new cross-platform cryptography updates, enhancing the security capabilities of the framework.\n\n**Breaking Changes**: This release includes several breaking changes. Notable ones include updates to nullability annotations, changes to component designer exceptions, and the deprecation of certain API features.\n\n**Fundamentals**: There are new articles and updates related to code quality rules and configuration in .NET 9. These updates aim to improve the overall development experience and code maintainability.\n\n**SDK and Tooling**: .NET 9 includes significant updates in the SDK and tooling, with new features introduced in C# 13. These updates provide developers with more robust tools and improved performance for building applications.",
+  "datePosted": "2025-02-18T10:14:54.546983Z",
+  "postedBy": "Elijah Mondero",
+  "tags": [
+    "dotnet",
+    "release",
+    "update",
+    "security",
+    "sdk",
+    "tooling",
+    "C#"
+  ],
+  "sources": []
+}
