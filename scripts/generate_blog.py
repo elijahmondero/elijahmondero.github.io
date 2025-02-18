@@ -74,8 +74,14 @@ def generate_blog_post(prompt):
         tools=tools,
         prompt=prompt_template
     )
+    
 
-    response = agent.invoke({"prompt": prompt})
+    response = agent.invoke({
+        "prompt": prompt,
+        "tool_names": "scrape",       # if you have just one tool; otherwise list them as needed
+        "agent_scratchpad": "",       # start with an empty scratchpad
+        "intermediate_steps": []      # supply an empty list so that the agent can later append its reasoning
+    })
     return parser.parse(response["output"])
 
 # Save blog post to file
