@@ -20,7 +20,7 @@ MODEL = "gpt-4o"  # Update with your Azure deployment name
 llm = AzureChatOpenAI(
     azure_endpoint=AZURE_OPENAI_ENDPOINT,
     api_key=AZURE_OPENAI_API_KEY,
-    api_version="2024-05-01-preview",  # Use the latest version
+    api_version="2024-05-01-preview",
     deployment_name=MODEL,
     temperature=0.7
 )
@@ -59,12 +59,13 @@ def generate_blog_post(prompt):
         template="""
         Generate a blog post in JSON format with the following structure:
         {format_instructions}
-        
+
         Prompt: {prompt}
-        Tools: {tool_names}
+        Tools: {tools}
+        Tool Names: {tool_names}
         Agent Scratchpad: {agent_scratchpad}
         """,
-        input_variables=["prompt", "tool_names", "agent_scratchpad"],
+        input_variables=["prompt", "tools", "tool_names", "agent_scratchpad"],
         partial_variables={"format_instructions": format_instructions}
     )
 
