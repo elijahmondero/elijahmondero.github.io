@@ -1,0 +1,53 @@
+name: Generate Blog Post
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: "Prompt for the blog post"
+        required: true
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install langchain-openai langchain-community azure-identity openai>=1.0.0 requests beautifulsoup4 PyYAML
+
+      - name: Run blog post script
+        env:
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+        run: python scripts/generate_blog.py "${{ github.event.inputs.prompt }}"
+
+      - name: Commit and push changes
+        run: |
+          BRANCH_NAME="blog-post-$(date +%s)"
+          git checkout -b $BRANCH_NAME
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add public/posts/
+          git commit -m "Generated blog post from workflow"
+          git push origin $BRANCH_NAME
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: $BRANCH_NAME
+          title: "New Blog Post"
+          body: "Automated blog post creation from workflow"
+          base: main
+          token: ${{ secrets.GITHUB_TOKEN }}
