@@ -14,8 +14,8 @@ interface Post {
 }
 
 interface FullPostProps {
-  posts: { [key: number]: Post };
-  fetchFullPost: (id: number) => void;
+  posts: { [key: string]: Post }; // Change key type to string
+  fetchFullPost: (id: string) => void; // Change id type to string
 }
 
 const formatDateTime = (dateTime: string) => {
@@ -33,7 +33,7 @@ const formatDateTime = (dateTime: string) => {
 
 const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost }) => {
   const { id } = useParams<{ id: string }>();
-  const postId = parseInt(id);
+  const postId = id; // No need to parse, use as string
 
   useEffect(() => {
     fetchFullPost(postId);

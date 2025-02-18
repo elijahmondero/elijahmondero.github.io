@@ -17,14 +17,14 @@ interface Post {
 }
 
 interface PostMetadata {
-  id: number;
+  id: string; // Change id type to string
   title: string;
   excerpt: string;
 }
 
 function App() {
   const [posts, setPosts] = useState<PostMetadata[]>([]);
-  const [fullPosts, setFullPosts] = useState<{ [key: number]: Post }>({});
+  const [fullPosts, setFullPosts] = useState<{ [key: string]: Post }>({}); // Change key type to string
 
   useEffect(() => {
     fetch('/posts/index.json')
@@ -37,9 +37,9 @@ function App() {
       });
   }, []);
 
-  const fetchFullPost = (id: number) => {
+  const fetchFullPost = (id: string) => { // Change id type to string
     if (!fullPosts[id]) {
-      fetch(`/posts/post${id}.json`)
+      fetch(`/posts/${id}.json`)
         .then(response => response.json())
         .then(data => setFullPosts(prev => ({ ...prev, [id]: data })));
     }
