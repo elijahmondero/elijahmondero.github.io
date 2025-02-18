@@ -51,6 +51,10 @@ jobs:
           git commit -m "Generated blog post from workflow"
           git push origin "$BRANCH_NAME"
 
+      - name: Clean up untracked files
+        run: |
+          git clean -fdx
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
