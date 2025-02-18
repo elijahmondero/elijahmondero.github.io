@@ -178,8 +178,9 @@ def update_index(post_id, title, excerpt):
     if os.path.exists(index_file):
         with open(index_file, "r") as f:
             index_data = json.load(f)
-
-    index_data.append({"id": post_id, "title": title, "excerpt": excerpt})
+            
+    # Insert the new blog post at the beginning of the list
+    index_data.insert(0, {"id": post_id, "title": title, "excerpt": excerpt})
 
     with open(index_file, "w") as f:
         json.dump(index_data, f, indent=2)
