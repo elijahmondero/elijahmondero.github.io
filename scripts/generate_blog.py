@@ -115,7 +115,14 @@ def generate_blog_post(prompt):
     print("Raw LLM output:", response)
 
     try:
-        parsed_response = json.loads(response["output"])
+        # Strip the prefix if it exists
+        output = response["output"].strip()
+        if output.startswith("```json"):
+            output = output[7:].strip()
+        if output.endswith("```"):
+            output = output[:-3].strip()
+
+        parsed_response = json.loads(output)
         return parsed_response
     except json.JSONDecodeError as e:
         print(f"Error parsing LLM output: {str(e)}")
