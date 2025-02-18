@@ -39,14 +39,14 @@ jobs:
           git checkout -b "$BRANCH_NAME"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add public/posts/
+          git add public/posts/*.json
           git commit -m "Generated blog post from workflow"
           git push origin "$BRANCH_NAME"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: $BRANCH_NAME
+          branch: ${{ steps.commit-and-push.outputs.BRANCH_NAME }}
           title: "New Blog Post"
           body: "Automated blog post creation from workflow"
           base: main
