@@ -42,18 +42,6 @@ jobs:
         run: |
           BRANCH_NAME="blog-post-$(date +%s)"
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-          git checkout -b "$BRANCH_NAME"
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add elijahmondero/public/posts/*.json
-          echo "Staged files:"
-          git status
-          git commit -m "Generated blog post from workflow"
-          git push origin "$BRANCH_NAME"
-
-      - name: Clean up untracked files
-        run: |
-          git clean -fdx
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
