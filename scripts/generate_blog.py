@@ -106,7 +106,7 @@ def generate_blog_post(prompt):
         prompt=hub.pull("hwchase17/react")
     )
 
-    agent_executor = AgentExecutor(agent=agent, tools=tools)
+    agent_executor = AgentExecutor(agent=agent, tools=tools, handle_parsing_errors=True)
 
     prompt = f"{prompt}. Use the tool blog_json to convert the blog post into JSON format and return this output."
 
