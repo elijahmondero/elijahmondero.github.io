@@ -38,15 +38,16 @@ jobs:
           echo "Files before commit:"
           ls -R
 
-      - name: Commit and push changes
+      - name: Delete unwanted file
         run: |
-          BRANCH_NAME="blog-post-$(date +%s)"
-          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          if [ -f "=1.0.0" ]; then
+            rm "=1.0.0"
+          fi
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: ${{ env.BRANCH_NAME }}
+          branch: blog-post-$(date +%s)
           title: "New Blog Post"
           body: "Automated blog post creation from workflow"
           base: main
