@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://elijahmondero.github.io/</loc>
-    <priority>1.0</priority>
-  </url>
-  <url>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
     <loc>https://elijahmondero.github.io/post/28ef0bdc</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
+    <lastmod>2025-02-19T07:42:19.501898Z</lastmod>
+  </sitemap>
+  <sitemap>
     <loc>https://elijahmondero.github.io/post/8ad74f44</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
+    <lastmod>2025-02-18T22:38:35.734188Z</lastmod>
+  </sitemap>
+  <sitemap>
     <loc>https://elijahmondero.github.io/post/177ddbf7</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
+    <lastmod>2025-02-18T11:07:11.589084Z</lastmod>
+  </sitemap>
+  <sitemap>
     <loc>https://elijahmondero.github.io/post/7132aa06</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
+    <lastmod>2025-02-18T10:44:26.058022Z</lastmod>
+  </sitemap>
+  <sitemap>
     <loc>https://elijahmondero.github.io/post/3fed128c</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
+    <lastmod>2025-02-18T10:19:04.522700Z</lastmod>
+  </sitemap>
+  <sitemap>
     <loc>https://elijahmondero.github.io/post/post1</loc>
-    <priority>0.8</priority>
-  </url>
-</urlset>
+    <lastmod>2025-02-17T23:57:00Z</lastmod>
+  </sitemap>
+</sitemapindex>

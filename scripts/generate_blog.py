@@ -141,25 +141,25 @@ def update_index(post_id, title, excerpt):
         json.dump(index_data, f, indent=2)
 
 # Update sitemap
-def update_sitemap(post_id):
+def update_sitemap(post_id, post_date):
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     sitemap_file = os.path.join(repo_root, "elijahmondero/public/sitemap.xml")
     print("Sitemap file:", sitemap_file)
 
     new_url = f"https://elijahmondero.github.io/post/{post_id}"
+    new_entry = f"""
+  <sitemap>
+    <loc>{new_url}</loc>
+    <lastmod>{post_date}</lastmod>
+  </sitemap>"""
 
     if os.path.exists(sitemap_file):
         with open(sitemap_file, "r") as f:
             sitemap_data = f.read()
         
         # Find the position to insert the new URL
-        insert_pos = sitemap_data.rfind("</urlset>")
+        insert_pos = sitemap_data.rfind("</sitemapindex>")
         if insert_pos != -1:
-            new_entry = f"""
-  <url>
-    <loc>{new_url}</loc>
-    <priority>0.8</priority>
-  </url>"""
             sitemap_data = sitemap_data[:insert_pos] + new_entry + sitemap_data[insert_pos:]
 
         with open(sitemap_file, "w") as f:
@@ -167,16 +167,8 @@ def update_sitemap(post_id):
     else:
         # Create a new sitemap file if it doesn't exist
         sitemap_data = f"""<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://elijahmondero.github.io/</loc>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>{new_url}</loc>
-    <priority>0.8</priority>
-  </url>
-</urlset>"""
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{new_entry}
+</sitemapindex>"""
         with open(sitemap_file, "w") as f:
             f.write(sitemap_data)
 
