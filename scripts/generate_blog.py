@@ -147,6 +147,7 @@ def update_sitemap(post_id, post_date):
     print("Sitemap file:", sitemap_file)
 
     new_url = f"https://elijahmondero.github.io/post/{post_id}"
+    post_date = post_date.split("T")[0]  # Extract the date in YYYY-MM-DD format
     new_entry = f"""
   <sitemap>
     <loc>{new_url}</loc>
@@ -197,5 +198,5 @@ if __name__ == "__main__":
     )
 
     update_index(post_data["id"], blog_data["title"], blog_data["excerpt"])
-    update_sitemap(post_data["id"])
+    update_sitemap(post_data["id"], post_data["datePosted"])
     print(f"Blog post saved: {post_file}")
