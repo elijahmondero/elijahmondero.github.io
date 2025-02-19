@@ -6,13 +6,9 @@ from datetime import datetime
 from langchain_openai import AzureChatOpenAI
 from langchain.agents import create_react_agent, AgentExecutor
 from langchain.tools import Tool
-from langchain_core.prompts import PromptTemplate
 from langchain import hub
-from langchain_core.output_parsers import JsonOutputParser
 import requests
 from bs4 import BeautifulSoup
-from typing import List
-from langchain_core.tools import tool
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -72,34 +68,6 @@ def generate_blog_post(prompt):
         )
     ]
 
-    #  # Create agent with structured output
-    # format_instructions = """
-    # {{
-    #     "title": "string",
-    #     "excerpt": "string",
-    #     "fullPost": "string",
-    #     "datePosted": "string",
-    #     "postedBy": "string",
-    #     "tags": ["string"],
-    #     "sources": ["string"]
-    # }}
-    # """
-
-    # prompt_template = PromptTemplate(
-    #     template=f"""
-        
-    #     Generate a blog post in JSON format with the following structure:
-    #     {format_instructions}
-
-    #     You have access to the following tools:
-
-    #     {tools}
-
-        
-    #     """,
-    #     input_variables=["prompt", "tools", "tool_names", "agent_scratchpad"]
-    # )
-
     agent = create_react_agent(
         llm=llm,
         tools=tools,
@@ -128,19 +96,6 @@ def generate_blog_post(prompt):
         print(f"Error parsing LLM output: {str(e)}")
         print("LLM output that caused the error:", response["output"])
         return None
-
-    # # Ensure the parsed response has the correct format
-    # blog_post = {
-    #     "title": parsed_response.get("title", ""),
-    #     "excerpt": parsed_response.get("excerpt", ""),
-    #     "fullPost": parsed_response.get("fullPost", ""),
-    #     "datePosted": datetime.utcnow().isoformat() + "Z",
-    #     "postedBy": "Elijah Mondero",
-    #     "tags": parsed_response.get("tags", []),
-    #     "sources": parsed_response.get("sources", [])
-    # }
-
-    # return blog_post
 
 # Save blog post to file
 def save_post(title, excerpt, full_post, tags):
@@ -178,12 +133,52 @@ def update_index(post_id, title, excerpt):
     if os.path.exists(index_file):
         with open(index_file, "r") as f:
             index_data = json.load(f)
-            
+
     # Insert the new blog post at the beginning of the list
     index_data.insert(0, {"id": post_id, "title": title, "excerpt": excerpt})
 
     with open(index_file, "w") as f:
         json.dump(index_data, f, indent=2)
+
+# Update sitemap
+def update_sitemap(post_id):
+    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    sitemap_file = os.path.join(repo_root, "elijahmondero/public/sitemap.xml")
+    print("Sitemap file:", sitemap_file)
+
+    new_url = f"https://elijahmondero.github.io/post/{post_id}"
+
+    if os.path.exists(sitemap_file):
+        with open(sitemap_file, "r") as f:
+            sitemap_data = f.read()
+        
+        # Find the position to insert the new URL
+        insert_pos = sitemap_data.rfind("</urlset>")
+        if insert_pos != -1:
+            new_entry = f"""
+  <url>
+    <loc>{new_url}</loc>
+    <priority>0.8</priority>
+  </url>"""
+            sitemap_data = sitemap_data[:insert_pos] + new_entry + sitemap_data[insert_pos:]
+
+        with open(sitemap_file, "w") as f:
+            f.write(sitemap_data)
+    else:
+        # Create a new sitemap file if it doesn't exist
+        sitemap_data = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://elijahmondero.github.io/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>{new_url}</loc>
+    <priority>0.8</priority>
+  </url>
+</urlset>"""
+        with open(sitemap_file, "w") as f:
+            f.write(sitemap_data)
 
 # Main execution
 if __name__ == "__main__":
@@ -210,8 +205,5 @@ if __name__ == "__main__":
     )
 
     update_index(post_data["id"], blog_data["title"], blog_data["excerpt"])
+    update_sitemap(post_data["id"])
     print(f"Blog post saved: {post_file}")
-
-    # except Exception as e:
-    #     print(f"Error generating blog post: {str(e)}")
-    #     sys.exit(1)
