@@ -1,5 +1,10 @@
 [
   {
+    "id": "49690172",
+    "title": "Anti-Patterns",
+    "excerpt": "An exploration of anti-patterns in software development, their impacts, and how to avoid them."
+  },
+  {
     "id": "28ef0bdc",
     "title": "The Future of Books: Will They Be Written by Generative AI?",
     "excerpt": "As generative AI technologies advance, the question arises: will the future of literature be penned by algorithms? This blog explores the potential of AI in writing books and highlights viewpoints from a Reddit discussion."
