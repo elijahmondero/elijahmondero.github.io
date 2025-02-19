@@ -14,6 +14,7 @@ interface Post {
   postedBy: string;
   tags: string[];
   sources: string[];
+  image_path?: string; // Add image_path prop
 }
 
 interface FullPostProps {
@@ -51,9 +52,7 @@ const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost, isDarkTheme }
 
   return (
     <div className="full-post">
-              
       <Helmet>
-
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "http://schema.org",
@@ -76,6 +75,7 @@ const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost, isDarkTheme }
       <title>{post.title} - The Tech Oracle</title>
       <meta name="description" content={post.excerpt} />
       <h2>{post.title}</h2>
+      {post.image_path && <img src={post.image_path} alt={post.title} className="full-post-image" />}
       <ReactMarkdown>{post.fullPost}</ReactMarkdown>
       <p className="meta"><strong>Posted by:</strong> {post.postedBy} on {formatDateTime(post.datePosted)}</p>
       {post.dateModified && post.modifiedBy && (

@@ -164,3 +164,21 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(26px);
 }
+
+.blog-post-content {
+  display: flex;
+  align-items: center;
+}
+
+.blog-post-image {
+  width: 150px;
+  height: auto;
+  margin-right: 20px;
+  order: -1; /* Ensure the image is on the left */
+}
+
+.full-post-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
