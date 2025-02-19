@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { Helmet } from 'react-helmet';
+import Giscus from '@giscus/react';
 
 interface Post {
   title: string;
@@ -85,6 +86,20 @@ const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost }) => {
           <a key={index} href={source} target="_blank" rel="noopener noreferrer">{source}</a>
         ))}</p>
       )}
+      <Giscus
+        repo="elijahmondero/elijahmondero.github.io"
+        repoId="R_kgDOMKsj5g"
+        category="General"
+        categoryId="General"
+        mapping="specific"
+        term={postId}
+        reactionsEnabled="1"
+        emitMetadata="0"
+        inputPosition="top"
+        theme="light"
+        lang="en"
+        loading="lazy"
+      />
     </div>
   );
 };

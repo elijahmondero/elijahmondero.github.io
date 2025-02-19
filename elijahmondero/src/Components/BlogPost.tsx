@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import Giscus from '@giscus/react';
 
 interface BlogPostProps {
   title: string;
@@ -49,6 +50,20 @@ const BlogPost: React.FC<BlogPostProps> = ({ title, excerpt, link, datePosted, d
         <p className="meta"><strong>Modified by:</strong> {modifiedBy} on {formatDateTime(dateModified)}</p>
       )}
       <Link to={link} className="read-more">Read more</Link>
+      <Giscus
+              repo="elijahmondero/elijahmondero.github.io"
+              repoId="R_kgDOMKsj5g"
+              category="General"
+              categoryId="General"
+              mapping="specific"
+              term={link}
+              reactionsEnabled="1"
+              emitMetadata="0"
+              inputPosition="top"
+              theme="light"
+              lang="en"
+              loading="lazy"
+            />
     </div>
   );
 };
