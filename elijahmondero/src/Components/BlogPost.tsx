@@ -10,6 +10,7 @@ interface BlogPostProps {
   dateModified?: string;
   postedBy: string;
   modifiedBy?: string;
+  image_path?: string; // Add image_path prop
 }
 
 const formatDateTime = (dateTime: string) => {
@@ -25,10 +26,10 @@ const formatDateTime = (dateTime: string) => {
   return new Date(dateTime).toLocaleString(undefined, options);
 };
 
-const BlogPost: React.FC<BlogPostProps> = ({ title, excerpt, link, datePosted, dateModified, postedBy, modifiedBy }) => {
+const BlogPost: React.FC<BlogPostProps> = ({ title, excerpt, link, datePosted, dateModified, postedBy, modifiedBy, image_path }) => {
   return (
     <div className="blog-post">
-        <Helmet>
+      <Helmet>
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "http://schema.org",
@@ -43,7 +44,10 @@ const BlogPost: React.FC<BlogPostProps> = ({ title, excerpt, link, datePosted, d
         </script>
       </Helmet>
       <h2>{title}</h2>
-      <p>{excerpt}</p>
+      <div className="blog-post-content">
+        {image_path && <img src={image_path} alt={title} className="blog-post-image" />}
+        <p>{excerpt}</p>
+      </div>
       <p className="meta"><strong>Posted by:</strong> {postedBy} on {formatDateTime(datePosted)}</p>
       {dateModified && modifiedBy && (
         <p className="meta"><strong>Modified by:</strong> {modifiedBy} on {formatDateTime(dateModified)}</p>
