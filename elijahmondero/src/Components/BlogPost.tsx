@@ -43,16 +43,18 @@ const BlogPost: React.FC<BlogPostProps> = ({ title, excerpt, link, datePosted, d
           })}
         </script>
       </Helmet>
-      <h2>{title}</h2>
       <div className="blog-post-content">
         {image_path && <img src={image_path} alt={title} className="blog-post-image" />}
-        <p>{excerpt}</p>
+        <div className="blog-post-text">
+          <h2>{title}</h2>
+          <p>{excerpt}</p>
+          <p className="meta"><strong>Posted by:</strong> {postedBy} on {formatDateTime(datePosted)}</p>
+          {dateModified && modifiedBy && (
+            <p className="meta"><strong>Modified by:</strong> {modifiedBy} on {formatDateTime(dateModified)}</p>
+          )}
+          <Link to={link} className="read-more">Read more</Link>
+        </div>
       </div>
-      <p className="meta"><strong>Posted by:</strong> {postedBy} on {formatDateTime(datePosted)}</p>
-      {dateModified && modifiedBy && (
-        <p className="meta"><strong>Modified by:</strong> {modifiedBy} on {formatDateTime(dateModified)}</p>
-      )}
-      <Link to={link} className="read-more">Read more</Link>
     </div>
   );
 };

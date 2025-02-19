@@ -16,6 +16,7 @@ interface Post {
   postedBy: string;
   tags: string[];
   sources: string[];
+  image_path?: string; // Add image_path property
 }
 
 interface PostMetadata {
@@ -90,6 +91,7 @@ function App() {
                       dateModified={fullPost ? fullPost.dateModified : undefined}
                       postedBy={fullPost ? fullPost.postedBy : ''}
                       modifiedBy={fullPost ? fullPost.modifiedBy : undefined}
+                      image_path={fullPost ? fullPost.image_path : undefined} // Pass image_path as a prop
                       isDarkTheme={isDarkTheme} // Pass isDarkTheme as a prop
                     />
                   );

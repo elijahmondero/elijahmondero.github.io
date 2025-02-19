@@ -177,8 +177,21 @@ input:checked + .slider:before {
   order: -1; /* Ensure the image is on the left */
 }
 
+.blog-post-text {
+  flex: 1;
+}
+
+.full-post-content {
+  display: flex;
+  align-items: flex-start;
+}
+
 .full-post-image {
-  width: 100%;
+  width: 500px; /* Adjust the width as needed */
   height: auto;
-  margin-bottom: 20px;
+  margin-right: 20px;
+}
+
+.full-post-text {
+  flex: 1;
 }

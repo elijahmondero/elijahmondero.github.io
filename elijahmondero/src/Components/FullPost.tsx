@@ -74,19 +74,23 @@ const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost, isDarkTheme }
       </Helmet>
       <title>{post.title} - The Tech Oracle</title>
       <meta name="description" content={post.excerpt} />
-      <h2>{post.title}</h2>
-      {post.image_path && <img src={post.image_path} alt={post.title} className="full-post-image" />}
-      <ReactMarkdown>{post.fullPost}</ReactMarkdown>
-      <p className="meta"><strong>Posted by:</strong> {post.postedBy} on {formatDateTime(post.datePosted)}</p>
-      {post.dateModified && post.modifiedBy && (
-        <p className="meta"><strong>Modified by:</strong> {post.modifiedBy} on {formatDateTime(post.dateModified)}</p>
-      )}
-      <p className="meta"><strong>Tags:</strong> {post.tags.join(', ')}</p>
-      {post.sources.length > 0 && (
-        <p className="meta"><strong>Sources:</strong> {post.sources.map((source, index) => (
-          <a key={index} href={source} target="_blank" rel="noopener noreferrer">{source}</a>
-        ))}</p>
-      )}
+      <div className="full-post-content">
+        {post.image_path && <img src={post.image_path} alt={post.title} className="full-post-image" />}
+        <div className="full-post-text">
+          <h2>{post.title}</h2>
+          <ReactMarkdown>{post.fullPost}</ReactMarkdown>
+          <p className="meta"><strong>Posted by:</strong> {post.postedBy} on {formatDateTime(post.datePosted)}</p>
+          {post.dateModified && post.modifiedBy && (
+            <p className="meta"><strong>Modified by:</strong> {post.modifiedBy} on {formatDateTime(post.dateModified)}</p>
+          )}
+          <p className="meta"><strong>Tags:</strong> {post.tags.join(', ')}</p>
+          {post.sources.length > 0 && (
+            <p className="meta"><strong>Sources:</strong> {post.sources.map((source, index) => (
+              <a key={index} href={source} target="_blank" rel="noopener noreferrer">{source}</a>
+            ))}</p>
+          )}
+        </div>
+      </div>
       <Giscus
         repo="elijahmondero/elijahmondero.github.io"
         repoId="R_kgDOMKsj5g"
