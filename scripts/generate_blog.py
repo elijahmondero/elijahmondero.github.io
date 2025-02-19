@@ -10,6 +10,7 @@ from langchain import hub
 import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+from openai import AzureOpenAI
 
 load_dotenv()
 
@@ -26,6 +27,9 @@ llm = AzureChatOpenAI(
     deployment_name=MODEL,
     temperature=0.7
 )
+
+# Initialize Azure OpenAI DALL-E client
+dalle_client = AzureOpenAI(api_key=AZURE_OPENAI_API_KEY, azure_endpoint=AZURE_OPENAI_ENDPOINT, api_version="2024-02-01")
 
 # Scraping tool
 def scrape_links(links: str) -> str:
@@ -52,6 +56,23 @@ def scrape_links(links: str) -> str:
 
 def convert_to_json(json_value: dict) -> str:
     return json.dumps(json_value)
+
+# DALL-E image generation
+def generate_image(prompt: str) -> str:
+    result = dalle_client.images.generate(model="dall-e-3", prompt=prompt, n=1)
+    image_url = json.loads(result.model_dump_json())['data'][0]['url']
+    
+    image_response = requests.get(image_url)
+    if image_response.status_code == 200:
+        image_filename = f"{uuid.uuid4()}.png"
+        image_path = os.path.join("elijahmondero/public/posts/images", image_filename)
+        os.makedirs(os.path.dirname(image_path), exist_ok=True)
+        with open(image_path, "wb") as f:
+            f.write(image_response.content)
+        return image_path
+    else:
+        print(f"Error downloading image: {image_response.status_code}")
+        return None
 
 # Blog post generation
 def generate_blog_post(prompt):
@@ -91,6 +112,13 @@ def generate_blog_post(prompt):
             output = output[:-3].strip()
 
         parsed_response = json.loads(output)
+        
+        # Generate image using DALL-E
+        image_prompt = parsed_response.get("title", "") + " " + parsed_response.get("excerpt", "")
+        image_path = generate_image(image_prompt)
+        if image_path:
+            parsed_response["image_path"] = image_path
+        
         return parsed_response
     except json.JSONDecodeError as e:
         print(f"Error parsing LLM output: {str(e)}")
@@ -98,7 +126,7 @@ def generate_blog_post(prompt):
         return None
 
 # Save blog post to file
-def save_post(title, excerpt, full_post, tags):
+def save_post(title, excerpt, full_post, tags, image_path=None):
     post_id = str(uuid.uuid4())[:8]
     post_date = datetime.utcnow().isoformat() + "Z"
 
@@ -110,7 +138,8 @@ def save_post(title, excerpt, full_post, tags):
         "datePosted": post_date,
         "postedBy": "Elijah Mondero",
         "tags": tags,
-        "sources": []
+        "sources": [],
+        "image_path": image_path
     }
 
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -194,7 +223,8 @@ if __name__ == "__main__":
         blog_data["title"],
         blog_data["excerpt"],
         blog_data["fullPost"],
-        blog_data["tags"]
+        blog_data["tags"],
+        blog_data.get("image_path")
     )
 
     update_index(post_data["id"], blog_data["title"], blog_data["excerpt"])
