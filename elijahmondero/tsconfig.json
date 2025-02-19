@@ -6,7 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
-    "jsx": "react-jsx" // Change to react-jsx if using React 17+
+    "jsx": "react" // Change to react-jsx if using React 17+
   },
   "include": [
     "src"

@@ -19,6 +19,7 @@ interface Post {
 interface FullPostProps {
   posts: { [key: string]: Post };
   fetchFullPost: (id: string) => void;
+  isDarkTheme: boolean; // Add isDarkTheme prop
 }
 
 const formatDateTime = (dateTime: string) => {
@@ -34,7 +35,7 @@ const formatDateTime = (dateTime: string) => {
   return new Date(dateTime).toLocaleString(undefined, options);
 };
 
-const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost }) => {
+const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost, isDarkTheme }) => {
   const { id } = useParams<{ id: string }>();
   const postId = id;
 
@@ -96,7 +97,7 @@ const FullPost: React.FC<FullPostProps> = ({ posts, fetchFullPost }) => {
         reactionsEnabled="1"
         emitMetadata="0"
         inputPosition="top"
-        theme="light"
+        theme={isDarkTheme ? "dark" : "light"} // Use isDarkTheme to set the theme
         lang="en"
         loading="lazy"
       />

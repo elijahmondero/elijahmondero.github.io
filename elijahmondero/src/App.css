@@ -2,10 +2,10 @@
 
 body {
   font-family: 'Open Sans', sans-serif;
-  background-color: #ffffff;
   margin: 0;
   padding: 0;
   color: #333;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .App {
@@ -15,11 +15,10 @@ body {
 }
 
 .App-header {
-  background-color: #f8f9fa;
-  color: #333;
   padding: 20px;
   text-align: center;
   border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .App-header h1 {
@@ -43,31 +42,28 @@ main {
 }
 
 .blog-post, .full-post {
-  background: #ffffff;
   margin-bottom: 20px;
   padding: 20px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .blog-post h2, .full-post h2 {
   margin-top: 0;
   font-size: 1.75em;
-  color: #333;
   font-weight: 700;
   font-family: 'Merriweather', serif;
 }
 
 .blog-post p, .full-post p {
   font-size: 1em;
-  color: #666;
   line-height: 1.6;
 }
 
 .blog-post .meta, .full-post .meta {
   font-size: 0.875em;
-  color: #999;
   margin-top: 10px;
 }
 
@@ -81,4 +77,90 @@ main {
 
 .read-more:hover {
   text-decoration: underline;
+}
+
+/* Light Theme */
+body.light-theme {
+  background-color: #ffffff;
+  color: #333;
+}
+
+.App-header.light-theme {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.blog-post.light-theme, .full-post.light-theme {
+  background: #ffffff;
+  color: #666;
+}
+
+/* Dark Theme */
+body.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.App-header.dark-theme {
+  background-color: #1f1f1f;
+  color: #e0e0e0;
+}
+
+.blog-post.dark-theme, .full-post.dark-theme {
+  background: #1f1f1f;
+  color: #e0e0e0;
+  border-color: #333;
+}
+
+.read-more.dark-theme {
+  color: #bb86fc;
+}
+
+/* Add these styles to App.css */
+
+.switch {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #c2c2c2;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
 }
