@@ -11,6 +11,7 @@ import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from openai import AzureOpenAI
+from langchain_community.tools import DuckDuckGoSearchResults 
 
 load_dotenv()
 
@@ -74,9 +75,19 @@ def generate_image(prompt: str) -> str:
         print(f"Error downloading image: {image_response.status_code}")
         return None
 
+# DuckDuckGo search tool
+def search_topics(query: str) -> str:
+    search_results = DuckDuckGoSearchResults().invoke(query)
+    return search_results
+
 # Blog post generation
 def generate_blog_post(prompt):
     tools = [
+        Tool(
+            name="search",
+            func=search_topics,
+            description="Searches topics online using DuckDuckGo. Pass the search query as a string."
+        ),
         Tool(
             name="scrape",
             func=scrape_links,
