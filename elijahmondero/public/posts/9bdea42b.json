@@ -1,0 +1,16 @@
+{
+  "id": "9bdea42b",
+  "title": "Top Common Gotchas in .NET Framework",
+  "excerpt": "Navigate the common pitfalls of .NET development with these tips and best practices.",
+  "fullPost": "Welcome to the world of .NET development! While it's an exciting journey, there are a few common gotchas that can trip up even experienced developers. Here are some of the top pitfalls and how to avoid them.\n\n1. The 'Mystery Meat' Variable:\nUsing non-descriptive variable names like 'temp' or 'data' can make your code hard to understand and maintain. Always use meaningful variable names that reflect the variable's content and purpose.\n\n2. The Monolithic Mess:\nAs your project grows, avoid cramming everything into one big class or method. Implement the Single Responsibility Principle (SRP) to keep your code organized and manageable.\n\n3. The Magic String Conundrum:\nHardcoding values directly into your code can make it inflexible and hard to maintain. Use configuration files, resource files, or environment variables to store these values.\n\n4. The Exception Explosion:\nUnhandled exceptions can crash your application and frustrate users. Implement robust error handling mechanisms using try-catch blocks to gracefully handle exceptions.\n\n5. Not Writing Unit Tests:\nSkipping unit tests can lead to undetected bugs. Embrace unit testing by writing tests for individual classes and methods to ensure your code works as intended.\n\n6. Misunderstanding Async/Await:\nAsync/await is powerful but can be misused. Avoid using async void and ensure you are correctly awaiting asynchronous methods to avoid issues like deadlocks.\n\n7. Failing to Dispose of Resources:\nNot disposing of unmanaged resources like database connections or file streams can lead to memory leaks. Use 'using' blocks or IAsyncDisposable in modern C# to ensure resources are properly disposed of.\n\nAvoiding these common pitfalls will help you write cleaner, more maintainable, and efficient .NET code. Happy coding!",
+  "datePosted": "2025-02-20T11:33:09.595199Z",
+  "postedBy": "Elijah Mondero",
+  "tags": [
+    "dotnet",
+    "programming",
+    "gotchas",
+    "best practices"
+  ],
+  "sources": [],
+  "image_path": "../posts/images/e791ad3b-caef-4081-88fe-248fc0db27a5.png"
+}
