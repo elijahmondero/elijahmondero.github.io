@@ -81,6 +81,13 @@ def search_topics(query: str) -> str:
     search_results = DuckDuckGoSearchResults().invoke(query)
     return search_results
 
+# Deep thinking tool
+def deep_think(content: str) -> str:
+    print("Thinking deeply about the content")
+    deep_think_prompt = f"Think deeply and provide a detailed and thoughtful response to the following content:\n\n{content}"
+    response = llm.invoke({"input": deep_think_prompt})
+    return response["output"]
+
 # Blog post review and editing tool
 def review_and_edit_blog_post(content: str) -> str:
     print("Reviewing and editing blog post content")
@@ -101,6 +108,11 @@ def generate_blog_post(prompt):
             name="scrape",
             func=scrape_links,
             description="Useful for scraping content from web links. You need to pass http links as a list."
+        ),
+        Tool(
+            name="deep_think",
+            func=deep_think,
+            description="Thinks deeply and provides a detailed and thoughtful response to the content. Pass the content as a string."
         ),
         Tool(
             name="edit",
