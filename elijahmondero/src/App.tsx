@@ -5,6 +5,9 @@ import FullPost from './Components/FullPost';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Cookies from 'js-cookie';
+import Clarity from '@microsoft/clarity';
+
+Clarity.init('qcrqd14u1f');
 
 interface Post {
   title: string;
