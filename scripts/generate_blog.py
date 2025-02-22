@@ -61,16 +61,20 @@ def scrape_links(links: Union[str, List[str]]) -> str:
     
     if isinstance(links, str):
         try:
-            # Parse the JSON string into a list of URLs
-            links_list = json.loads(links)
-            if not isinstance(links_list, list) or not all(isinstance(link, str) for link in links_list):
-                raise ValueError("Input must be a JSON string representing a list of strings")
+            # Check if the string is a single URL
+            if links.startswith("http://") or links.startswith("https://"):
+                links_list = [links]
+            else:
+                # Parse the JSON string into a list of URLs
+                links_list = json.loads(links)
+                if not isinstance(links_list, list) or not all(isinstance(link, str) for link in links_list):
+                    raise ValueError("Input must be a JSON string representing a list of strings")
         except json.JSONDecodeError as e:
             raise ValueError("Input must be a valid JSON string representing a list of strings") from e
     elif isinstance(links, list):
         links_list = links
     else:
-        raise ValueError("Input must be either a JSON string or a list of strings")
+        raise ValueError("Input must be either a JSON string, a single URL string, or a list of strings")
 
     scraped_content = []
     for link in links_list:
@@ -154,7 +158,7 @@ def generate_blog_post(prompt):
 
     agent_executor = AgentExecutor(agent=agent, tools=tools, handle_parsing_errors=True)
 
-    prompt = f"{prompt}. The result should be json with properties title, excerpt, fullPost, datePosted, postedBy, tags, sources. fullPost should have markdown."
+    prompt = f"{prompt}. The result should be json with properties title, excerpt, fullPost with markdowns, datePosted, postedBy, tags, sources."
 
     response = agent_executor.invoke({"input": prompt}, config={"callbacks": callbacks})
 
@@ -269,7 +273,7 @@ if __name__ == "__main__":
 
     # try:
     blog_data = generate_blog_post(prompt)
-    required_keys = {"title", "excerpt", "fullPost", "tags", "sources"}
+    required_keys = {"title", "excerpt", "fullPost", "tags"}
 
     print(blog_data)
     
@@ -281,7 +285,7 @@ if __name__ == "__main__":
         blog_data["excerpt"],
         blog_data["fullPost"],
         blog_data["tags"],
-        blog_data["sources"],
+        blog_data.get("sources", []),
         blog_data.get("image_path")
     )
 
