@@ -11,39 +11,68 @@ import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from openai import AzureOpenAI
-from langchain_community.tools import DuckDuckGoSearchResults 
+from langchain_community.tools import DuckDuckGoSearchResults
+from typing import Any, Dict, List, Union
+from langchain_core.callbacks import BaseCallbackHandler
+from langchain_core.messages import BaseMessage
+from langchain_core.outputs import LLMResult
 
 load_dotenv()
 
 # Azure OpenAI configuration
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
-MODEL = os.getenv("LLM_MODEL", "gpt-4")
+MODEL = os.getenv("LLM_MODEL", "gpt-4-0613")
 
 # Initialize Azure OpenAI client
 llm = AzureChatOpenAI(
     azure_endpoint=AZURE_OPENAI_ENDPOINT,
     api_key=AZURE_OPENAI_API_KEY,
     api_version="2024-05-01-preview",
-    deployment_name=MODEL,
-    temperature=0.7
+    deployment_name=MODEL
 )
 
 # Initialize Azure OpenAI DALL-E client
 dalle_client = AzureOpenAI(api_key=AZURE_OPENAI_API_KEY, azure_endpoint=AZURE_OPENAI_ENDPOINT, api_version="2024-02-01")
 
+# Custom callback handler
+class LoggingHandler(BaseCallbackHandler):
+    def on_chat_model_start(
+        self, serialized: Dict[str, Any], messages: List[List[BaseMessage]], **kwargs
+    ) -> None:
+        print("Chat model started")
+
+    def on_llm_end(self, response: LLMResult, **kwargs) -> None:
+        print(f"Chat model ended, response: {response}")
+
+    def on_chain_start(
+        self, serialized: Dict[str, Any], inputs: Dict[str, Any], **kwargs
+    ) -> None:
+        print(f"Chain {serialized.get('name')} started")
+
+    def on_chain_end(self, outputs: Dict[str, Any], **kwargs) -> None:
+        print(f"Chain ended, outputs: {outputs}")
+
+callbacks = [LoggingHandler()]
+
 # Scraping tool
-def scrape_links(links: str) -> str:
-    try:
-        # Parse the JSON string into a list of URLs
-        links_list = json.loads(links)
-        if not isinstance(links_list, list) or not all(isinstance(link, str) for link in links_list):
-            raise ValueError("Input must be a JSON string representing a list of strings")
-    except json.JSONDecodeError as e:
-        raise ValueError("Input must be a valid JSON string representing a list of strings") from e
+def scrape_links(links: Union[str, List[str]]) -> str:
+    print("Scraping links:", links)
+    
+    if isinstance(links, str):
+        try:
+            # Parse the JSON string into a list of URLs
+            links_list = json.loads(links)
+            if not isinstance(links_list, list) or not all(isinstance(link, str) for link in links_list):
+                raise ValueError("Input must be a JSON string representing a list of strings")
+        except json.JSONDecodeError as e:
+            raise ValueError("Input must be a valid JSON string representing a list of strings") from e
+    elif isinstance(links, list):
+        links_list = links
+    else:
+        raise ValueError("Input must be either a JSON string or a list of strings")
 
     scraped_content = []
-    print(links)
     for link in links_list:
         response = requests.get(link, timeout=10)
         if response.status_code == 200:
@@ -56,6 +85,7 @@ def scrape_links(links: str) -> str:
     return "\n\n".join(scraped_content)
 
 def convert_to_json(json_value: dict) -> str:
+    print(json_value)
     return json.dumps(json_value)
 
 # DALL-E image generation
@@ -78,23 +108,18 @@ def generate_image(prompt: str) -> str:
 # DuckDuckGo search tool
 def search_topics(query: str) -> str:
     print("Searching for:", query)
-    search_results = DuckDuckGoSearchResults().invoke(query)
+    search_results = DuckDuckGoSearchResults().invoke(query, config={"callbacks": callbacks})
+    print(search_results)
     return search_results
-
-# Deep thinking tool
-def deep_think(content: str) -> str:
-    print("Thinking deeply about the content")
-    deep_think_prompt = f"Think deeply and provide a detailed and thoughtful response to the following content:\n\n{content}"
-    response = llm.invoke({"input": deep_think_prompt})
-    return response["output"]
 
 # Blog post review and editing tool
 def review_and_edit_blog_post(content: str) -> str:
-    print("Reviewing and editing blog post content")
+    print("Reviewing and editing blog post content: ", content)
     # This function will call the LLM to review and edit the blog post content
     review_edit_prompt = f"Review and edit the following blog post content to ensure it is of good quality and professionally written with markdowns:\n\n{content}"
-    response = llm.invoke({"input": review_edit_prompt})
-    return response["output"]
+    response = llm.invoke(review_edit_prompt, config={"callbacks": callbacks})
+    print(response)
+    return response.content
 
 # Blog post generation
 def generate_blog_post(prompt):
@@ -110,20 +135,15 @@ def generate_blog_post(prompt):
             description="Useful for scraping content from web links. You need to pass http links as a list."
         ),
         Tool(
-            name="deep_think",
-            func=deep_think,
-            description="Thinks deeply and provides a detailed and thoughtful response to the content. Pass the content as a string."
-        ),
-        Tool(
-            name="edit",
+            name="review_edit",
             func=review_and_edit_blog_post,
             description="Reviews and edits the blog post content to ensure it is of good quality and professionally written. Pass the content as a string."
         ),
-        Tool(
-            name="blog_json",
-            func=convert_to_json,
-            description="Converts blog post into json. Pass title, excerpt, fullPost, datePosted, postedBy, tags and sources. Always use this."
-        )
+        # Tool(
+        #     name="blog_json",
+        #     func=convert_to_json,
+        #     description="Converts blog post into json. Pass json {title, excerpt, fullPost, datePosted, postedBy, tags, sources}. Always use this."
+        # )
     ]
 
     agent = create_react_agent(
@@ -134,9 +154,9 @@ def generate_blog_post(prompt):
 
     agent_executor = AgentExecutor(agent=agent, tools=tools, handle_parsing_errors=True)
 
-    prompt = f"{prompt}. Use the tool blog_json to convert the blog post into JSON format and return this output."
+    prompt = f"{prompt}. The result should be json with properties title, excerpt, fullPost, datePosted, postedBy, tags, sources. fullPost should have markdown."
 
-    response = agent_executor.invoke({"input": prompt})
+    response = agent_executor.invoke({"input": prompt}, config={"callbacks": callbacks})
 
     print("Raw LLM output:", response)
 
@@ -163,7 +183,7 @@ def generate_blog_post(prompt):
         return None
 
 # Save blog post to file
-def save_post(title, excerpt, full_post, tags, image_path=None):
+def save_post(title, excerpt, full_post, tags, sources, image_path=None):
     post_id = str(uuid.uuid4())[:8]
     post_date = datetime.utcnow().isoformat() + "Z"
 
@@ -175,7 +195,7 @@ def save_post(title, excerpt, full_post, tags, image_path=None):
         "datePosted": post_date,
         "postedBy": "Elijah Mondero",
         "tags": tags,
-        "sources": [],
+        "sources": sources,
         "image_path": image_path
     }
 
@@ -249,7 +269,7 @@ if __name__ == "__main__":
 
     # try:
     blog_data = generate_blog_post(prompt)
-    required_keys = {"title", "excerpt", "fullPost", "tags"}
+    required_keys = {"title", "excerpt", "fullPost", "tags", "sources"}
 
     print(blog_data)
     
@@ -261,6 +281,7 @@ if __name__ == "__main__":
         blog_data["excerpt"],
         blog_data["fullPost"],
         blog_data["tags"],
+        blog_data["sources"],
         blog_data.get("image_path")
     )
 
