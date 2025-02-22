@@ -18,7 +18,7 @@ load_dotenv()
 # Azure OpenAI configuration
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
-MODEL = "gpt-4o"  # Update with your Azure deployment name
+MODEL = os.getenv("LLM_MODEL", "gpt-4")
 
 # Initialize Azure OpenAI client
 llm = AzureChatOpenAI(
@@ -77,8 +77,17 @@ def generate_image(prompt: str) -> str:
 
 # DuckDuckGo search tool
 def search_topics(query: str) -> str:
+    print("Searching for:", query)
     search_results = DuckDuckGoSearchResults().invoke(query)
     return search_results
+
+# Blog post review and editing tool
+def review_and_edit_blog_post(content: str) -> str:
+    print("Reviewing and editing blog post content")
+    # This function will call the LLM to review and edit the blog post content
+    review_edit_prompt = f"Review and edit the following blog post content to ensure it is of good quality and professionally written with markdowns:\n\n{content}"
+    response = llm.invoke({"input": review_edit_prompt})
+    return response["output"]
 
 # Blog post generation
 def generate_blog_post(prompt):
@@ -92,6 +101,11 @@ def generate_blog_post(prompt):
             name="scrape",
             func=scrape_links,
             description="Useful for scraping content from web links. You need to pass http links as a list."
+        ),
+        Tool(
+            name="edit",
+            func=review_and_edit_blog_post,
+            description="Reviews and edits the blog post content to ensure it is of good quality and professionally written. Pass the content as a string."
         ),
         Tool(
             name="blog_json",
