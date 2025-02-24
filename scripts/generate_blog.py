@@ -22,7 +22,7 @@ load_dotenv()
 # Azure OpenAI configuration
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
-MODEL = os.getenv("LLM_MODEL", "gpt-4-0613")
+MODEL = os.getenv("LLM_MODEL", "gpt-4o")
 
 # Initialize Azure OpenAI client
 llm = AzureChatOpenAI(
@@ -136,13 +136,13 @@ def generate_blog_post(prompt):
         Tool(
             name="scrape",
             func=scrape_links,
-            description="Useful for scraping content from web links. You need to pass http links as a list."
+            description="Use this to scrap content from web links. Pass a single link."
         ),
-        Tool(
-            name="review_edit",
-            func=review_and_edit_blog_post,
-            description="Reviews and edits the blog post content to ensure it is of good quality and professionally written. Pass the content as a string."
-        ),
+        # Tool(
+        #     name="review_edit",
+        #     func=review_and_edit_blog_post,
+        #     description="Reviews and edits the blog post content to ensure it is of good quality and professionally written. Pass the content as a string."
+        # ),
         # Tool(
         #     name="blog_json",
         #     func=convert_to_json,
