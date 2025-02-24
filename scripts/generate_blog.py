@@ -16,6 +16,7 @@ from typing import Any, Dict, List, Union
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.messages import BaseMessage
 from langchain_core.outputs import LLMResult
+from langchain_scrapegraph.tools import SmartScraperTool
 
 load_dotenv()
 
@@ -133,11 +134,7 @@ def generate_blog_post(prompt):
             func=search_topics,
             description="Searches topics online using DuckDuckGo. Pass the search query as a string."
         ),
-        Tool(
-            name="scrape",
-            func=scrape_links,
-            description="Use this to scrap content from web links. Pass a single link."
-        ),
+        SmartScraperTool(),
         # Tool(
         #     name="review_edit",
         #     func=review_and_edit_blog_post,
