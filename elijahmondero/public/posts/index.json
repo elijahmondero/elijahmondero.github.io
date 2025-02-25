@@ -1,5 +1,10 @@
 [
   {
+    "id": "8282d669",
+    "title": "Deploying a .NET Application as a Task on AWS ECS",
+    "excerpt": "Learn how to deploy your .NET application as a task on AWS ECS using individual containers to ensure scalability, isolation, and ease of management."
+  },
+  {
     "id": "285934a1",
     "title": "Testing Strategies and Integration with BDD, TDD, ReqNRoll, Playwright, and Test Containers on a ReactJS, .NET 8, and MSSQL Setup",
     "excerpt": "Explore the integration of BDD, TDD, ReqNRoll, Playwright, and Test Containers in your ReactJS, .NET 8, and MSSQL projects to enhance your software quality and streamline development processes."
