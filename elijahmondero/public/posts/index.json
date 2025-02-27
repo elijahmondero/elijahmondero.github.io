@@ -1,5 +1,10 @@
 [
   {
+    "id": "f6e1c47d",
+    "title": "The $19.6 Billion Pivot: OpenAI's Struggle with GPT-5 and Their New Direction",
+    "excerpt": "Over the past two years, OpenAI has faced a challenging journey attempting to launch GPT-5. Despite significant investment and effort, the progress was slow and the core AI strategy of OpenAI needed a crucial shift. This post explores the reasons behind this struggle and the company's pivot to a new approach."
+  },
+  {
     "id": "285934a1",
     "title": "Testing Strategies and Integration with BDD, TDD, ReqNRoll, Playwright, and Test Containers on a ReactJS, .NET 8, and MSSQL Setup",
     "excerpt": "Explore the integration of BDD, TDD, ReqNRoll, Playwright, and Test Containers in your ReactJS, .NET 8, and MSSQL projects to enhance your software quality and streamline development processes."
