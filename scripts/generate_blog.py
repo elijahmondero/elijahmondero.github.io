@@ -146,7 +146,7 @@ def generate_blog_post(prompt):
         # Tool(
         #     name="blog_json",
         #     func=convert_to_json,
-        #     description="Converts blog post into json. Pass json {title, excerpt, fullPost, datePosted, postedBy, tags, sources}. Always use this."
+        #     description="Converts blog post into json. Pass json {title, excerpt, content, datePosted, postedBy, tags, sources}. Always use this."
         # )
     ]
 
@@ -158,7 +158,7 @@ def generate_blog_post(prompt):
 
     agent_executor = AgentExecutor(agent=agent, tools=tools, handle_parsing_errors=True)
 
-    prompt = f"{prompt}. The result should be json with properties title, excerpt, fullPost with markdowns, datePosted, postedBy, tags, sources."
+    prompt = f"{prompt}. The result should be json with properties title, excerpt, content with markdowns, datePosted, postedBy, tags, sources."
 
     response = agent_executor.invoke({"input": prompt}, config={"callbacks": callbacks})
 
@@ -187,7 +187,7 @@ def generate_blog_post(prompt):
         return None
 
 # Save blog post to file
-def save_post(title, excerpt, full_post, tags, sources, image_path=None):
+def save_post(title, excerpt, content, tags, sources, image_path=None):
     post_id = str(uuid.uuid4())[:8]
     post_date = datetime.utcnow().isoformat() + "Z"
 
@@ -195,7 +195,7 @@ def save_post(title, excerpt, full_post, tags, sources, image_path=None):
         "id": post_id,
         "title": title,
         "excerpt": excerpt,
-        "fullPost": full_post,
+        "content": content,
         "datePosted": post_date,
         "postedBy": "Elijah Mondero",
         "tags": tags,
@@ -273,7 +273,7 @@ if __name__ == "__main__":
 
     # try:
     blog_data = generate_blog_post(prompt)
-    required_keys = {"title", "excerpt", "fullPost", "tags"}
+    required_keys = {"title", "excerpt", "content", "tags"}
 
     print(blog_data)
     
@@ -283,7 +283,7 @@ if __name__ == "__main__":
     post_file, post_data = save_post(
         blog_data["title"],
         blog_data["excerpt"],
-        blog_data["fullPost"],
+        blog_data["content"],
         blog_data["tags"],
         blog_data.get("sources", []),
         blog_data.get("image_path")

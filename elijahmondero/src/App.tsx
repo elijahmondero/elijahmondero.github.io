@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import BlogSummary from './Components/BlogSummary';
 import BlogPost from './Components/BlogPost';
-import FullPost from './Components/FullPost';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Cookies from 'js-cookie';
@@ -42,7 +42,7 @@ function App() {
       .then(data => {
         setPosts(data);
         data.forEach((post: PostMetadata) => {
-          fetchFullPost(post.id);
+          fetchBlogPost(post.id);
         });
       });
   }, []);
@@ -52,7 +52,7 @@ function App() {
     Cookies.set('theme', isDarkTheme ? 'dark' : 'light', { expires: 365 });
   }, [isDarkTheme]);
 
-  const fetchFullPost = (id: string) => { // Change id type to string
+  const fetchBlogPost = (id: string) => { // Change id type to string
     if (!fullPosts[id]) {
       fetch(`/posts/${id}.json`)
         .then(response => response.json())
@@ -85,7 +85,7 @@ function App() {
                 {posts.map(post => {
                   const fullPost = fullPosts[post.id];
                   return (
-                    <BlogPost
+                    <BlogSummary
                       key={post.id}
                       title={post.title}
                       excerpt={post.excerpt}
@@ -101,7 +101,7 @@ function App() {
                 })}
               </>
             } />
-            <Route path="/post/:id" element={<FullPost posts={fullPosts} fetchFullPost={fetchFullPost} isDarkTheme={isDarkTheme} />} />
+            <Route path="/post/:id" element={<BlogPost posts={fullPosts} fetchBlogPost={fetchBlogPost} isDarkTheme={isDarkTheme} />} />
           </Routes>
         </main>
       </div>

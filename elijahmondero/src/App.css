@@ -41,7 +41,7 @@ main {
   margin-top: 20px;
 }
 
-.blog-post, .full-post {
+.blog-summary, .blog-post {
   margin-bottom: 20px;
   padding: 20px;
   border: 1px solid #e0e0e0;
@@ -50,19 +50,19 @@ main {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.blog-post h2, .full-post h2 {
+.blog-summary h2, .blog-post h2 {
   margin-top: 0;
   font-size: 1.75em;
   font-weight: 700;
   font-family: 'Merriweather', serif;
 }
 
-.blog-post p, .full-post p {
+.blog-summary p, .blog-post p {
   font-size: 1em;
   line-height: 1.6;
 }
 
-.blog-post .meta, .full-post .meta {
+.blog-summary .meta, .blog-post .meta {
   font-size: 0.875em;
   margin-top: 10px;
 }
@@ -90,7 +90,7 @@ body.light-theme {
   color: #333;
 }
 
-.blog-post.light-theme, .full-post.light-theme {
+.blog-summary.light-theme, .blog-post.light-theme {
   background: #ffffff;
   color: #666;
 }
@@ -106,7 +106,7 @@ body.dark-theme {
   color: #e0e0e0;
 }
 
-.blog-post.dark-theme, .full-post.dark-theme {
+.blog-summary.dark-theme, .blog-post.dark-theme {
   background: #1f1f1f;
   color: #e0e0e0;
   border-color: #333;
@@ -165,30 +165,30 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-.blog-post-content {
+.blog-summary-content {
   display: flex;
   align-items: center;
   flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
-.blog-post-image {
+.blog-summary-image {
   width: 150px;
   height: auto;
   margin-right: 20px;
   order: -1; /* Ensure the image is on the left */
 }
 
-.blog-post-text {
+.blog-summary-text {
   flex: 1;
 }
 
-.full-post-content {
+.blog-post-content {
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
-.full-post-image {
+.blog-post-image {
   width: 100%;
   max-width: 500px; /* Adjust the width as needed */
   height: auto;
@@ -196,29 +196,29 @@ input:checked + .slider:before {
   margin-bottom: 20px;
 }
 
-.full-post-text {
+.blog-post-text {
   flex: 1;
 }
 
 /* Media queries for responsive design */
 @media (max-width: 768px) {
+  .blog-summary-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .blog-summary-image {
+    margin-right: 0;
+    margin-bottom: 20px;
+    order: 0; /* Reset order for smaller screens */
+  }
+
   .blog-post-content {
     flex-direction: column;
     align-items: flex-start;
   }
 
   .blog-post-image {
-    margin-right: 0;
-    margin-bottom: 20px;
-    order: 0; /* Reset order for smaller screens */
-  }
-
-  .full-post-content {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .full-post-image {
     margin-right: 0;
     margin-bottom: 20px;
   }
