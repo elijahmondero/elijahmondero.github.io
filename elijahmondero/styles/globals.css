@@ -19,6 +19,8 @@ body {
   text-align: center;
   border-bottom: 1px solid #e0e0e0;
   transition: background-color 0.3s, color 0.3s;
+  margin-left: 20px; /* Add margin-left */
+  margin-right: 20px; /* Add margin-right */
 }
 
 .App-header h1 {
@@ -41,13 +43,23 @@ main {
   margin-top: 20px;
 }
 
-.blog-summary, .blog-post {
+.blog-summary, .blog-post-content {
   margin-bottom: 20px;
   padding: 20px;
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px; /* Add border radius */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow */
   transition: background-color 0.3s, color 0.3s;
+}
+
+.blog-summary {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.blog-post-content {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .blog-summary h2, .blog-post h2 {
@@ -90,7 +102,7 @@ body.light-theme {
   color: #333;
 }
 
-.blog-summary.light-theme, .blog-post.light-theme {
+.blog-summary.light-theme, .blog-post-content.light-theme {
   background: #ffffff;
   color: #666;
 }
@@ -106,7 +118,7 @@ body.dark-theme {
   color: #e0e0e0;
 }
 
-.blog-summary.dark-theme, .blog-post.dark-theme {
+.blog-summary.dark-theme, .blog-post-content.dark-theme {
   background: #1f1f1f;
   color: #e0e0e0;
   border-color: #333;
@@ -186,6 +198,13 @@ input:checked + .slider:before {
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  margin-top: 20px; /* Add margin-top to create the gap */
+  padding: 20px; /* Add padding */
+  border: 1px solid #e0e0e0; /* Add border */
+  border-radius: 8px; /* Add border radius */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow */
+  margin-left: 20px; /* Add margin-left */
+  margin-right: 20px; /* Add margin-right */
 }
 
 .blog-post-image {

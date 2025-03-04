@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Helmet } from 'react-helmet';
 
 interface BlogSummaryProps {
@@ -27,6 +27,14 @@ const formatDateTime = (dateTime: string) => {
 };
 
 const BlogSummary: React.FC<BlogSummaryProps> = ({ title, excerpt, link, datePosted, dateModified, postedBy, modifiedBy, image_path }) => {
+  const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setUrl(window.location.href);
+    }
+  }, []);
+
   return (
     <div className="blog-summary">
       <Helmet>
@@ -39,7 +47,7 @@ const BlogSummary: React.FC<BlogSummaryProps> = ({ title, excerpt, link, datePos
             "author": postedBy,
             "datePublished": datePosted,
             "dateModified": dateModified,
-            "url": window.location.href
+            "url": url
           })}
         </script>
       </Helmet>
@@ -52,7 +60,7 @@ const BlogSummary: React.FC<BlogSummaryProps> = ({ title, excerpt, link, datePos
           {dateModified && modifiedBy && (
             <p className="meta"><strong>Modified by:</strong> {modifiedBy} on {formatDateTime(dateModified)}</p>
           )}
-          <Link to={link} className="read-more">Read more</Link>
+          <Link href={link} className="read-more">Read more</Link>
         </div>
       </div>
     </div>

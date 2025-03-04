@@ -104,7 +104,7 @@ def generate_image(prompt: str) -> str:
         os.makedirs(os.path.dirname(image_path), exist_ok=True)
         with open(image_path, "wb") as f:
             f.write(image_response.content)
-        return os.path.join("../posts/images", image_filename)  # Return relative path
+        return os.path.join("/posts/images", image_filename)  # Return relative path
     else:
         print(f"Error downloading image: {image_response.status_code}")
         return None
