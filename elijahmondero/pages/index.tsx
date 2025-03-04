@@ -66,6 +66,7 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
       <Head>
         <title>The Tech Oracle by Elijah Mondero</title>
         <meta name="description" content="A blog about the latest in technology by Elijah Mondero" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="App">
         <header className="App-header">
