@@ -1,5 +1,10 @@
 [
   {
+    "id": "6bebcc73",
+    "title": "Understanding Code Time: The Key to Developer Productivity",
+    "excerpt": "In the fast-paced world of software development, maintaining uninterrupted code time is paramount for productivity and innovation. The Global Code Time Report by Software.com provides an in-depth analysis of how developers manage to find focus in their workday despite various challenges. This blog post delves into the findings and implications of the report."
+  },
+  {
     "id": "b9279844",
     "title": "Microsoft\u2019s .NET 10 Arrives in First Preview",
     "excerpt": ".NET 10 introduces C# 14 and adds major enhancements to the .NET runtime, SDK, libraries, ASP.NET Core, Blazor, and .NET MAUI, aiming for a production release in November."
