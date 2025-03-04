@@ -34,10 +34,6 @@ jobs:
       run: npm run build
       working-directory: elijahmondero
 
-    - name: Export the project
-      run: npm run export
-      working-directory: elijahmondero
-
     - name: Configure Git
       run: |
         git config --global user.name "Elijah Mondero"
