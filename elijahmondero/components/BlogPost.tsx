@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import Giscus from '@giscus/react';
 import { format } from 'date-fns';
 import Link from 'next/link';
-import { useTheme } from '../context/ThemeContext';
+import Head from 'next/head';
 
 interface Post {
   title: string;
@@ -66,6 +66,11 @@ const BlogPost: React.FC<BlogPostProps> = ({ post, isDarkTheme }) => {
       <header className="App-header">
         <h1><Link href="/" className="home-link">The Tech Oracle</Link></h1>
       </header>
+      <Head>
+        <title>The Tech Oracle by Elijah Mondero</title>
+        <meta name="description" content="A blog about the latest in technology by Elijah Mondero" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="blog-post-content">
         {post.image_path && <img src={post.image_path} alt={post.title} className="blog-post-image" />}
         <div className="blog-post-text">
