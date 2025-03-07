@@ -12,10 +12,7 @@
     "ethics"
   ],
   "sources": [
-    {
-      "name": "Reddit r/PromptEngineering",
-      "url": "https://www.reddit.com/r/PromptEngineering/comments/1j5mca4/i_made_chatgpt_45_leak_its_system_prompt/"
-    }
+    "https://www.reddit.com/r/PromptEngineering/comments/1j5mca4/i_made_chatgpt_45_leak_its_system_prompt/"
   ],
   "image_path": "/posts/images/284d09f1-ae64-465d-b22d-8047c5e0cf7d.png"
 }
