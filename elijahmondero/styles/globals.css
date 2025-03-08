@@ -18,8 +18,8 @@ body {
   text-align: center;
   border-bottom: 1px solid #e0e0e0;
   transition: background-color 0.3s, color 0.3s;
-  margin-left: 20px; /* Add margin-left */
-  margin-right: 20px; /* Add margin-right */
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .App-header h1 {
@@ -195,20 +195,21 @@ input:checked + .slider:before {
 
 .blog-post-content {
   display: flex;
+  
   align-items: flex-start;
-  flex-wrap: wrap; /* Allow wrapping for smaller screens */
-  margin-top: 20px; /* Add margin-top to create the gap */
-  padding: 20px; /* Add padding */
-  border: 1px solid #e0e0e0; /* Add border */
-  border-radius: 8px; /* Add border radius */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow */
-  margin-left: 20px; /* Add margin-left */
-  margin-right: 20px; /* Add margin-right */
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .blog-post-image {
   width: 100%;
-  max-width: 500px; /* Adjust the width as needed */
+  max-width: 500px; /* Ensure image takes full width of the container */
   height: auto;
   margin-right: 20px;
   margin-bottom: 20px;
@@ -216,10 +217,25 @@ input:checked + .slider:before {
 
 .blog-post-text {
   flex: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%; /* Ensure text takes full width of the container */
+}
+
+.blog-post-text code {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Media queries for responsive design */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+  .App-header {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 84%;
+  }
+
   .blog-summary-content {
     flex-direction: column;
     align-items: flex-start;
@@ -232,8 +248,9 @@ input:checked + .slider:before {
   }
 
   .blog-post-content {
-    flex-direction: column;
-    align-items: flex-start;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 84%;
   }
 
   .blog-post-image {
