@@ -5,6 +5,7 @@ import Giscus from '@giscus/react';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import Head from 'next/head';
+import { useTheme } from '../context/ThemeContext';
 
 interface Post {
   title: string;
@@ -21,10 +22,10 @@ interface Post {
 
 interface BlogPostProps {
   post: Post;
-  isDarkTheme: boolean;
 }
 
-const BlogPost: React.FC<BlogPostProps> = ({ post, isDarkTheme }) => {
+const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
+  const { isDarkTheme, toggleTheme } = useTheme();
   const [url, setUrl] = useState('');
 
   useEffect(() => {
@@ -65,6 +66,10 @@ const BlogPost: React.FC<BlogPostProps> = ({ post, isDarkTheme }) => {
       </Helmet>
       <header className="App-header">
         <h1><Link href="/" className="home-link">The Tech Oracle</Link></h1>
+        <label className="switch">
+          <input type="checkbox" checked={isDarkTheme} onChange={toggleTheme} />
+          <span className="slider"></span>
+        </label>
       </header>
       <Head>
         <title>The Tech Oracle by Elijah Mondero</title>
