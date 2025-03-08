@@ -2,6 +2,7 @@ import os
 import json
 import sys
 import uuid
+import re
 from datetime import datetime
 from langchain_openai import AzureChatOpenAI
 from langchain.agents import create_react_agent, AgentExecutor
@@ -158,7 +159,7 @@ def generate_blog_post(prompt):
 
     agent_executor = AgentExecutor(agent=agent, tools=tools, handle_parsing_errors=True)
 
-    prompt = f"{prompt}. The result should be json with properties title, excerpt, content with markdowns, datePosted, postedBy, tags, sources."
+    prompt = f"{prompt}. The result should be json with properties title, excerpt, content (excluding the title) with markdowns, datePosted, postedBy, tags, sources."
 
     response = agent_executor.invoke({"input": prompt}, config={"callbacks": callbacks})
 
@@ -186,9 +187,20 @@ def generate_blog_post(prompt):
         print("LLM output that caused the error:", response["output"])
         return None
 
+def generate_slug(title: str) -> str:
+    # Convert to lowercase
+    slug = title.lower()
+    # Remove non-alphanumeric characters (except for hyphens and spaces)
+    slug = re.sub(r'[^a-z0-9\s-]', '', slug)
+    # Replace spaces and hyphens with a single hyphen
+    slug = re.sub(r'[\s-]+', '-', slug)
+    # Trim hyphens from the start and end
+    slug = slug.strip('-')
+    return slug
+
 # Save blog post to file
 def save_post(title, excerpt, content, tags, sources, image_path=None):
-    post_id = str(uuid.uuid4())[:8]
+    post_id = generate_slug(title)
     post_date = datetime.utcnow().isoformat() + "Z"
 
     post_data = {
