@@ -72,8 +72,9 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
         </label>
       </header>
       <Head>
-        <title>The Tech Oracle by Elijah Mondero</title>
-        <meta name="description" content="A blog about the latest in technology by Elijah Mondero" />
+        <title>{post.title} - The Tech Oracle by Elijah Mondero</title>
+        <meta name="description" content={post.excerpt} />
+        <meta name="keywords" content={post.tags.join(', ')} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="blog-post-content">
