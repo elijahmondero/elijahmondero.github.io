@@ -79,4 +79,8 @@
   <sitemap>
     <loc>https://elijahmondero.github.io/post/vibe-coding-the-future-of-software-engineering</loc>
     <lastmod>2025-03-09</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://elijahmondero.github.io/post/understanding-vertical-slice-architecture-in-net-core</loc>
+    <lastmod>2025-03-09</lastmod>
   </sitemap></sitemapindex>
