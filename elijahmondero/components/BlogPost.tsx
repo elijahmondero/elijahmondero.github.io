@@ -87,10 +87,18 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
             <p className="meta"><strong>Modified by:</strong> {post.modifiedBy} on {format(new Date(post.dateModified), 'MMMM d, yyyy \'at\' hh:mm:ss a')}</p>
           )}
           <p className="meta"><strong>Tags:</strong> {post.tags.join(', ')}</p>
+          
           {post.sources.length > 0 && (
-            <p className="meta"><strong>Sources:</strong> {post.sources.map((source, index) => (
-              <a key={index} href={source} target="_blank" rel="noopener noreferrer">{source}</a>
-            ))}</p>
+            <div className="meta">
+              <strong>Sources:</strong>
+              <ul className="sources-list">
+                {post.sources.map((source, index) => (
+                  <li key={index}>
+                    <a href={source} target="_blank" rel="noopener noreferrer">{source}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
         <Giscus

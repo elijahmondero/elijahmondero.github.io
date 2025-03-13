@@ -228,6 +228,25 @@ input:checked + .slider:before {
   overflow-wrap: break-word;
 }
 
+.sources-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  font-size: 0.875em; /* Smaller font size */
+}
+
+.sources-list li {
+  margin-bottom: 5px;
+}
+
+.sources-list a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.sources-list a:hover {
+  text-decoration: underline;
+}
+
 /* Media queries for responsive design */
 @media (max-width: 767px) {
   .App-header {

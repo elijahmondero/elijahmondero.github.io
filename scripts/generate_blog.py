@@ -159,7 +159,7 @@ def generate_blog_post(prompt):
 
     agent_executor = AgentExecutor(agent=agent, tools=tools, handle_parsing_errors=True)
 
-    prompt = f"{prompt}. The result should be json with properties title, excerpt, content (excluding the title) with markdowns, datePosted, postedBy, tags, sources."
+    prompt = f"{prompt}. The result should be json with properties title, excerpt, content (excluding the title, tags, sources) with markdowns, datePosted, postedBy, tags, sources."
 
     response = agent_executor.invoke({"input": prompt}, config={"callbacks": callbacks})
 
