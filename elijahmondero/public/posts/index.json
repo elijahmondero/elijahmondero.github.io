@@ -1,5 +1,10 @@
 [
   {
+    "id": "exploring-minimal-apis-vs-controllers-in-aspnet-core",
+    "title": "Exploring Minimal APIs vs. Controllers in ASP.NET Core",
+    "excerpt": "Explore the differences between Minimal APIs and Controllers in ASP.NET Core, understanding their implementations, performance aspects, and when to use each approach."
+  },
+  {
     "id": "understanding-vertical-slice-architecture-in-net-core",
     "title": "Understanding Vertical Slice Architecture in .NET Core",
     "excerpt": "In this post, we explore the concept of vertical slice architecture, its benefits, and how to implement it in .NET Core."

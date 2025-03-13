@@ -83,4 +83,8 @@
   <sitemap>
     <loc>https://elijahmondero.github.io/post/understanding-vertical-slice-architecture-in-net-core</loc>
     <lastmod>2025-03-09</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://elijahmondero.github.io/post/exploring-minimal-apis-vs-controllers-in-aspnet-core</loc>
+    <lastmod>2025-03-13</lastmod>
   </sitemap></sitemapindex>
