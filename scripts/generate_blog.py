@@ -17,7 +17,7 @@ from typing import Any, Dict, List, Union
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.messages import BaseMessage
 from langchain_core.outputs import LLMResult
-from youtube_transcript_api import YouTubeTranscriptApi
+from pytube import YouTube
 
 
 load_dotenv()
@@ -131,12 +131,17 @@ def review_and_edit_blog_post(content: str) -> str:
 def get_youtube_cc(video_id: str) -> str:
     print("Fetching YouTube CC for video ID:", video_id)
     try:
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
-        full_text = " ".join([entry['text'] for entry in transcript])
-        return full_text
+        yt = YouTube(f"https://www.youtube.com/watch?v={video_id}")
+        captions = yt.captions.get_by_language_code('en')
+        if captions:
+            full_text = captions.generate_srt_captions()
+            return full_text
+        else:
+            print("No captions found for this video.")
+            return "No captions found for this video."
     except Exception as e:
         print(f"Error fetching YouTube CC: {str(e)}")
-        return ""
+        return f"Error fetching YouTube CC: {str(e)}"
 
 # Blog post generation
 def generate_blog_post(prompt):
