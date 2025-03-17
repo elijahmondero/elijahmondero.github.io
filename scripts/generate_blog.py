@@ -17,6 +17,8 @@ from typing import Any, Dict, List, Union
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.messages import BaseMessage
 from langchain_core.outputs import LLMResult
+from youtube_transcript_api import YouTubeTranscriptApi
+
 
 load_dotenv()
 
@@ -126,6 +128,16 @@ def review_and_edit_blog_post(content: str) -> str:
     print(response)
     return response.content
 
+def get_youtube_cc(video_id: str) -> str:
+    print("Fetching YouTube CC for video ID:", video_id)
+    try:
+        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        full_text = " ".join([entry['text'] for entry in transcript])
+        return full_text
+    except Exception as e:
+        print(f"Error fetching YouTube CC: {str(e)}")
+        return ""
+
 # Blog post generation
 def generate_blog_post(prompt):
     tools = [
@@ -139,16 +151,11 @@ def generate_blog_post(prompt):
             func=scrape_links,
             description="Use this to scrap content from web links. Pass a single link."
         ),
-        # Tool(
-        #     name="review_edit",
-        #     func=review_and_edit_blog_post,
-        #     description="Reviews and edits the blog post content to ensure it is of good quality and professionally written. Pass the content as a string."
-        # ),
-        # Tool(
-        #     name="blog_json",
-        #     func=convert_to_json,
-        #     description="Converts blog post into json. Pass json {title, excerpt, content, datePosted, postedBy, tags, sources}. Always use this."
-        # )
+        Tool(
+            name="youtube_cc",
+            func=get_youtube_cc,
+            description="Fetches YouTube closed captions. Pass the YouTube video ID as a string."
+        ),
     ]
 
     agent = create_react_agent(
