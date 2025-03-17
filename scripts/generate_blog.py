@@ -17,7 +17,7 @@ from typing import Any, Dict, List, Union
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.messages import BaseMessage
 from langchain_core.outputs import LLMResult
-from pytube import YouTube
+import yt_dlp
 
 
 load_dotenv()
@@ -131,14 +131,27 @@ def review_and_edit_blog_post(content: str) -> str:
 def get_youtube_cc(video_id: str) -> str:
     print("Fetching YouTube CC for video ID:", video_id)
     try:
-        yt = YouTube(f"https://www.youtube.com/watch?v={video_id}")
-        captions = yt.captions.get_by_language_code('en')
-        if captions:
-            full_text = captions.generate_srt_captions()
-            return full_text
-        else:
-            print("No captions found for this video.")
-            return "No captions found for this video."
+        ydl_opts = {
+            'skip_download': True,
+            'writesubtitles': True,
+            'subtitleslangs': ['en'],
+            'quiet': True,
+            'outtmpl': '%(id)s.%(ext)s'
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info_dict = ydl.extract_info(f"https://www.youtube.com/watch?v={video_id}", download=False)
+            subtitles = info_dict.get('subtitles', {})
+            if 'en' in subtitles:
+                subtitle_url = subtitles['en'][0]['url']
+                response = requests.get(subtitle_url)
+                if response.status_code == 200:
+                    return response.text
+                else:
+                    print(f"Failed to fetch subtitles: Status {response.status_code}")
+                    return f"Failed to fetch subtitles: Status {response.status_code}"
+            else:
+                print("No English subtitles found for this video.")
+                return "No English subtitles found for this video."
     except Exception as e:
         print(f"Error fetching YouTube CC: {str(e)}")
         return f"Error fetching YouTube CC: {str(e)}"
