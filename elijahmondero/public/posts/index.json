@@ -1,5 +1,10 @@
 [
   {
+    "id": "net-ai-template-now-available-in-preview",
+    "title": ".NET AI Template Now Available in Preview",
+    "excerpt": "Microsoft has announced a new AI Chat Web App template, now available in preview. This template is designed to simplify AI development with .NET by providing scaffolding and guidance within Visual Studio, Visual Studio Code, and the .NET CLI."
+  },
+  {
     "id": "deep-dive-into-llms-like-chatgpt-a-detailed-summary",
     "title": "Deep Dive into LLMs like ChatGPT \u2013 A Detailed Summary",
     "excerpt": "Explore the fascinating world of Large Language Models (LLMs) like ChatGPT. Understand their architecture, training processes, and capabilities through this comprehensive deep dive summary."
