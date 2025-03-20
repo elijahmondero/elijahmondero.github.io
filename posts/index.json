@@ -1,5 +1,10 @@
 [
   {
+    "id": "why-duplication-can-be-cheaper-than-the-wrong-abstraction",
+    "title": "Why Duplication Can Be Cheaper Than The Wrong Abstraction",
+    "excerpt": "In software development, it is often said that duplication can be cheaper than creating the wrong abstraction. This blog explores why and provides insights on avoiding the pitfalls of premature abstraction."
+  },
+  {
     "id": "net-ai-template-now-available-in-preview",
     "title": ".NET AI Template Now Available in Preview",
     "excerpt": "Microsoft has announced a new AI Chat Web App template, now available in preview. This template is designed to simplify AI development with .NET by providing scaffolding and guidance within Visual Studio, Visual Studio Code, and the .NET CLI."
