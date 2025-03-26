@@ -1,5 +1,10 @@
 [
   {
+    "id": "hosting-services-in-net-examples-best-practices-and-gotchas",
+    "title": "Hosting Services in .NET: Examples, Best Practices, and Gotchas",
+    "excerpt": "Learn about hosting services in .NET, how to implement them, examples of real-world use cases, best practices, and common pitfalls. This guide provides actionable insights for developers."
+  },
+  {
     "id": "tencents-hunyuan-t1-a-new-milestone-in-ai-reasoning-models",
     "title": "Tencent's Hunyuan T1: A New Milestone in AI Reasoning Models",
     "excerpt": "Tencent's latest AI model, Hunyuan T1, showcases advancements in reasoning capabilities, positioning itself as a strong contender among top-tier AI models."
