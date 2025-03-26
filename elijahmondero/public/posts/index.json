@@ -1,5 +1,10 @@
 [
   {
+    "id": "understanding-hosted-service-background-tasks-in-aspnet-core",
+    "title": "Understanding Hosted Service Background Tasks in ASP.NET Core",
+    "excerpt": "Learn how to implement background tasks using hosted services in ASP.NET Core. Explore best practices, common pitfalls, and examples to ensure efficient and reliable task execution."
+  },
+  {
     "id": "tencents-hunyuan-t1-a-new-milestone-in-ai-reasoning-models",
     "title": "Tencent's Hunyuan T1: A New Milestone in AI Reasoning Models",
     "excerpt": "Tencent's latest AI model, Hunyuan T1, showcases advancements in reasoning capabilities, positioning itself as a strong contender among top-tier AI models."
