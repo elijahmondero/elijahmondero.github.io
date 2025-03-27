@@ -115,4 +115,8 @@
   <sitemap>
     <loc>https://elijahmondero.github.io/post/hosting-services-in-net-examples-best-practices-and-gotchas</loc>
     <lastmod>2025-03-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://elijahmondero.github.io/post/openai-agents-sdk-adds-support-for-model-context-protocol-mcp</loc>
+    <lastmod>2025-03-27</lastmod>
   </sitemap></sitemapindex>
