@@ -1,5 +1,10 @@
 [
   {
+    "id": "openai-agents-sdk-adds-support-for-model-context-protocol-mcp",
+    "title": "OpenAI Agents SDK Adds Support for Model Context Protocol (MCP)",
+    "excerpt": "OpenAI recently announced the integration of Model Context Protocol (MCP) into their Agents SDK. This addition bridges the gap between AI models and various data sources, making AI development more efficient and versatile."
+  },
+  {
     "id": "hosting-services-in-net-examples-best-practices-and-gotchas",
     "title": "Hosting Services in .NET: Examples, Best Practices, and Gotchas",
     "excerpt": "Learn about hosting services in .NET, how to implement them, examples of real-world use cases, best practices, and common pitfalls. This guide provides actionable insights for developers."
