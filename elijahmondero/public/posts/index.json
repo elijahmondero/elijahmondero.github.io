@@ -1,5 +1,10 @@
 [
   {
+    "id": "meta-ushers-in-a-new-era-with-llama-4-a-leap-in-multimodal-ai-innovation",
+    "title": "Meta Ushers in a New Era with LLaMA 4: A Leap in Multimodal AI Innovation",
+    "excerpt": "Meta has released LLaMA 4, introducing advanced multimodal AI models\u2014LLaMA 4 Scout, LLaMA 4 Maverick, and previewing the powerful LLaMA 4 Behemoth, aimed at revolutionizing personalized AI experiences."
+  },
+  {
     "id": "openai-agents-sdk-adds-support-for-model-context-protocol-mcp",
     "title": "OpenAI Agents SDK Adds Support for Model Context Protocol (MCP)",
     "excerpt": "OpenAI recently announced the integration of Model Context Protocol (MCP) into their Agents SDK. This addition bridges the gap between AI models and various data sources, making AI development more efficient and versatile."
