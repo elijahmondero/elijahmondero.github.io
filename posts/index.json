@@ -1,5 +1,10 @@
 [
   {
+    "id": "introducing-googles-new-agent-to-agent-a2a-framework",
+    "title": "Introducing Google's New Agent-to-Agent (A2A) Framework",
+    "excerpt": "Discover Google's latest framework, Agent-to-Agent (A2A), designed to facilitate seamless communication and collaboration between various AI agents."
+  },
+  {
     "id": "the-dawn-of-diffusion-large-language-models-introducing-mercury-by-inception-labs",
     "title": "The Dawn of Diffusion Large Language Models: Introducing Mercury by Inception Labs",
     "excerpt": "Inception Labs has introduced a groundbreaking approach to AI with Diffusion Large Language Models (dLLMs). Their first commercial product, Mercury, promises faster and more efficient text generation, marking a significant advancement in the field."
