@@ -1,5 +1,10 @@
 [
   {
+    "id": "exploring-the-strengths-of-gpt-41-in-tool-calling-and-coding",
+    "title": "Exploring the Strengths of GPT-4.1 in Tool Calling and Coding",
+    "excerpt": "With the release of GPT-4.1, OpenAI has presented significant improvements in tool calling and coding capabilities. This blog delves into these enhancements, drawing insights from OpenAI's announcements and Reddit forums, offering a comprehensive view of its performance and potential applications."
+  },
+  {
     "id": "introducing-googles-new-agent-to-agent-a2a-framework",
     "title": "Introducing Google's New Agent-to-Agent (A2A) Framework",
     "excerpt": "Discover Google's latest framework, Agent-to-Agent (A2A), designed to facilitate seamless communication and collaboration between various AI agents."
