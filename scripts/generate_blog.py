@@ -174,13 +174,25 @@ def generate_blog_post(prompt):
             output = output[:-3].strip()
 
         parsed_response = json.loads(output)
+
+        # Remove the title from the content
+        title = parsed_response.get("title", "")
+        content = parsed_response.get("content", "")
+        if title and content:
+            # Remove the title from the beginning of the content
+            if content.startswith(title):
+                content = content[len(title):].strip()
+            # Remove the title from the beginning of the content with markdown header formatting
+            if content.startswith("# " + title):
+                content = content[len("# " + title):].strip()
+            parsed_response["content"] = content
         
         # Generate image using DALL-E
         image_prompt = parsed_response.get("title", "") + " " + parsed_response.get("excerpt", "")
         image_path = generate_image(image_prompt)
         if image_path:
             parsed_response["image_path"] = image_path
-        
+
         return parsed_response
     except json.JSONDecodeError as e:
         print(f"Error parsing LLM output: {str(e)}")
