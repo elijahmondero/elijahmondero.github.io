@@ -20,7 +20,11 @@
     "isolatedModules": true
   },
   "include": [
-    "src"
+    "./*.ts",
+    "./*.tsx",
+    "./components/*.tsx",
+    "./pages/**/*.tsx",
+    "./context/*.tsx"
   ],
   "exclude": [
     "node_modules"

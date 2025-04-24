@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Helmet } from 'react-helmet';
 
 interface BlogSummaryProps {
@@ -10,7 +11,8 @@ interface BlogSummaryProps {
   dateModified?: string;
   postedBy: string;
   modifiedBy?: string;
-  image_path?: string; // Add image_path prop
+  image_path?: string;
+  isDarkTheme: boolean;
 }
 
 const formatDateTime = (dateTime: string) => {
@@ -52,7 +54,19 @@ const BlogSummary: React.FC<BlogSummaryProps> = ({ title, excerpt, link, datePos
         </script>
       </Helmet>
       <div className="blog-summary-content">
-        {image_path && <img src={image_path} alt={title} className="blog-summary-image" />}
+        {image_path && (
+          <Image
+            src={image_path}
+            alt={title}
+            className="blog-summary-image"
+            width={300} // Adjust as needed
+            height={200} // Adjust as needed
+            style={{
+              maxWidth: '100%',
+              height: 'auto',
+            }}
+          />
+        )}
         <div className="blog-summary-text">
           <h2>{title}</h2>
           <p>{excerpt}</p>
