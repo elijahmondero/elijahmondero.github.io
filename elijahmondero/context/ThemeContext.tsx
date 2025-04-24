@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import Cookies from 'js-cookie';
 
 interface ThemeContextProps {
@@ -6,9 +6,13 @@ interface ThemeContextProps {
   toggleTheme: () => void;
 }
 
+interface ThemeProviderProps {
+  children: ReactNode;
+}
+
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
-export const ThemeProvider: React.FC = ({ children }) => {
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(() => {
     const savedTheme = Cookies.get('theme');
     return savedTheme === 'dark';

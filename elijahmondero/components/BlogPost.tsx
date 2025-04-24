@@ -22,6 +22,7 @@ interface Post {
 
 interface BlogPostProps {
   post: Post;
+  isDarkTheme: boolean;
 }
 
 const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
