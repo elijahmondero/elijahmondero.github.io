@@ -457,34 +457,27 @@ def update_sitemap(post_id, post_date):
     new_url = f"https://elijahmondero.github.io/post/{post_id}"
     post_date = post_date.split("T")[0]  # Extract the date in YYYY-MM-DD format
     new_entry = f"""
-  <url>
+  <sitemap>
     <loc>{new_url}</loc>
     <lastmod>{post_date}</lastmod>
-  </url>""" # Changed from <sitemap> to <url> based on common sitemap structure
+  </sitemap>"""
 
     if os.path.exists(sitemap_file):
         with open(sitemap_file, "r") as f:
             sitemap_data = f.read()
-
-        # Find the position to insert the new URL before the closing </urlset> tag
-        insert_pos = sitemap_data.rfind("</urlset>")
+        
+        # Find the position to insert the new URL
+        insert_pos = sitemap_data.rfind("</sitemapindex>")
         if insert_pos != -1:
             sitemap_data = sitemap_data[:insert_pos] + new_entry + sitemap_data[insert_pos:]
-        else:
-             # If </urlset> not found, assume it's a new or malformed sitemap and create a new one
-             print(f"Warning: </urlset> not found in {sitemap_file}. Creating a new sitemap.")
-             sitemap_data = f"""<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{new_entry}
-</urlset>"""
-
 
         with open(sitemap_file, "w") as f:
             f.write(sitemap_data)
     else:
         # Create a new sitemap file if it doesn't exist
         sitemap_data = f"""<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{new_entry}
-</urlset>"""
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{new_entry}
+</sitemapindex>"""
         with open(sitemap_file, "w") as f:
             f.write(sitemap_data)
 
