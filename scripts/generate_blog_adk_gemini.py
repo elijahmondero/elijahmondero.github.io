@@ -3,6 +3,7 @@ import json
 import sys
 import uuid
 import re
+import asyncio
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
@@ -11,6 +12,10 @@ from openai import AzureOpenAI
 from langchain_community.tools import DuckDuckGoSearchResults
 from typing import List, Union
 import google.generativeai as genai
+from google.adk.agents import Agent
+from google.adk.sessions import InMemorySessionService
+from google.adk.runners import Runner
+from google.genai import types # For creating message Content/Parts
 
 load_dotenv()
 
@@ -23,6 +28,10 @@ GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-pro-latest")
 genai.configure(api_key=GOOGLE_GEMINI_API_KEY)
 gemini_model = genai.GenerativeModel(GEMINI_MODEL)
 
+
+# Configure ADK to use API keys directly (not Vertex AI for this multi-model setup)
+os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
+
 # Initialize Azure OpenAI DALL-E client (for image generation)
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
@@ -30,42 +39,24 @@ dalle_client = AzureOpenAI(api_key=AZURE_OPENAI_API_KEY, azure_endpoint=AZURE_OP
 
 
 # Scraping tool
-def scrape_links(links: Union[str, List[str]]) -> str:
-    print("Scraping links:", links)
+def scrape_link(link: str) -> str:
+    print("Scraping link:", link)
 
-    if isinstance(links, str):
-        try:
-            # Check if the string is a single URL
-            if links.startswith("http://") or links.startswith("https://"):
-                links_list = [links]
-            else:
-                # Parse the JSON string into a list of URLs
-                links_list = json.loads(links)
-                if not isinstance(links_list, list) or not all(isinstance(link, str) for link in links_list):
-                    raise ValueError("Input must be a JSON string representing a list of strings")
-        except json.JSONDecodeError as e:
-            raise ValueError("Input must be a valid JSON string representing a list of strings") from e
-    elif isinstance(links, list):
-        links_list = links
-    else:
-        raise ValueError("Input must be either a JSON string, a single URL string, or a list of strings")
+    scraped_content = ""
+    try:
+        response = requests.get(link, timeout=10)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.content, 'html.parser')
+            text = soup.get_text(separator="\n", strip=True)
+            scraped_content = text[:5000]  # Limit to 5000 chars
+        else:
+            scraped_content = f"Failed to scrape {link}: Status {response.status_code}"
+    except requests.exceptions.RequestException as e:
+        scraped_content = f"Error scraping {link}: {e}"
+    except Exception as e:
+        scraped_content = f"An unexpected error occurred while scraping {link}: {e}"
 
-    scraped_content = []
-    for link in links_list:
-        try:
-            response = requests.get(link, timeout=10)
-            if response.status_code == 200:
-                soup = BeautifulSoup(response.content, 'html.parser')
-                text = soup.get_text(separator="\n", strip=True)
-                scraped_content.append(text[:5000])  # Limit to 5000 chars per link
-            else:
-                scraped_content.append(f"Failed to scrape {link}: Status {response.status_code}")
-        except requests.exceptions.RequestException as e:
-            scraped_content.append(f"Error scraping {link}: {e}")
-        except Exception as e:
-            scraped_content.append(f"An unexpected error occurred while scraping {link}: {e}")
-
-    return "\n\n".join(scraped_content)
+    return scraped_content
 
 def convert_to_json(json_value: dict) -> str:
     print(json_value)
@@ -153,170 +144,130 @@ def search_topics(query: str) -> str:
 
 
 # Blog post review and editing tool
-def review_and_edit_blog_post(content: str) -> str:
+async def review_and_edit_blog_post(content: str) -> str:
     print("Reviewing and editing blog post content: ", content)
     # This function will call the LLM to review and edit the blog post content
-    review_edit_prompt = f"Review and edit the following blog post content to ensure it is of good quality and professionally written with markdowns:\n\n{content}"
+    # using an ADK Agent.
+    editor_agent = Agent(
+        name="editor_tool_agent",
+        model=GEMINI_MODEL,
+        description="A professional blog post editor that reviews and refines content.",
+        instruction="You are a professional blog post editor. Your responsibility is to review the provided content. "
+                    "Check for grammatical errors, spelling mistakes, punctuation issues, and overall clarity and coherence. "
+                    "Refine the language to ensure it is polished and engaging. "
+                    "Provide ONLY the final, edited version of the content, with no introductory or conversational remarks.",
+        tools=[], # No tools needed for editing
+    )
+
+    session_service = InMemorySessionService()
+    APP_NAME = "blog_editor_tool"
+    USER_ID = "tool_user"
+    SESSION_ID = "editor_session"
+
+    session = session_service.create_session(
+        app_name=APP_NAME,
+        user_id=USER_ID,
+        session_id=SESSION_ID
+    )
+
+    runner = Runner(
+        agent=editor_agent,
+        app_name=APP_NAME,
+        session_service=session_service
+    )
+
+    review_edit_prompt = f"Review and edit the following content:\n\n{content}"
+    edited_content = content # Default to original content in case of error
+
     try:
-        response = gemini_model.generate_content(review_edit_prompt)
-        print(response.text)
-        return response.text
+        content_obj = types.Content(role='user', parts=[types.Part(text=review_edit_prompt)])
+        async for event in runner.run_async(user_id=USER_ID, session_id=SESSION_ID, new_message=content_obj):
+            if event.is_final_response():
+                if event.content and event.content.parts:
+                    edited_content = event.content.parts[0].text
+                elif event.actions and event.actions.escalate:
+                    print(f"Editor agent escalated: {event.error_message or 'No specific message.'}")
+                break
+        print("Review and edit complete.")
+        return edited_content
     except Exception as e:
-        print(f"Error during review and edit: {e}")
+        print(f"Error during review and edit with Agent: {e}")
         return content # Return original content if editing fails
 
 
 # Blog post generation with Gemini ADK
-def generate_blog_post_gemini_adk(prompt):
+async def generate_blog_post_gemini_adk(prompt):
     try:
-        # Define tools in a format compatible with google.generativeai
-        gemini_tools = [
-            {
-                "function_declarations": [
-                    {
-                        "name": "search_topics",
-                        "description": "Searches topics online using DuckDuckGo. Pass the search query as a string.",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "query": {
-                                    "type": "string",
-                                    "description": "The search query."
-                                }
-                            },
-                            "required": ["query"]
-                        }
-                    },
-                    {
-                        "name": "scrape_links",
-                        "description": "Use this to scrap content from web links. Pass a JSON string representing a list of links.",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "links": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    },
-                                    "description": "A list of URLs to scrape."
-                                }
-                            },
-                            "required": ["links"]
-                        }
-                    }
-                ]
-            }
-        ]
+        # Setup Session Service and Runner
+        session_service = InMemorySessionService()
+        APP_NAME = "blog_generation_app"
+        USER_ID = "blog_user"
+        SESSION_ID = "blog_session"
+
+        session = session_service.create_session(
+            app_name=APP_NAME,
+            user_id=USER_ID,
+            session_id=SESSION_ID
+        )
 
         # Define agents and their roles
-        # We can simulate agents by defining different prompts and orchestrating calls
-        # using the generate_content and tool_code capabilities of the Gemini model.
+        researcher = Agent(
+            name="researcher",
+            model=GEMINI_MODEL,
+            description="Gathers comprehensive information about a given topic using search and scraping tools.",
+            instruction=f"""You are a research assistant for a blog writing team. Your task is to gather comprehensive information about the user's requested topic.
+            Utilize the available tools (search_topics, scrape_link) to find relevant articles, data, and insights.
+            Synthesize your findings into a detailed summary that will be used by the writing team.
+            Focus on providing factual information and diverse perspectives if available.
+            """,
+            tools=[search_topics, scrape_link],
+        )
 
-        researcher_prompt = f"""You are a research assistant for a blog writing team. Your task is to gather comprehensive information about the user's requested topic: "{prompt}".
-        Utilize the available tools (search_topics, scrape_links) to find relevant articles, data, and insights.
-        Synthesize your findings into a detailed summary that will be used by the writing team.
-        Focus on providing factual information and diverse perspectives if available.
-        """
+        writer = Agent(
+            name="writer",
+            model=GEMINI_MODEL,
+            description="Transforms research findings into a compelling and well-structured blog post in JSON format.",
+            instruction="""You are a skilled blog post writer. Your role is to transform the research findings provided by the research team into a compelling and well-structured blog post.
+            Craft an engaging title, a concise excerpt, and detailed content using markdown formatting.
+            Ensure the content flows logically and is easy for readers to understand.
+            Identify relevant tags for the post and list the sources cited in the research findings as a list of **actual URL links**.
+            The final output must be a JSON object with the following keys: "title", "excerpt", "content", "datePosted" (use the current UTC date in ISO format), "postedBy" (Elijah Mondero), "tags" (a list of strings), and "sources" (a list of **strings, where each string is a URL**).
+            IMPORTANT: The "content" field should contain the main body of the blog post in markdown format and MUST NOT include the blog post title. The title is provided in the "title" field separately.
+            """,
+            tools=[], # No tools needed for writing
+        )
 
-        writer_prompt = """You are a skilled blog post writer. Your role is to transform the research findings provided by the research team into a compelling and well-structured blog post.
-        Craft an engaging title, a concise excerpt, and detailed content using markdown formatting.
-        Ensure the content flows logically and is easy for readers to understand.
-        Identify relevant tags for the post and list the sources cited in the research findings as a list of **actual URL links**.
-        The final output must be a JSON object with the following keys: "title", "excerpt", "content", "datePosted" (use the current UTC date in ISO format), "postedBy" (Elijah Mondero), "tags" (a list of strings), and "sources" (a list of **strings, where each string is a URL**).
-        IMPORTANT: The "content" field should contain the main body of the blog post in markdown format and MUST NOT include the blog post title. The title is provided in the "title" field separately.
-        """
-
-        editor_prompt = """You are a professional blog post editor. Your responsibility is to review the blog post draft created by the writer.
-        Check for grammatical errors, spelling mistakes, punctuation issues, and overall clarity and coherence.
-        Refine the language to ensure it is polished and engaging.
-        Provide ONLY the final, edited version of the blog post content, with no introductory or conversational remarks.
-        """
 
         # Orchestration of the agents
         print("Gemini ADK Multi-Agent: Starting research phase...")
         # Research Agent Interaction
-        # Start the chat without passing tools to start_chat
-        research_conversation = gemini_model.start_chat()
-        # Send the initial message with the prompt and tools available for this turn
-        research_response = research_conversation.send_message(researcher_prompt, tools=gemini_tools)
+        research_runner = Runner(agent=researcher, app_name=APP_NAME, session_service=session_service)
+        research_findings = ""
+        content_obj = types.Content(role='user', parts=[types.Part(text=prompt)])
+        async for event in research_runner.run_async(user_id=USER_ID, session_id=SESSION_ID, new_message=content_obj):
+             if event.is_final_response():
+                if event.content and event.content.parts:
+                   research_findings = event.content.parts[0].text
+                elif event.actions and event.actions.escalate:
+                   print(f"Research agent escalated: {event.error_message or 'No specific message.'}")
+                break
 
-        research_findings = []
-        # Process potential tool calls from the researcher
-        # Continue the conversation until the research agent provides a final text response
-        while True:
-             if not research_response.candidates or not research_response.candidates[0].content or not research_response.candidates[0].content.parts:
-                 print("Gemini ADK Multi-Agent: Research agent did not provide a valid response.")
-                 break # Exit loop if no valid response
-
-             part = research_response.candidates[0].content.parts[0]
-
-             if part.function_call:
-                function_call = part.function_call
-                function_name = function_call.name
-                function_args = {k: v for k, v in function_call.args.items()}
-
-                print(f"Gemini ADK Multi-Agent: Research Agent calling tool: {function_name} with args: {function_args}")
-
-                tool_result = "Error executing tool."
-                try:
-                    if function_name == "search_topics":
-                        tool_result = search_topics(query=function_args.get("query"))
-                        # Append search results to research findings
-                        research_findings.append(f"Search Results for '{function_args.get('query')}':\n{tool_result}")
-                    elif function_name == "scrape_links":
-                         links_arg = function_args.get("links")
-                         if isinstance(links_arg, str):
-                             tool_result = scrape_links(links=[links_arg])
-                             # Append scraped content to research findings
-                             research_findings.append(f"Scraped Content from '{links_arg}':\n{tool_result}")
-                         elif isinstance(links_arg, list):
-                             tool_result = scrape_links(links=links_arg)
-                             # Append scraped content from multiple links
-                             for i, link in enumerate(links_arg):
-                                 research_findings.append(f"Scraped Content from '{link}':\n{tool_result.split('Error scraping')[i] if 'Error scraping' in tool_result else tool_result.split('Failed to scrape')[i] if 'Failed to scrape' in tool_result else tool_result.split(chr(10)*2)[i] if chr(10)*2 in tool_result else tool_result}") # Basic split, might need refinement
-                             if "Error scraping" in tool_result or "Failed to scrape" in tool_result:
-                                  research_findings.append(f"Scraping Errors:\n{tool_result}")
-
-                         else:
-                             tool_result = "Error: Invalid input for scrape_links tool."
-                             print(tool_result)
-                             research_findings.append(f"Tool Error: {tool_result}")
-                    else:
-                        raise ValueError(f"Unknown tool: {function_name}")
-                except Exception as e:
-                    tool_result = f"Error executing tool {function_name}: {e}"
-                    print(tool_result)
-                    research_findings.append(f"Tool Execution Error: {tool_result}")
-
-
-                print(f"Gemini ADK Multi-Agent: Tool {function_name} returned: {tool_result}")
-
-                # Send the tool result back to the research agent to continue the conversation
-                research_response = research_conversation.send_message(
-                    genai.protos.ToolCodeResult(
-                        invocation_id=research_response.candidates[0].content.parts[0].function_call.invocation_id,
-                        result=tool_result
-                    )
-                )
-             elif part.text:
-                 # If the research agent responds with text, consider it the final research findings summary
-                 research_findings.append(part.text)
-                 break # Exit loop when text is received
-             else:
-                 print("Gemini ADK Multi-Agent: Unexpected part type in research response.")
-                 break # Exit loop to avoid infinite loop
-
-        final_research_summary = "\n\n".join(research_findings)
         print("Gemini ADK Multi-Agent: Research phase complete.")
-        print("Research Findings:", final_research_summary)
+        print("Research Findings:", research_findings)
 
         print("Gemini ADK Multi-Agent: Starting writing phase...")
         # Writing Agent Interaction
-        writer_conversation = gemini_model.start_chat()
-        # Join the research findings into a single string before sending to the writer
-        research_findings_string = "\n\n".join(research_findings)
-        writer_response = writer_conversation.send_message(f"{writer_prompt}\n\nResearch Findings:\n{research_findings_string}")
-        blog_post_draft_json_string = writer_response.text
+        writer_runner = Runner(agent=writer, app_name=APP_NAME, session_service=session_service)
+        blog_post_draft_json_string = ""
+        content_obj = types.Content(role='user', parts=[types.Part(text=f"Research Findings:\n{research_findings}")])
+        async for event in writer_runner.run_async(user_id=USER_ID, session_id=SESSION_ID, new_message=content_obj):
+             if event.is_final_response():
+                if event.content and event.content.parts:
+                   blog_post_draft_json_string = event.content.parts[0].text
+                elif event.actions and event.actions.escalate:
+                   print(f"Writer agent escalated: {event.error_message or 'No specific message.'}")
+                break
+
         print("Gemini ADK Multi-Agent: Writing phase complete.")
         print("Blog Post Draft (JSON string):", blog_post_draft_json_string)
 
@@ -355,58 +306,11 @@ def generate_blog_post_gemini_adk(prompt):
 
 
         print("Gemini ADK Multi-Agent: Starting editing phase...")
-        # Editor Agent Interaction
-        editor_conversation = gemini_model.start_chat()
-        edited_content_response = editor_conversation.send_message(f"{editor_prompt}\n\nBlog Post Content Draft:\n{parsed_response.get('content', '')}")
-        edited_content = edited_content_response.text
+        # Editor Agent Interaction (using the tool function)
+        edited_content = await review_and_edit_blog_post(parsed_response.get('content', ''))
         print("Gemini ADK Multi-Agent: Editing phase complete.")
 
-        # Clean up the edited content to remove conversational text
-        cleaned_content = edited_content
-        lines = edited_content.splitlines()
-        cleaned_lines = []
-        start_adding = False
-
-        # Look for the first line that seems like the start of the actual content
-        for i, line in enumerate(lines):
-            # Check for markdown headers
-            if line.strip().startswith("#"):
-                cleaned_lines = lines[i:]
-                start_adding = True
-                break
-            # Check for a line that looks like a significant paragraph start (not empty, not too short)
-            if len(line.strip()) > 30 and len(line.split()) > 4:
-                 # Check if the next line is also substantial, to avoid single-line matches
-                 if i + 1 < len(lines) and (len(lines[i+1].strip()) > 30 or lines[i+1].strip().startswith("#")):
-                    cleaned_lines = lines[i:]
-                    start_adding = True
-                    break
-            # Check for list items
-            if line.strip().startswith("* ") or line.strip().startswith("- ") or re.match(r"^\d+\.\s", line.strip()):
-                 cleaned_lines = lines[i:]
-                 start_adding = True
-                 break
-
-
-        if not start_adding:
-            # If no clear start found, use the fallback of removing common introductory phrases
-            cleaned_content = edited_content
-            intro_phrases = [
-                "Okay, here is the edited version of the blog post content, reviewed for clarity, coherence, grammar, spelling, and punctuation.",
-                "***\n\nHere is the edited version of your blog post:",
-                "Here is the edited version of your blog post:",
-                "**Edited Blog Post Content:**", # Added this based on the last output
-                "Okay, here is the edited version"
-            ]
-            for phrase in intro_phrases:
-                if cleaned_content.startswith(phrase):
-                    cleaned_content = cleaned_content[len(phrase):].strip()
-                    break # Assume only one such phrase at the beginning
-        else:
-            cleaned_content = "\n".join(cleaned_lines).strip()
-
-
-        parsed_response["content"] = cleaned_content
+        parsed_response["content"] = edited_content
 
         # Generate image using DALL-E
         image_prompt = parsed_response.get("title", "") + " " + parsed_response.get("excerpt", "")
@@ -522,7 +426,9 @@ if __name__ == "__main__":
 
     prompt = sys.argv[1]
 
-    blog_data = generate_blog_post_gemini_adk(prompt)
+    # Run the async blog generation function
+    blog_data = asyncio.run(generate_blog_post_gemini_adk(prompt))
+
     required_keys = {"title", "excerpt", "content", "tags"}
 
     print(blog_data)
