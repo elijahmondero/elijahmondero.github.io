@@ -316,4 +316,24 @@ if __name__ == "__main__":
     update_index(post_data["id"], blog_data["title"], blog_data["excerpt"])
     update_sitemap(post_data["id"], post_data["datePosted"])
     print(f"Blog post saved: {post_file}")
-    print(json.dumps(blog_data))
+    # Construct PR details
+    pr_title = blog_data.get("title", "New Blog Post")
+    pr_excerpt = blog_data.get("excerpt", "No excerpt available.")
+    pr_image_path = blog_data.get("image_path")
+
+    pr_body = f"Automated blog post creation from workflow\n\n**Excerpt:**\n{pr_excerpt}\n\n"
+    if pr_image_path:
+        pr_body += f"**Featured Image:**\nhttps://elijahmondero.github.io{pr_image_path}\n\n"
+
+    # Create a slug from the title for the branch name
+    title_slug = re.sub(r'[^a-z0-9]+', '-', pr_title.lower()).strip('-')
+    branch_name = f"blog-post-{title_slug}"
+
+    # Write PR details to GITHUB_ENV
+    with open(os.environ['GITHUB_ENV'], 'a') as env_file:
+        env_file.write(f"PR_TITLE={pr_title}\n")
+        env_file.write(f"BRANCH_NAME={branch_name}\n")
+        # Use a delimiter for multi-line body
+        env_file.write("PR_BODY<<EOF\n")
+        env_file.write(pr_body)
+        env_file.write("EOF\n")
