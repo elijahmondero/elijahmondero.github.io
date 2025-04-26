@@ -532,7 +532,7 @@ if __name__ == "__main__":
     pr_excerpt = blog_data.get("excerpt", "No excerpt available.")
     pr_content = blog_data.get("content", "No content available.")
 
-    pr_body = f"# {pr_title}\n\n{pr_excerpt}\n\n{pr_content}"
+    pr_body = f"# {pr_title}\n\n{pr_excerpt}\n\n{pr_content}\n\n"
 
     # Create a slug from the title for the branch name
     title_slug = re.sub(r'[^a-z0-9]+', '-', pr_title.lower()).strip('-')
