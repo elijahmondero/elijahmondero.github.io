@@ -518,15 +518,13 @@ if __name__ == "__main__":
     # Construct PR details
     pr_title = blog_data.get("title", "New Blog Post")
     pr_excerpt = blog_data.get("excerpt", "No excerpt available.")
-    pr_image_path = blog_data.get("image_path")
+    pr_content = blog_data.get("content", "No content available.")
 
-    pr_body = f"Automated blog post creation from workflow\n\n**Excerpt:**\n{pr_excerpt}\n\n"
-    if pr_image_path:
-        pr_body += f"**Featured Image:**\nhttps://elijahmondero.github.io{pr_image_path}\n\n"
+    pr_body = f"# {pr_title}\n\n{pr_excerpt}\n\n{pr_content}"
 
     # Create a slug from the title for the branch name
     title_slug = re.sub(r'[^a-z0-9]+', '-', pr_title.lower()).strip('-')
-    branch_name = f"blog-post-{title_slug}"
+    branch_name = f"blog-{title_slug}"
 
     # Write PR details to GITHUB_ENV
     with open(os.environ['GITHUB_ENV'], 'a') as env_file:
