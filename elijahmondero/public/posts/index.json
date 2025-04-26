@@ -1,5 +1,10 @@
 [
   {
+    "id": "generated-blog-post",
+    "title": "Generated Blog Post",
+    "excerpt": "Could not parse excerpt."
+  },
+  {
     "id": "unveiling-the-geo-guessing-prowess-of-openais-o3-model",
     "title": "Unveiling the Geo-Guessing Prowess of OpenAI\u2019s O3 Model",
     "excerpt": "Discover how OpenAI's O3 model revolutionizes geolocation through intricate visual reasoning and its implications on privacy."
