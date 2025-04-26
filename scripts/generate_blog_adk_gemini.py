@@ -72,24 +72,71 @@ def convert_to_json(json_value: dict) -> str:
 
 # DALL-E image generation
 def generate_image(prompt: str) -> str:
-    try:
-        result = dalle_client.images.generate(model="dall-e-3", prompt=prompt, n=1)
-        image_url = json.loads(result.model_dump_json())['data'][0]['url']
+    retries = 3
+    rephrase_attempts = 2 # Limit rephrasing attempts
+    current_prompt = prompt
 
-        image_response = requests.get(image_url)
-        if image_response.status_code == 200:
-            image_filename = f"{uuid.uuid4()}.png"
-            image_path = os.path.join("elijahmondero/public/posts/images", image_filename)
-            os.makedirs(os.path.dirname(image_path), exist_ok=True)
-            with open(image_path, "wb") as f:
-                f.write(image_response.content)
-            return os.path.join("/posts/images", image_filename)  # Return relative path
-        else:
-            print(f"Error downloading image: {image_response.status_code}")
-            return None
-    except Exception as e:
-        print(f"Error generating image: {e}")
-        return None
+    for attempt in range(retries):
+        try:
+            result = dalle_client.images.generate(model="dall-e-3", prompt=current_prompt, n=1)
+            image_url = json.loads(result.model_dump_json())['data'][0]['url']
+
+            image_response = requests.get(image_url)
+            if image_response.status_code == 200:
+                image_filename = f"{uuid.uuid4()}.png"
+                image_path = os.path.join("elijahmondero/public/posts/images", image_filename)
+                os.makedirs(os.path.dirname(image_path), exist_ok=True)
+                with open(image_path, "wb") as f:
+                    f.write(image_response.content)
+                return os.path.join("/posts/images", image_filename)  # Return relative path
+            else:
+                print(f"Error downloading image: {image_response.status_code}")
+                # If download fails, try generating again
+                if attempt < retries - 1:
+                    print(f"Attempt {attempt + 1} failed, retrying...")
+                    continue
+                else:
+                    print("Max retries reached for image download.")
+                    return None
+        except Exception as e:
+            error_message = str(e)
+            print(f"Error generating image (Attempt {attempt + 1}): {error_message}")
+            if "content_policy_violation" in error_message and attempt < retries - 1:
+                print("Content policy violation detected.")
+                if rephrase_attempts > 0:
+                    print(f"Attempting to rephrase prompt using Gemini (Rephrasing attempts left: {rephrase_attempts})...")
+                    rephrase_prompt_text = f"Rephrase the following image generation prompt to avoid content policy violations: {current_prompt}"
+                    try:
+                        rephrased_response = gemini_model.generate_content(rephrase_prompt_text)
+                        rephrased_prompt = rephrased_response.text.strip()
+                        if rephrased_prompt and rephrased_prompt != current_prompt:
+                            print(f"Prompt rephrased to: {rephrased_prompt}")
+                            current_prompt = rephrased_prompt
+                            rephrase_attempts -= 1
+                            continue # Retry with the new prompt
+                        else:
+                            print("Gemini returned an empty or identical rephrased prompt.")
+                            rephrase_attempts -= 1
+                            if rephrase_attempts == 0:
+                                print("Max rephrasing attempts reached.")
+                                return None # Give up if rephrasing fails
+                            else:
+                                continue # Try rephrasing again if attempts remain
+                    except Exception as gemini_e:
+                        print(f"Error rephrasing prompt with Gemini: {gemini_e}")
+                        rephrase_attempts -= 1
+                        if rephrase_attempts == 0:
+                            print("Max rephrasing attempts reached.")
+                            return None # Give up if rephrasing fails
+                        else:
+                            continue # Try rephrasing again if attempts remain
+                else:
+                    print("Max rephrasing attempts reached.")
+                    return None # Give up if rephrasing attempts are exhausted
+            else:
+                print("Max retries reached or non-content policy violation error.")
+                return None
+    return None # Return None if all retries fail
 
 
 # DuckDuckGo search tool
