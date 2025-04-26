@@ -215,11 +215,16 @@ async def generate_blog_post_gemini_adk(prompt):
             name="researcher",
             model=GEMINI_MODEL,
             description="Gathers comprehensive information about a given topic using search and scraping tools.",
-            instruction="You are a research assistant for a blog writing team. Your task is to gather comprehensive information about the user's requested topic. "
-                        "Utilize the available tools (search_topics, scrape_link) to find relevant articles, data, and insights. "
-                        "Synthesize your findings into a detailed summary that will be used by the writing team. "
-                        "Focus on providing factual information and diverse perspectives if available. "
-                        "Once research is complete, provide the summary as your final response.",
+            instruction="""You are a research assistant for a blog writing team. Your task is to gather comprehensive information about the user's requested topic.
+                        Utilize the available tools (search_topics, scrape_link) to find relevant articles, data, and insights.
+                        Synthesize your findings into a detailed summary that will be used by the writing team.
+                        Focus on providing factual information and diverse perspectives if available.
+                        Once research is complete, provide the summary as your final response.
+
+                        Here are some prompts to guide your research:
+                        - Generate blog post ideas for diverse audiences, including [insert specific audiences such as ‘Freelance Writers’, ‘Tech Enthusiasts’, etc.]. For each audience, choose a relevant topic and come up with three unique and engaging blog post ideas. Provide catchy and SEO-friendly titles for each idea.
+                        - Create a detailed blog post outline focused on ‘The Ultimate Guide to Mastering SEO in 2024’. Ensure the outline includes an engaging introduction that highlights the ever-evolving nature of SEO and its critical importance for bloggers and digital marketers alike. Break down the main body into comprehensive sections covering the latest trends, strategies, and tools essential for SEO success. Each section should begin with a brief overview, followed by bullet points detailing specific topics to cover. Incorporate subsections on keyword research advancements, the role of AI in SEO, optimizing for voice search and mobile devices, building quality backlinks, and effective content marketing strategies for SEO. Highlight the importance of user experience (UX) and site performance metrics in the new SEO landscape. Conclude with a summary that reinforces the importance of staying ahead in the SEO game and a call-to-action encouraging readers to implement these strategies for improved online visibility and search rankings. Throughout the outline, specify key phrases to target for SEO, potential internal and external links for enhancing authority, and suggestions for visually appealing graphics and charts that illustrate complex SEO metrics or trends.
+                        """,
             tools=[search_topics, scrape_link],
         )
 
@@ -234,6 +239,11 @@ async def generate_blog_post_gemini_adk(prompt):
             The final output must be a JSON object with the following keys: "title", "excerpt", "content", "datePosted" (use the current UTC date in ISO format), "postedBy" (Elijah Mondero), "tags" (a list of strings), and "sources" (a list of **strings, where each string is a URL**).
             IMPORTANT: The "content" field should contain the main body of the blog post in markdown format and MUST NOT include the blog post title. The title is provided in the "title" field separately.
             Provide the JSON object as your final response.
+
+            Here are some prompts to guide your writing:
+            - Start your post by presenting a surprising statistic related to your topic that highlights its significance in today’s world. Use this to segue into how your article will address this trend or issue.
+            - Create engaging introduction prompts: Hook the Reader, Introduce the Topic, Show Relevance, Establish Credibility, State the Purpose, Engage with SEO, Invoke Emotion or Curiosity, Promise Value.
+            - Recap the most pivotal insights shared in your post, then challenge your readers to apply one of the strategies in their life or work this week. Ask for comments sharing their chosen strategy or results.
             """,
             tools=[], # No tools needed for writing
         )
@@ -242,11 +252,12 @@ async def generate_blog_post_gemini_adk(prompt):
             name="editor",
             model=GEMINI_MODEL,
             description="A professional blog post editor that reviews and refines content.",
-            instruction="You are a professional blog post editor. Your responsibility is to review the provided blog post content. "
-                        "Check for grammatical errors, spelling mistakes, punctuation issues, and overall clarity and coherence. "
-                        "Refine the language to ensure it is polished and engaging. "
-                        "Provide ONLY the final, edited version of the content, with no introductory or conversational remarks. "
-                        "Provide the edited content as your final response.",
+            instruction="""You are a professional blog post editor. Your responsibility is to review the provided blog post content.
+                        Check for grammatical errors, spelling mistakes, punctuation issues, and overall clarity and coherence.
+                        Refine the language to ensure it is polished and engaging.
+                        Provide ONLY the final, edited version of the content, with no introductory or conversational remarks.
+                        Provide the edited content as your final response.
+                        """,
             tools=[], # No tools needed for editing
         )
 
@@ -255,13 +266,14 @@ async def generate_blog_post_gemini_adk(prompt):
             name="blog_orchestrator",
             model=GEMINI_MODEL, # Root agent can use the same or a different model
             description="Orchestrates the blog post generation process by delegating to specialized researcher, writer, and editor agents.",
-            instruction="You are the Blog Orchestrator. Your task is to manage the creation of a blog post based on the user's request. "
-                        "You have a team of specialized agents: 'researcher', 'writer', and 'editor'. "
-                        "Follow these steps:\n"
+            instruction="""You are the Blog Orchestrator. Your task is to manage the creation of a blog post based on the user's request.
+                        You have a team of specialized agents: 'researcher', 'writer', and 'editor'.
+                        Follow these steps:\n"
                         "1. Delegate the initial user request to the 'researcher' agent to gather information.\n"
                         "2. Once the researcher provides the findings, delegate these findings to the 'writer' agent to draft the blog post in JSON format.\n"
                         "3. Once the writer provides the JSON draft, extract the 'content' field and delegate it to the 'editor' agent for review and refinement.\n"
-                        "4. Once the editor provides the final content, combine it with the other fields from the writer's JSON output and provide the complete blog post data (including title, excerpt, tags, sources, and edited content) as your final response in a structured format (e.g., a dictionary or JSON string).",
+                        "4. Once the editor provides the final content, combine it with the other fields from the writer's JSON output and provide the complete blog post data (including title, excerpt, tags, sources, and edited content) as your final response in a structured format (e.g., a dictionary or JSON string).
+                        """,
             tools=[], # Root agent primarily delegates, might not need specific tools itself
             sub_agents=[researcher, writer, editor] # Link the specialized agents
         )
