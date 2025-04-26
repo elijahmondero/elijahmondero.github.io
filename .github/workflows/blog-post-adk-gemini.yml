@@ -1,0 +1,56 @@
+name: Generate Blog with ADK Gemini
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: "Prompt for the blog post"
+        required: true
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.3'
+
+      - name: Install dependencies
+        run: |
+          pip install azure-identity openai>=1.0.0 requests beautifulsoup4 PyYAML duckduckgo-search google-adk google-generativeai
+
+      - name: Run blog post script
+        env:
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+        run: |
+          for i in {1..5}; do
+            python scripts/generate_blog.py "${{ github.event.inputs.prompt }}" && break || sleep 10
+          done
+
+      - name: Prepare Pull Request
+        run: |
+          if [ -f "=1.0.0" ]; then
+            rm "=1.0.0"
+          fi
+          echo "Files before commit:"
+          ls -R
+          BRANCH_NAME="blog-post-$(date +%s)"
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: ${{ env.BRANCH_NAME }}
+          title: "New Blog Post"
+          body: "Automated blog post creation from workflow"
+          base: main
+          token: ${{ secrets.GITHUB_TOKEN }}

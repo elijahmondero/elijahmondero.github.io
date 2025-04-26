@@ -1,4 +1,4 @@
-name: Generate Blog Post
+name: Generate Blog with LangChain and Azure OpenAI
 
 on:
   workflow_dispatch:
