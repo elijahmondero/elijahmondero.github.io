@@ -316,3 +316,4 @@ if __name__ == "__main__":
     update_index(post_data["id"], blog_data["title"], blog_data["excerpt"])
     update_sitemap(post_data["id"], post_data["datePosted"])
     print(f"Blog post saved: {post_file}")
+    print(json.dumps(blog_data))
