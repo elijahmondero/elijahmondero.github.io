@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from openai import AzureOpenAI
 from langchain_community.tools import DuckDuckGoSearchResults
-from typing import Any, Dict, List, Union
+from typing import List, Union
 import google.generativeai as genai
 
 load_dotenv()
