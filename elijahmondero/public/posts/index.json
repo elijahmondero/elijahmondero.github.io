@@ -1,5 +1,10 @@
 [
   {
+    "id": "unlock-the-power-of-ai-agents-introducing-googles-agent-development-kit-adk",
+    "title": "Unlock the Power of AI Agents: Introducing Google's Agent Development Kit (ADK)",
+    "excerpt": "Explore Google's new open-source Agent Development Kit (ADK), a Python framework designed to simplify the creation, evaluation, and deployment of sophisticated AI agents and multi-agent systems."
+  },
+  {
     "id": "boost-your-vs-code-workflow-using-google-gemini-with-the-cline-extension",
     "title": "Boost Your VS Code Workflow: Using Google Gemini with the 'cline' Extension",
     "excerpt": "Bring the power of Google Gemini's AI coding assistance directly into your VS Code editor with the 'cline' extension. Streamline your development process and get context-aware help without leaving your IDE."
