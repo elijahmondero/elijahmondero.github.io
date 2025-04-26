@@ -61,8 +61,9 @@ def scrape_links(links: Union[str, List[str]]) -> str:
             else:
                 scraped_content.append(f"Failed to scrape {link}: Status {response.status_code}")
         except requests.exceptions.RequestException as e:
-             scraped_content.append(f"Error scraping {link}: {e}")
-
+            scraped_content.append(f"Error scraping {link}: {e}")
+        except Exception as e:
+            scraped_content.append(f"An unexpected error occurred while scraping {link}: {e}")
 
     return "\n\n".join(scraped_content)
 
@@ -222,6 +223,7 @@ def generate_blog_post_gemini_adk(prompt):
         Ensure the content flows logically and is easy for readers to understand.
         Identify relevant tags for the post and list the sources cited in the research findings as a list of **actual URL links**.
         The final output must be a JSON object with the following keys: "title", "excerpt", "content", "datePosted" (use the current UTC date in ISO format), "postedBy" (Elijah Mondero), "tags" (a list of strings), and "sources" (a list of **strings, where each string is a URL**).
+        IMPORTANT: The "content" field should contain the main body of the blog post in markdown format and MUST NOT include the blog post title. The title is provided in the "title" field separately.
         """
 
         editor_prompt = """You are a professional blog post editor. Your responsibility is to review the blog post draft created by the writer.
@@ -355,11 +357,6 @@ def generate_blog_post_gemini_adk(prompt):
         print("Gemini ADK Multi-Agent: Starting editing phase...")
         # Editor Agent Interaction
         editor_conversation = gemini_model.start_chat()
-        editor_conversation = gemini_model.start_chat()
-        edited_content_response = editor_conversation.send_message(f"{editor_prompt}\n\nBlog Post Content Draft:\n{parsed_response.get('content', '')}")
-        edited_content = edited_content_response.text
-        print("Gemini ADK Multi-Agent: Editing phase complete.")
-
         edited_content_response = editor_conversation.send_message(f"{editor_prompt}\n\nBlog Post Content Draft:\n{parsed_response.get('content', '')}")
         edited_content = edited_content_response.text
         print("Gemini ADK Multi-Agent: Editing phase complete.")
@@ -410,18 +407,6 @@ def generate_blog_post_gemini_adk(prompt):
 
 
         parsed_response["content"] = cleaned_content
-
-        # Remove the title from the content if it exists
-        title = parsed_response.get("title", "")
-        content = parsed_response.get("content", "")
-        if title and content:
-            # Remove the title from the beginning of the content
-            if content.startswith(title):
-                content = content[len(title):].strip()
-            # Remove the title from the beginning of the content with markdown header formatting
-            if content.startswith("# " + title):
-                content = content[len("# " + title):].strip()
-            parsed_response["content"] = content
 
         # Generate image using DALL-E
         image_prompt = parsed_response.get("title", "") + " " + parsed_response.get("excerpt", "")
