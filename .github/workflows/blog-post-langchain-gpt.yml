@@ -1,4 +1,4 @@
-name: Generate Blog with LangChain and Azure OpenAI
+name: Generate Blog with LangChain gpt-4o
 
 on:
   workflow_dispatch:
@@ -33,7 +33,7 @@ jobs:
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
         run: |
           for i in {1..5}; do
-            python scripts/generate_blog.py "${{ github.event.inputs.prompt }}" && break || sleep 10
+            python scripts/generate_blog_langchain_gpt.py "${{ github.event.inputs.prompt }}" && break || sleep 10
           done
 
       - name: Prepare Pull Request
