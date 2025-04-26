@@ -198,7 +198,7 @@ async def review_and_edit_blog_post(content: str) -> str:
 # Blog post generation with Gemini ADK
 async def generate_blog_post_gemini_adk(prompt):
     try:
-        # Setup Session Service and Runner
+        # Setup Session Service
         session_service = InMemorySessionService()
         APP_NAME = "blog_generation_app"
         USER_ID = "blog_user"
@@ -210,16 +210,16 @@ async def generate_blog_post_gemini_adk(prompt):
             session_id=SESSION_ID
         )
 
-        # Define agents and their roles
+        # Define specialized agents
         researcher = Agent(
             name="researcher",
             model=GEMINI_MODEL,
             description="Gathers comprehensive information about a given topic using search and scraping tools.",
-            instruction=f"""You are a research assistant for a blog writing team. Your task is to gather comprehensive information about the user's requested topic.
-            Utilize the available tools (search_topics, scrape_link) to find relevant articles, data, and insights.
-            Synthesize your findings into a detailed summary that will be used by the writing team.
-            Focus on providing factual information and diverse perspectives if available.
-            """,
+            instruction="You are a research assistant for a blog writing team. Your task is to gather comprehensive information about the user's requested topic. "
+                        "Utilize the available tools (search_topics, scrape_link) to find relevant articles, data, and insights. "
+                        "Synthesize your findings into a detailed summary that will be used by the writing team. "
+                        "Focus on providing factual information and diverse perspectives if available. "
+                        "Once research is complete, provide the summary as your final response.",
             tools=[search_topics, scrape_link],
         )
 
@@ -227,97 +227,162 @@ async def generate_blog_post_gemini_adk(prompt):
             name="writer",
             model=GEMINI_MODEL,
             description="Transforms research findings into a compelling and well-structured blog post in JSON format.",
-            instruction="""You are a skilled blog post writer. Your role is to transform the research findings provided by the research team into a compelling and well-structured blog post.
+            instruction="""You are a skilled blog post writer. Your role is to transform the research findings provided into a compelling and well-structured blog post.
             Craft an engaging title, a concise excerpt, and detailed content using markdown formatting.
             Ensure the content flows logically and is easy for readers to understand.
             Identify relevant tags for the post and list the sources cited in the research findings as a list of **actual URL links**.
             The final output must be a JSON object with the following keys: "title", "excerpt", "content", "datePosted" (use the current UTC date in ISO format), "postedBy" (Elijah Mondero), "tags" (a list of strings), and "sources" (a list of **strings, where each string is a URL**).
             IMPORTANT: The "content" field should contain the main body of the blog post in markdown format and MUST NOT include the blog post title. The title is provided in the "title" field separately.
+            Provide the JSON object as your final response.
             """,
             tools=[], # No tools needed for writing
         )
 
+        editor = Agent(
+            name="editor",
+            model=GEMINI_MODEL,
+            description="A professional blog post editor that reviews and refines content.",
+            instruction="You are a professional blog post editor. Your responsibility is to review the provided blog post content. "
+                        "Check for grammatical errors, spelling mistakes, punctuation issues, and overall clarity and coherence. "
+                        "Refine the language to ensure it is polished and engaging. "
+                        "Provide ONLY the final, edited version of the content, with no introductory or conversational remarks. "
+                        "Provide the edited content as your final response.",
+            tools=[], # No tools needed for editing
+        )
 
-        # Orchestration of the agents
-        print("Gemini ADK Multi-Agent: Starting research phase...")
-        # Research Agent Interaction
-        research_runner = Runner(agent=researcher, app_name=APP_NAME, session_service=session_service)
+        # Define the root agent that orchestrates the process
+        root_agent = Agent(
+            name="blog_orchestrator",
+            model=GEMINI_MODEL, # Root agent can use the same or a different model
+            description="Orchestrates the blog post generation process by delegating to specialized researcher, writer, and editor agents.",
+            instruction="You are the Blog Orchestrator. Your task is to manage the creation of a blog post based on the user's request. "
+                        "You have a team of specialized agents: 'researcher', 'writer', and 'editor'. "
+                        "Follow these steps:\n"
+                        "1. Delegate the initial user request to the 'researcher' agent to gather information.\n"
+                        "2. Once the researcher provides the findings, delegate these findings to the 'writer' agent to draft the blog post in JSON format.\n"
+                        "3. Once the writer provides the JSON draft, extract the 'content' field and delegate it to the 'editor' agent for review and refinement.\n"
+                        "4. Once the editor provides the final content, combine it with the other fields from the writer's JSON output and provide the complete blog post data (including title, excerpt, tags, sources, and edited content) as your final response in a structured format (e.g., a dictionary or JSON string).",
+            tools=[], # Root agent primarily delegates, might not need specific tools itself
+            sub_agents=[researcher, writer, editor] # Link the specialized agents
+        )
+
+        # Setup Runner for the root agent
+        runner = Runner(
+            agent=root_agent,
+            app_name=APP_NAME,
+            session_service=session_service
+        )
+
+        print("Gemini ADK Multi-Agent Team: Starting blog generation process...")
+
+        # Step 1: Send initial prompt to the root agent (delegates to researcher)
+        print("Gemini ADK Multi-Agent Team: Initiating research phase via orchestrator...")
         research_findings = ""
         content_obj = types.Content(role='user', parts=[types.Part(text=prompt)])
-        async for event in research_runner.run_async(user_id=USER_ID, session_id=SESSION_ID, new_message=content_obj):
+        async for event in runner.run_async(user_id=USER_ID, session_id=SESSION_ID, new_message=content_obj):
              if event.is_final_response():
                 if event.content and event.content.parts:
                    research_findings = event.content.parts[0].text
                 elif event.actions and event.actions.escalate:
-                   print(f"Research agent escalated: {event.error_message or 'No specific message.'}")
-                break
+                   print(f"Orchestrator/Researcher agent escalated during research: {event.error_message or 'No specific message.'}")
+                   return None # Stop if research fails
+                break # Stop after getting the research findings
 
-        print("Gemini ADK Multi-Agent: Research phase complete.")
+        print("Gemini ADK Multi-Agent Team: Research phase complete.")
         print("Research Findings:", research_findings)
 
-        print("Gemini ADK Multi-Agent: Starting writing phase...")
-        # Writing Agent Interaction
-        writer_runner = Runner(agent=writer, app_name=APP_NAME, session_service=session_service)
+        if not research_findings:
+            print("Gemini ADK Multi-Agent Team: No research findings received. Aborting.")
+            return None
+
+        # Step 2: Send research findings back to the root agent (delegates to writer)
+        print("Gemini ADK Multi-Agent Team: Initiating writing phase via orchestrator...")
         blog_post_draft_json_string = ""
-        content_obj = types.Content(role='user', parts=[types.Part(text=f"Research Findings:\n{research_findings}")])
-        async for event in writer_runner.run_async(user_id=USER_ID, session_id=SESSION_ID, new_message=content_obj):
+        content_obj = types.Content(role='user', parts=[types.Part(text=f"Based on the following research findings, draft a blog post in JSON format:\n{research_findings}")])
+        async for event in runner.run_async(user_id=USER_ID, session_id=SESSION_ID, new_message=content_obj):
              if event.is_final_response():
                 if event.content and event.content.parts:
                    blog_post_draft_json_string = event.content.parts[0].text
                 elif event.actions and event.actions.escalate:
-                   print(f"Writer agent escalated: {event.error_message or 'No specific message.'}")
-                break
+                   print(f"Orchestrator/Writer agent escalated during writing: {event.error_message or 'No specific message.'}")
+                   return None # Stop if writing fails
+                break # Stop after getting the JSON draft
 
-        print("Gemini ADK Multi-Agent: Writing phase complete.")
+        print("Gemini ADK Multi-Agent Team: Writing phase complete.")
         print("Blog Post Draft (JSON string):", blog_post_draft_json_string)
 
         # Attempt to parse the JSON string from the writer
         parsed_response = {}
+        json_string = ""
         try:
-            # Use regex to extract JSON part
-            match = re.search(r'\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}', blog_post_draft_json_string, re.DOTALL)
-            if match:
-                json_string = match.group(0)
-                if json_string:
+            # Attempt to find the JSON object within the response text
+            first_brace = blog_post_draft_json_string.find('{')
+            last_brace = blog_post_draft_json_string.rfind('}')
+
+            if first_brace != -1 and last_brace != -1 and last_brace > first_brace:
+                json_string = blog_post_draft_json_string[first_brace : last_brace + 1]
+                try:
+                    parsed_response = json.loads(json_string)
+                    print("JSON parsed successfully.")
+                except json.JSONDecodeError as e:
+                    print(f"JSONDecodeError during parsing writer output: {e}")
+                    print("Attempting to fix JSON...")
+                    # Attempt to fix common issues like escaped newlines or extra commas
+                    json_string = re.sub(r'\\\n', '', json_string) # Remove escaped newlines
+                    json_string = re.sub(r',\s*([}\]])', r'\1', json_string) # Remove trailing commas before } or ]
                     try:
                         parsed_response = json.loads(json_string)
+                        print("JSON fixed successfully.")
                     except json.JSONDecodeError as e:
-                        print(f"JSONDecodeError during parsing writer output: {e}")
-                        print("Attempting to fix JSON...")
-                        # Attempt to fix the JSON by replacing invalid escape sequences
-                        json_string = re.sub(r'\\\s*([^"/\\bfnrt])', r'\1', json_string)
-                        try:
-                            parsed_response = json.loads(json_string)
-                            print("JSON fixed successfully.")
-                        except json.JSONDecodeError as e:
-                            raise ValueError(f"Could not parse JSON even after fixing: {e}")
-                else:
-                    raise ValueError("Extracted JSON string is empty from writer output")
+                        raise ValueError(f"Could not parse JSON even after fixing: {e}")
             else:
-                raise ValueError("Could not find JSON in writer output")
+                raise ValueError("Could not find a valid JSON object in writer output")
         except Exception as e:
             print(f"Error processing writer output: {e}")
             # If JSON parsing fails, we might still have some text content to work with
-            parsed_response["content"] = blog_post_draft_json_string
+            # Attempt to extract potential markdown content as a fallback
+            content_match = re.search(r'##.*?(\n|$)', blog_post_draft_json_string, re.DOTALL)
+            if content_match:
+                 parsed_response["content"] = blog_post_draft_json_string[content_match.start():].strip()
+            else:
+                 parsed_response["content"] = blog_post_draft_json_string.strip() # Use entire output as content fallback
+
             parsed_response["title"] = "Generated Blog Post" # Placeholder title
             parsed_response["excerpt"] = "Could not parse excerpt." # Placeholder excerpt
             parsed_response["tags"] = []
             parsed_response["sources"] = []
 
+        blog_content_to_edit = parsed_response.get('content', '')
+        if not blog_content_to_edit:
+             print("Gemini ADK Multi-Agent Team: No content found in writer's draft for editing. Aborting.")
+             return None
 
-        print("Gemini ADK Multi-Agent: Starting editing phase...")
-        # Editor Agent Interaction (using the tool function)
-        edited_content = await review_and_edit_blog_post(parsed_response.get('content', ''))
-        print("Gemini ADK Multi-Agent: Editing phase complete.")
+        # Step 3: Send blog content to the root agent (delegates to editor)
+        print("Gemini ADK Multi-Agent Team: Initiating editing phase via orchestrator...")
+        edited_content = ""
+        content_obj = types.Content(role='user', parts=[types.Part(text=f"Review and edit the following blog post content:\n{blog_content_to_edit}")])
+        async for event in runner.run_async(user_id=USER_ID, session_id=SESSION_ID, new_message=content_obj):
+             if event.is_final_response():
+                if event.content and event.content.parts:
+                   edited_content = event.content.parts[0].text
+                elif event.actions and event.actions.escalate:
+                   print(f"Orchestrator/Editor agent escalated during editing: {event.error_message or 'No specific message.'}")
+                   # Continue with unedited content if editing fails
+                   edited_content = blog_content_to_edit
+                break # Stop after getting the edited content
 
+        print("Gemini ADK Multi-Agent Team: Editing phase complete.")
+
+        # Step 4: Combine results and return
         parsed_response["content"] = edited_content
 
-        # Generate image using DALL-E
+        # Generate image using DALL-E (This part remains outside the ADK agent flow for now)
         image_prompt = parsed_response.get("title", "") + " " + parsed_response.get("excerpt", "")
         image_path = generate_image(image_prompt)
         if image_path:
             parsed_response["image_path"] = image_path
 
+        print("Gemini ADK Multi-Agent Team: Blog generation process complete.")
         return parsed_response
 
     except Exception as e:
