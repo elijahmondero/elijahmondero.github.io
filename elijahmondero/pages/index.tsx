@@ -39,6 +39,11 @@ export async function getStaticProps() {
 const Home = ({ posts }: { posts: PostMetadata[] }) => {
   const { isDarkTheme, toggleTheme } = useTheme();
   const [fullPosts, setFullPosts] = useState<{ [key: string]: Post }>({});
+  const [displayedPosts, setDisplayedPosts] = useState<PostMetadata[]>([]);
+  const [loading, setLoading] = useState(false);
+  const postsPerPage = 10; // Number of posts to load per scroll
+  const [nextPostIndex, setNextPostIndex] = useState(postsPerPage); // Index of the next post to load
+
 
   useEffect(() => {
     // Dynamic import of @microsoft/clarity to ensure it runs only on the client side
@@ -47,11 +52,27 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
       Clarity.init('qcrqd14u1f');
     });
 
-    // Fetch additional data for each post
-    posts.forEach((post: PostMetadata) => {
+    setDisplayedPosts(posts.slice(0, postsPerPage));
+
+    // Fetch additional data for the initially displayed posts
+    posts.slice(0, postsPerPage).forEach((post: PostMetadata) => {
       fetchBlogPost(post.id);
     });
+
   }, [posts]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100 && // 100px from bottom
+          nextPostIndex < posts.length && // Check if there are more posts to load
+          !loading) {
+        loadMorePosts();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [displayedPosts, loading, posts, nextPostIndex]); // Add dependencies
 
   const fetchBlogPost = (id: string) => {
     if (!fullPosts[id]) {
@@ -60,6 +81,26 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
         .then(data => setFullPosts(prev => ({ ...prev, [id]: data })));
     }
   };
+
+  const loadMorePosts = () => {
+    if (loading || nextPostIndex >= posts.length) return; // Prevent multiple loads or loading beyond available posts
+    setLoading(true);
+
+    const endIndex = nextPostIndex + postsPerPage;
+    const nextPosts = posts.slice(nextPostIndex, endIndex);
+
+    if (nextPosts.length > 0) {
+      setDisplayedPosts(prevPosts => [...prevPosts, ...nextPosts]);
+      setNextPostIndex(endIndex);
+      // Fetch full post data for the newly added posts
+      nextPosts.forEach((post: PostMetadata) => {
+        fetchBlogPost(post.id);
+      });
+    }
+
+    setLoading(false);
+  };
+
 
   return (
     <>
@@ -77,7 +118,7 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
           </label>
         </header>
         <main>
-          {posts.map(post => {
+          {displayedPosts.map(post => {
             const fullPost = fullPosts[post.id];
             return (
               <BlogSummary
@@ -94,6 +135,7 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
               />
             );
           })}
+          {loading && <div>Loading more posts...</div>}
         </main>
       </div>
     </>
