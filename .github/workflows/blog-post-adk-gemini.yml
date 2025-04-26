@@ -29,7 +29,6 @@ jobs:
           sudo apt-get update && sudo apt-get install -y jq
 
       - name: Run blog post script
-        id: generate_blog
         env:
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
@@ -39,30 +38,6 @@ jobs:
           for i in {1..5}; do
             python scripts/generate_blog_adk_gemini.py "${{ github.event.inputs.prompt }}" && break || sleep 10
           done
-
-      - name: Prepare Pull Request
-        id: prepare_pr
-        run: |
-          if [ -f "=1.0.0" ]; then
-            rm "=1.0.0"
-          fi
-          echo "Files before commit:"
-          ls -R
-          BLOG_DATA_JSON='${{ steps.generate_blog.outputs.blog_data_json }}'
-          BLOG_TITLE=$(echo "$BLOG_DATA_JSON" | jq -r '.title')
-          BLOG_EXCERPT=$(echo "$BLOG_DATA_JSON" | jq -r '.excerpt')
-          BLOG_IMAGE_PATH=$(echo "$BLOG_DATA_JSON" | jq -r '.image_path')
-          BLOG_TITLE_SLUG=$(echo "${BLOG_TITLE}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 -]//g' | sed 's/ /-/g' | sed 's/--*/-/g' | sed 's/^-//' | sed '/-$/d')
-          BRANCH_NAME="blog-post-${BLOG_TITLE_SLUG}"
-          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-          PR_BODY="Automated blog post creation from workflow\n\n**Branch:**\n${BRANCH_NAME}\n\n**Excerpt:**\n${BLOG_EXCERPT}\n\n"
-          if [ "$BLOG_IMAGE_PATH" != "null" ]; then
-            PR_BODY="${PR_BODY}**Featured Image:**\nhttps://elijahmondero.github.io${BLOG_IMAGE_PATH}\n\n"
-          fi
-          echo "PR_TITLE=${BLOG_TITLE}" >> $GITHUB_ENV
-          echo "PR_BODY<<EOF" >> $GITHUB_ENV
-          echo "${PR_BODY}" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
