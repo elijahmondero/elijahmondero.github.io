@@ -1,5 +1,10 @@
 [
   {
+    "id": "building-predictable-ai-workflows-with-google-adks-sequentialagent",
+    "title": "Building Predictable AI Workflows with Google ADK's SequentialAgent",
+    "excerpt": "Explore the Google Agent Development Kit (ADK) and how its SequentialAgent allows developers to build structured, step-by-step AI workflows for tasks requiring strict ordering and predictability."
+  },
+  {
     "id": "boost-your-vs-code-workflow-using-google-gemini-with-the-cline-extension",
     "title": "Boost Your VS Code Workflow: Using Google Gemini with the 'cline' Extension",
     "excerpt": "Bring the power of Google Gemini's AI coding assistance directly into your VS Code editor with the 'cline' extension. Streamline your development process and get context-aware help without leaving your IDE."
