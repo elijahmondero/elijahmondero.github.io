@@ -151,12 +151,19 @@ def generate_slug(title: str) -> str:
 
 # Save blog post to file
 def save_post(title: str, excerpt: str, content: str, tags: List[str], sources: List[str], image_path: str = None):
-    # Remove title from the beginning of the content if present
-    if content.lower().strip().startswith(title.lower().strip()):
-        content = content[len(title):].strip()
-        # Remove any leading markdown heading if it was part of the title
-        if content.startswith('#'):
-             content = re.sub(r'^#+\s*', '', content).strip()
+    # Normalize title and content for comparison
+    normalized_title = title.lower().strip()
+    normalized_content = content.lower().strip()
+
+    # Check if content starts with the title (considering markdown headings and whitespace)
+    # This regex looks for optional leading whitespace, optional markdown headings (#),
+    # optional whitespace after the heading, and then the normalized title.
+    title_pattern = re.compile(r'^\s*#*\s*' + re.escape(normalized_title), re.IGNORECASE)
+
+    if title_pattern.match(normalized_content):
+        # Find the end of the matched title in the original content
+        match_end_index = title_pattern.match(content.strip()).end()
+        content = content.strip()[match_end_index:].strip()
 
 
     post_id = generate_slug(title)
