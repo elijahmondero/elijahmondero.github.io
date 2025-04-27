@@ -1,5 +1,10 @@
 [
   {
+    "id": "supercharge-your-startup-building-with-notebooklm-gemini-and-firebase",
+    "title": "Supercharge Your Startup: Building with NotebookLM, Gemini, and Firebase",
+    "excerpt": "Discover how the powerful combination of Google's NotebookLM, Gemini AI, and Firebase can streamline your startup journey from ideation to launch. Learn practical steps to leverage these tools for research, development, and scaling."
+  },
+  {
     "id": "building-step-by-step-ai-workflows-with-google-adks-sequentialagent",
     "title": "Building Step-by-Step AI Workflows with Google ADK's SequentialAgent",
     "excerpt": "Explore how Google's Agent Development Kit (ADK) simplifies multi-agent system creation, focusing on the SequentialAgent \u2013 a powerful tool for building structured, step-by-step AI workflows by orchestrating tasks in a defined sequence."
