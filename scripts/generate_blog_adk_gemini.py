@@ -151,6 +151,14 @@ def generate_slug(title: str) -> str:
 
 # Save blog post to file
 def save_post(title: str, excerpt: str, content: str, tags: List[str], sources: List[str], image_path: str = None):
+    # Remove title from the beginning of the content if present
+    if content.lower().strip().startswith(title.lower().strip()):
+        content = content[len(title):].strip()
+        # Remove any leading markdown heading if it was part of the title
+        if content.startswith('#'):
+             content = re.sub(r'^#+\s*', '', content).strip()
+
+
     post_id = generate_slug(title)
     post_date = datetime.utcnow().isoformat() + "Z"
 
@@ -329,7 +337,7 @@ editor_agent = Agent(
     description="A professional blog post editor that reviews and refines content.",
     instruction="""You are a professional blog post editor. Your responsibility is to review and refine the provided blog post content (in markdown).
     Check for grammatical errors, spelling mistakes, punctuation issues, and overall clarity and coherence.
-    Refine the language to ensure it is polished and engaging.
+    Refine the language to ensure it is polished and engaging. Remove the title in the content if it is present.
     Provide ONLY the final, edited version of the content (in markdown), with no introductory or conversational remarks.
     
     **Blog Post Content to Edit:**
