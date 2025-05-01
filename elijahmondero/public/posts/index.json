@@ -1,5 +1,10 @@
 [
   {
+    "id": "saas-isnt-dead-its-getting-smarter-welcome-to-the-age-of-ai-enhanced-software",
+    "title": "SaaS Isn't Dead, It's Getting Smarter: Welcome to the Age of AI-Enhanced Software",
+    "excerpt": "Forget the 'SaaS is dead' headlines. Software-as-a-Service is undergoing a massive transformation, powered by AI. Discover how intelligent agents and enhanced interfaces are reshaping the future, making SaaS more powerful and intuitive than ever."
+  },
+  {
     "id": "beyond-training-why-test-time-compute-is-reshaping-ai-performance",
     "title": "Beyond Training: Why Test-Time Compute is Reshaping AI Performance",
     "excerpt": "Explore Test-Time Compute (TTC), the crucial-yet-often-overlooked computational cost of running AI models *after* training. Discover why TTC is a bottleneck for modern AI, its impact on user experience and cost, and how techniques like 'slow thinking' and Meta Reinforcement Fine-Tuning are unlocking new levels of AI reasoning."
