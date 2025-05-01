@@ -1,5 +1,10 @@
 [
   {
+    "id": "beyond-training-why-test-time-compute-is-reshaping-ai-performance",
+    "title": "Beyond Training: Why Test-Time Compute is Reshaping AI Performance",
+    "excerpt": "Explore Test-Time Compute (TTC), the crucial-yet-often-overlooked computational cost of running AI models *after* training. Discover why TTC is a bottleneck for modern AI, its impact on user experience and cost, and how techniques like 'slow thinking' and Meta Reinforcement Fine-Tuning are unlocking new levels of AI reasoning."
+  },
+  {
     "id": "supercharge-your-startup-building-with-notebooklm-gemini-and-firebase",
     "title": "Supercharge Your Startup: Building with NotebookLM, Gemini, and Firebase",
     "excerpt": "Discover how the powerful combination of Google's NotebookLM, Gemini AI, and Firebase can streamline your startup journey from ideation to launch. Learn practical steps to leverage these tools for research, development, and scaling."
