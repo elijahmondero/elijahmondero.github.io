@@ -318,8 +318,10 @@ input:checked + .slider:before {
   color: inherit; /* Inherit color from parent */
   cursor: pointer; /* Indicate it's clickable */
   flex-grow: 1; /* Allow the link to grow and take available space */
-  white-space: normal; /* Allow text to wrap within the link */
-  overflow-wrap: break-word; /* Break long words */
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Display ellipses for truncated text */
+  display: block; /* Ensure the element takes up space for overflow to work */
 }
 
 .typing-text {
