@@ -258,8 +258,8 @@ input:checked + .slider:before {
   .switch {
     top: 10px;
     right: 10px;
-    width: 40px; 
-    height: 24px; 
+    width: 40px;
+    height: 24px;
   }
 
   .slider:before {
@@ -294,4 +294,53 @@ input:checked + .slider:before {
     margin-right: 0;
     margin-bottom: 20px;
   }
+}
+
+/* Trending Animation */
+.trending-animation-container {
+  margin-top: 10px; /* Space below header */
+  margin-left: 20px; /* Match main content margin */
+  margin-right: 20px; /* Match main content margin */
+  padding: 10px 0; /* Add some vertical padding */
+  box-sizing: border-box;
+  display: flex; /* Use flexbox */
+  align-items: flex-start; /* Align items to the top */
+}
+
+.trending-label {
+  font-weight: bold;
+  margin-right: 5px;
+  flex-shrink: 0; /* Prevent the label from shrinking */
+}
+
+.trending-link {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit color from parent */
+  cursor: pointer; /* Indicate it's clickable */
+  flex-grow: 1; /* Allow the link to grow and take available space */
+  white-space: normal; /* Allow text to wrap within the link */
+  overflow-wrap: break-word; /* Break long words */
+}
+
+.typing-text {
+  display: inline; /* Allow text to flow naturally */
+}
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  background-color: #333; /* Cursor color */
+  animation: blink 0.7s infinite;
+  margin-left: 2px;
+  height: 1em; /* Match text height */
+  vertical-align: middle;
+}
+
+.dark-theme .cursor {
+  background-color: #e0e0e0; /* Dark theme cursor color */
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
