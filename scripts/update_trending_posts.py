@@ -108,18 +108,62 @@ def load_blog_posts_metadata_tool(posts_dir_path: str) -> str: # Return type is 
 
 
 # Tool to save trending posts list
-def save_trending_posts_list_tool(trending_post_ids_json: str, output_file_path: str) -> str: # Return type is string for ADK tool output
-    """Saves the list of trending post IDs to a JSON file."""
+def save_trending_posts_list_tool(trending_posts_data_json: str, output_file_path: str) -> str: # Return type is string for ADK tool output
+    """Saves the list of trending post data (id, title, excerpt) to a JSON file."""
     try:
-        trending_post_ids = json.loads(trending_post_ids_json)
+        trending_posts_data = json.loads(trending_posts_data_json)
         os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
         with open(output_file_path, "w", encoding="utf-8") as f:
-            json.dump(trending_post_ids, f, indent=2)
-        print(f"Successfully saved trending post IDs to {output_file_path}")
-        return f"Successfully saved trending post IDs to {output_file_path}"
+            json.dump(trending_posts_data, f, indent=2)
+        print(f"Successfully saved trending post data to {output_file_path}")
+        return f"Successfully saved trending post data to {output_file_path}"
     except Exception as e:
-        print(f"Error saving trending posts list to {output_file_path}: {e}")
-        return f"Error saving trending posts list to {output_file_path}: {e}"
+        print(f"Error saving trending posts data to {output_file_path}: {e}")
+        return f"Error saving trending posts data to {output_file_path}: {e}"
+
+# Tool to clear the trending posts file
+def clear_trending_posts_file_tool(output_file_path: str) -> str:
+    """Clears the content of the trending posts JSON file."""
+    try:
+        os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
+        with open(output_file_path, "w", encoding="utf-8") as f:
+            json.dump([], f) # Write an empty JSON array
+        print(f"Successfully cleared {output_file_path}")
+        return f"Successfully cleared {output_file_path}"
+    except Exception as e:
+        print(f"Error clearing {output_file_path}: {e}")
+        return f"Error clearing {output_file_path}: {e}"
+
+# Modified Tool to save a single trending post entry
+def save_trending_post_entry_tool(post_id: str, post_title: str, post_excerpt: str, output_file_path: str) -> str:
+    """Appends a single trending post entry to the JSON file."""
+    try:
+        trending_posts_list = []
+        if os.path.exists(output_file_path):
+            with open(output_file_path, "r", encoding="utf-8") as f:
+                try:
+                    trending_posts_list = json.load(f)
+                    if not isinstance(trending_posts_list, list):
+                        trending_posts_list = [] # Start fresh if file content is not a list
+                except json.JSONDecodeError:
+                    trending_posts_list = [] # Start fresh if file is empty or invalid JSON
+
+        new_entry = {
+            "id": post_id,
+            "title": post_title,
+            "excerpt": post_excerpt
+        }
+        trending_posts_list.append(new_entry)
+
+        os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
+        with open(output_file_path, "w", encoding="utf-8") as f:
+            json.dump(trending_posts_list, f, indent=2)
+
+        print(f"Successfully appended trending post '{post_title}' to {output_file_path}")
+        return f"Successfully appended trending post '{post_title}' to {output_file_path}"
+    except Exception as e:
+        print(f"Error appending trending post data to {output_file_path}: {e}")
+        return f"Error appending trending post data to {output_file_path}: {e}"
 
 
 # --- ADK Agents ---
@@ -149,28 +193,40 @@ trending_analyzer_agent = Agent(
 
 post_matcher_agent = Agent(
     name="post_matcher",
-    model=GEMINI_MODEL, # Can use a less powerful model if just matching
-    description="Matches trending keywords to blog posts based on title, excerpt, and tags.",
+    model=GEMINI_MODEL,
+    description="Matches trending keywords to blog posts and extracts their metadata.",
     instruction="You will receive a JSON array of trending keywords: {trending_keywords_json}. "
-                "Load blog post metadata using the `load_blog_posts_metadata_tool` with the path `elijahmondero/public/posts`. "
-                "Your task is to identify which blog posts are relevant to the trending keywords. "
+                "Use the `load_blog_posts_metadata_tool` with the path `elijahmondero/public/posts` to get all blog post metadata. "
+                "Analyze the loaded blog post metadata and identify which posts are most relevant to the trending keywords. "
                 "Match keywords against the title, excerpt, and tags of each post (case-insensitive). "
-                "Generate a JSON array containing the IDs of the matching blog posts. "
-                "Limit the output to a maximum of 10 post IDs. "
-                "Provide the JSON array of post IDs as your final response. Ensure the output is valid JSON.",
-    tools=[load_blog_posts_metadata_tool], # Use tool to load post data
-    output_key="trending_post_ids_json"
+                "From the matching posts, extract their `id`, `title`, and `excerpt`. "
+                "Generate a JSON array of these objects (id, title, excerpt) for the trending posts. "
+                "Limit the output to a maximum of 10 trending post objects. "
+                "Provide the JSON array of trending post metadata as your final response. Ensure the output is valid JSON.",
+    tools=[load_blog_posts_metadata_tool],
+    output_key="trending_posts_data_json" # Change output key to reflect full data
+)
+
+file_clearer_agent = Agent(
+    name="file_clearer",
+    model=GEMINI_MODEL, # This agent doesn't need complex reasoning, but needs a model
+    description="Clears the trending posts JSON file before writing.",
+    instruction="Clear the `elijahmondero/public/posts/trending_posts.json` file using the `clear_trending_posts_file_tool`. "
+                "Call the tool with the file path `elijahmondero/public/posts/trending_posts.json`. "
+                "Indicate completion after the tool call.",
+    tools=[clear_trending_posts_file_tool],
+    output_key="clear_status"
 )
 
 output_writer_agent = Agent(
     name="output_writer",
-    model=GEMINI_MODEL, # Can use a less powerful model
-    description="Saves the list of trending post IDs to a JSON file.",
-    instruction="You will receive a JSON array of trending blog post IDs: {trending_post_ids_json}. "
-                "Your task is to save this list to the `elijahmondero/public/posts/trending_posts.json` file using the `save_trending_posts_list_tool`. "
-                "Call the tool with the JSON array of IDs and the output file path `elijahmondero/public/posts/trending_posts.json`. "
-                "Indicate completion after the tool call.",
-    tools=[save_trending_posts_list_tool], # Use tool to save the output
+    model=GEMINI_MODEL,
+    description="Saves the list of trending post data to a JSON file by appending each entry.",
+    instruction="You will receive a JSON array of trending blog post data (id, title, excerpt): {trending_posts_data_json}. "
+                "Iterate through this JSON array. For each item in the array, call the `save_trending_post_entry_tool` with the post's `id`, `title`, `excerpt`, and the output file path `elijahmondero/public/posts/trending_posts.json`. "
+                "Ensure you call the tool for every item in the list. "
+                "Indicate completion after processing all items.",
+    tools=[save_trending_post_entry_tool], # Use the new tool
     output_key="save_status"
 )
 
@@ -178,7 +234,13 @@ output_writer_agent = Agent(
 # Agent chain
 pipeline = SequentialAgent(
     name="TrendingPostsUpdatePipeline",
-    sub_agents=[trending_researcher_agent, trending_analyzer_agent, post_matcher_agent, output_writer_agent]
+    sub_agents=[
+        trending_researcher_agent,
+        trending_analyzer_agent,
+        post_matcher_agent,
+        file_clearer_agent, # Add the clearer agent
+        output_writer_agent # Use the modified writer agent
+    ]
 )
 
 # Runner setup
