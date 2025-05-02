@@ -1,0 +1,39 @@
+name: Update Trending Posts
+
+on:
+  workflow_dispatch: # Allows manual triggering
+  schedule:
+    - cron: '0 */8 * * *' # Runs every 8 hours
+
+jobs:
+  update-trending:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r elijahmondero/requirements.txt || echo "requirements.txt not found, skipping"
+        pip install python-dotenv google-generativeai requests beautifulsoup4 langchain-community # Install dependencies for the new script
+
+    - name: Run update script
+      env:
+        GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
+        # Add other necessary environment variables for data fetching if needed
+      run: python scripts/update_trending_posts.py
+
+    - name: Commit and push changes
+      run: |
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git add elijahmondero/public/posts/trending_posts.json
+        git commit -m "Update trending posts [skip ci]" || echo "No changes to commit"
+        git push
