@@ -26,7 +26,7 @@ interface PostMetadata {
 }
 
 export async function getStaticProps() {
-  const filePath = path.join(process.cwd(), 'public', 'posts', 'index.json');
+  const filePath = path.join(process.cwd(), 'public', 'posts', 'trending_posts.json');
   const jsonData = fs.readFileSync(filePath, 'utf8');
   const posts = JSON.parse(jsonData);
   return {
@@ -44,6 +44,10 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
   const postsPerPage = 10; // Number of posts to load per scroll
   const [nextPostIndex, setNextPostIndex] = useState(postsPerPage); // Index of the next post to load
 
+  const [currentPostIndex, setCurrentPostIndex] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(1); // Speed in ms
 
   useEffect(() => {
     // Dynamic import of @microsoft/clarity to ensure it runs only on the client side
@@ -60,6 +64,46 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
     });
 
   }, [posts]);
+
+  useEffect(() => {
+    if (!posts || posts.length === 0) return;
+
+    const fullText = `${posts[currentPostIndex].title}: ${posts[currentPostIndex].excerpt}`;
+    const words = fullText.split(' ');
+    const currentWords = displayText.split(' ');
+
+    let timer;
+
+    if (isDeleting) {
+      // Deleting word by word
+      timer = setTimeout(() => {
+        if (currentWords.length > 1) {
+          setDisplayText(currentWords.slice(0, -1).join(' '));
+        } else {
+          // Last word removed, set to empty and switch
+          setDisplayText('');
+          setIsDeleting(false);
+          setCurrentPostIndex((prevIndex) => (prevIndex + 1) % posts.length);
+        }
+      }, 50); // Faster deleting speed
+    } else {
+      // Typing word by word
+      if (currentWords.length < words.length) {
+        timer = setTimeout(() => {
+          const nextWords = words.slice(0, currentWords.length + 1);
+          setDisplayText(nextWords.join(' '));
+        }, 100); // Typing speed
+      } else {
+        // Typing complete, pause
+        timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2000); // Pause duration
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, currentPostIndex, posts]);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -117,6 +161,13 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
             <span className="slider"></span>
           </label>
         </header>
+        <div className="trending-animation-container">
+          <span className="trending-label">Trending: </span>
+          <Link href={`/post/${posts[currentPostIndex]?.id}`} className="trending-link">
+            <span className="typing-text">{displayText}</span>
+            <span className="cursor"></span>
+          </Link>
+        </div>
         <main>
           {displayedPosts.map(post => {
             const fullPost = fullPosts[post.id];
