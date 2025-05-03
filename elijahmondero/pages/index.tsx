@@ -26,7 +26,7 @@ interface PostMetadata {
 }
 
 export async function getStaticProps() {
-  const filePath = path.join(process.cwd(), 'public', 'posts', 'trending_posts.json');
+  const filePath = path.join(process.cwd(), 'public', 'posts', 'index.json');
   const jsonData = fs.readFileSync(filePath, 'utf8');
   const posts = JSON.parse(jsonData);
   return {
@@ -44,6 +44,7 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
   const postsPerPage = 10; // Number of posts to load per scroll
   const [nextPostIndex, setNextPostIndex] = useState(postsPerPage); // Index of the next post to load
 
+  const [trendingPosts, setTrendingPosts] = useState<PostMetadata[]>([]);
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -56,6 +57,11 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
       Clarity.init('qcrqd14u1f');
     });
 
+    // Fetch trending posts
+    fetch('/posts/trending_posts.json')
+      .then(response => response.json())
+      .then(data => setTrendingPosts(data));
+
     setDisplayedPosts(posts.slice(0, postsPerPage));
 
     // Fetch additional data for the initially displayed posts
@@ -66,9 +72,9 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
   }, [posts]);
 
   useEffect(() => {
-    if (!posts || posts.length === 0) return;
+    if (!trendingPosts || trendingPosts.length === 0) return;
 
-    const fullText = `${posts[currentPostIndex].title}: ${posts[currentPostIndex].excerpt}`;
+    const fullText = `${trendingPosts[currentPostIndex].title}: ${trendingPosts[currentPostIndex].excerpt}`;
     const words = fullText.split(' ');
     const currentWords = displayText.split(' ');
 
@@ -83,7 +89,7 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
           // Last word removed, set to empty and switch
           setDisplayText('');
           setIsDeleting(false);
-          setCurrentPostIndex((prevIndex) => (prevIndex + 1) % posts.length);
+          setCurrentPostIndex((prevIndex) => (prevIndex + 1) % trendingPosts.length);
         }
       }, 50); // Faster deleting speed
     } else {
@@ -102,7 +108,7 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
     }
 
     return () => clearTimeout(timer);
-  }, [displayText, isDeleting, currentPostIndex, posts]);
+  }, [displayText, isDeleting, currentPostIndex, trendingPosts]);
 
 
   useEffect(() => {
@@ -163,7 +169,7 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
         </header>
         <div className="trending-animation-container">
           <span className="trending-label">Trending: </span>
-          <Link href={`/post/${posts[currentPostIndex]?.id}`} className="trending-link">
+          <Link href={`/post/${trendingPosts[currentPostIndex]?.id}`} className="trending-link">
             <span className="typing-text">{displayText}</span>
             <span className="cursor"></span>
           </Link>
