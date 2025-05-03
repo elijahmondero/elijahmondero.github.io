@@ -1,5 +1,10 @@
 [
   {
+    "id": "beyond-the-hype-understanding-quantum-computing-and-grovers-algorithm",
+    "title": "Beyond the Hype: Understanding Quantum Computing and Grover's Algorithm",
+    "excerpt": "Quantum computing is often misunderstood. It's not about trying every solution at once, but cleverly manipulating probabilities using qubits and state vectors. Discover how Grover's algorithm offers a significant speedup for search problems without brute force."
+  },
+  {
     "id": "saas-isnt-dead-its-getting-smarter-welcome-to-the-age-of-ai-enhanced-software",
     "title": "SaaS Isn't Dead, It's Getting Smarter: Welcome to the Age of AI-Enhanced Software",
     "excerpt": "Forget the 'SaaS is dead' headlines. Software-as-a-Service is undergoing a massive transformation, powered by AI. Discover how intelligent agents and enhanced interfaces are reshaping the future, making SaaS more powerful and intuitive than ever."
