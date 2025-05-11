@@ -1,5 +1,10 @@
 [
   {
+    "id": "navigating-the-ai-revolution-the-evolving-future-of-software-engineering",
+    "title": "Navigating the AI Revolution: The Evolving Future of Software Engineering",
+    "excerpt": "AI is rapidly transforming software engineering by automating tasks, but human creativity, critical thinking, and specialized skills are more vital than ever. Discover how engineers can thrive by collaborating with AI and focusing on high-value areas."
+  },
+  {
     "id": "beyond-the-hype-understanding-quantum-computing-and-grovers-algorithm",
     "title": "Beyond the Hype: Understanding Quantum Computing and Grover's Algorithm",
     "excerpt": "Quantum computing is often misunderstood. It's not about trying every solution at once, but cleverly manipulating probabilities using qubits and state vectors. Discover how Grover's algorithm offers a significant speedup for search problems without brute force."
