@@ -1,9 +1,9 @@
 Collecting langchain-community
   Downloading langchain_community-0.3.23-py3-none-any.whl.metadata (2.5 kB)
 Collecting azure-identity
-  Downloading azure_identity-1.21.0-py3-none-any.whl.metadata (81 kB)
+  Downloading azure_identity-1.22.0-py3-none-any.whl.metadata (81 kB)
 Collecting openai
-  Downloading openai-1.77.0-py3-none-any.whl.metadata (25 kB)
+  Downloading openai-1.78.0-py3-none-any.whl.metadata (25 kB)
 Collecting requests
   Downloading requests-2.32.3-py3-none-any.whl.metadata (4.6 kB)
 Collecting beautifulsoup4
@@ -13,11 +13,11 @@ Collecting PyYAML
 Collecting duckduckgo-search
   Downloading duckduckgo_search-8.0.1-py3-none-any.whl.metadata (16 kB)
 Collecting google-adk
-  Downloading google_adk-0.4.0-py3-none-any.whl.metadata (9.7 kB)
+  Downloading google_adk-0.5.0-py3-none-any.whl.metadata (9.7 kB)
 Collecting google-generativeai
   Downloading google_generativeai-0.8.5-py3-none-any.whl.metadata (3.9 kB)
 Collecting langchain-core<1.0.0,>=0.3.56 (from langchain-community)
-  Downloading langchain_core-0.3.58-py3-none-any.whl.metadata (5.9 kB)
+  Downloading langchain_core-0.3.59-py3-none-any.whl.metadata (5.9 kB)
 Collecting langchain<1.0.0,>=0.3.24 (from langchain-community)
   Downloading langchain-0.3.25-py3-none-any.whl.metadata (7.8 kB)
 Collecting SQLAlchemy<3,>=1.4 (from langchain-community)
@@ -97,7 +97,7 @@ Collecting typing-inspection>=0.4.0 (from pydantic<3.0.0,>=2.7.4->langchain<1.0.
 Collecting python-dotenv>=0.21.0 (from pydantic-settings<3.0.0,>=2.4.0->langchain-community)
   Downloading python_dotenv-1.1.0-py3-none-any.whl.metadata (24 kB)
 Collecting greenlet>=1 (from SQLAlchemy<3,>=1.4->langchain-community)
-  Downloading greenlet-3.2.1-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (4.1 kB)
+  Downloading greenlet-3.2.2-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (4.1 kB)
 Collecting mypy-extensions>=0.3.0 (from typing-inspect<1,>=0.4.0->dataclasses-json<0.7,>=0.5.7->langchain-community)
   Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
 Collecting azure-core>=1.31.0 (from azure-identity)
@@ -119,7 +119,7 @@ Collecting tqdm>4 (from openai)
 Collecting soupsieve>1.2 (from beautifulsoup4)
   Downloading soupsieve-2.7-py3-none-any.whl.metadata (4.6 kB)
 Collecting click>=8.1.8 (from duckduckgo-search)
-  Downloading click-8.1.8-py3-none-any.whl.metadata (2.3 kB)
+  Downloading click-8.2.0-py3-none-any.whl.metadata (2.5 kB)
 Collecting primp>=0.15.0 (from duckduckgo-search)
   Downloading primp-0.15.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (13 kB)
 Collecting lxml>=5.3.0 (from duckduckgo-search)
@@ -131,33 +131,33 @@ Collecting fastapi>=0.115.0 (from google-adk)
 Collecting google-api-python-client>=2.157.0 (from google-adk)
   Downloading google_api_python_client-2.169.0-py3-none-any.whl.metadata (6.7 kB)
 Collecting google-cloud-aiplatform>=1.87.0 (from google-adk)
-  Downloading google_cloud_aiplatform-1.91.0-py2.py3-none-any.whl.metadata (35 kB)
+  Downloading google_cloud_aiplatform-1.92.0-py2.py3-none-any.whl.metadata (35 kB)
 Collecting google-cloud-secret-manager>=2.22.0 (from google-adk)
   Downloading google_cloud_secret_manager-2.23.3-py3-none-any.whl.metadata (9.4 kB)
 Collecting google-cloud-speech>=2.30.0 (from google-adk)
   Downloading google_cloud_speech-2.32.0-py3-none-any.whl.metadata (9.5 kB)
 Collecting google-cloud-storage<3.0.0,>=2.18.0 (from google-adk)
   Downloading google_cloud_storage-2.19.0-py2.py3-none-any.whl.metadata (9.1 kB)
-Collecting google-genai>=1.11.0 (from google-adk)
-  Downloading google_genai-1.13.0-py3-none-any.whl.metadata (32 kB)
+Collecting google-genai>=1.12.1 (from google-adk)
+  Downloading google_genai-1.14.0-py3-none-any.whl.metadata (33 kB)
 Collecting graphviz>=0.20.2 (from google-adk)
   Downloading graphviz-0.20.3-py3-none-any.whl.metadata (12 kB)
 Collecting mcp>=1.5.0 (from google-adk)
-  Downloading mcp-1.7.1-py3-none-any.whl.metadata (21 kB)
+  Downloading mcp-1.8.0-py3-none-any.whl.metadata (25 kB)
 Collecting opentelemetry-api>=1.31.0 (from google-adk)
-  Downloading opentelemetry_api-1.32.1-py3-none-any.whl.metadata (1.6 kB)
+  Downloading opentelemetry_api-1.33.0-py3-none-any.whl.metadata (1.6 kB)
 Collecting opentelemetry-exporter-gcp-trace>=1.9.0 (from google-adk)
   Downloading opentelemetry_exporter_gcp_trace-1.9.0-py3-none-any.whl.metadata (3.3 kB)
 Collecting opentelemetry-sdk>=1.31.0 (from google-adk)
-  Downloading opentelemetry_sdk-1.32.1-py3-none-any.whl.metadata (1.6 kB)
+  Downloading opentelemetry_sdk-1.33.0-py3-none-any.whl.metadata (1.6 kB)
 Collecting tzlocal>=5.3 (from google-adk)
   Downloading tzlocal-5.3.1-py3-none-any.whl.metadata (7.6 kB)
 Collecting uvicorn>=0.34.0 (from google-adk)
   Downloading uvicorn-0.34.2-py3-none-any.whl.metadata (6.5 kB)
 Collecting google-auth<3.0dev,>=2.26.1 (from google-cloud-storage<3.0.0,>=2.18.0->google-adk)
-  Downloading google_auth-2.39.0-py2.py3-none-any.whl.metadata (6.2 kB)
+  Downloading google_auth-2.40.1-py2.py3-none-any.whl.metadata (6.2 kB)
 Collecting google-api-core<3.0.0dev,>=2.15.0 (from google-cloud-storage<3.0.0,>=2.18.0->google-adk)
-  Downloading google_api_core-2.25.0rc0-py3-none-any.whl.metadata (3.0 kB)
+  Downloading google_api_core-2.25.0rc1-py3-none-any.whl.metadata (3.0 kB)
 Collecting google-cloud-core<3.0dev,>=2.3.0 (from google-cloud-storage<3.0.0,>=2.18.0->google-adk)
   Downloading google_cloud_core-2.4.3-py2.py3-none-any.whl.metadata (2.7 kB)
 Collecting google-resumable-media>=2.7.2 (from google-cloud-storage<3.0.0,>=2.18.0->google-adk)
@@ -214,12 +214,12 @@ Collecting python-dateutil<3.0.0,>=2.8.2 (from google-cloud-bigquery!=3.20.0,<4.
   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
 Collecting grpc-google-iam-v1<1.0.0,>=0.14.0 (from google-cloud-resource-manager<3.0.0,>=1.3.3->google-cloud-aiplatform>=1.87.0->google-adk)
   Downloading grpc_google_iam_v1-0.14.2-py3-none-any.whl.metadata (9.1 kB)
-Collecting websockets<15.1.0,>=13.0.0 (from google-genai>=1.11.0->google-adk)
+Collecting websockets<15.1.0,>=13.0.0 (from google-genai>=1.12.1->google-adk)
   Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
 Collecting python-multipart>=0.0.9 (from mcp>=1.5.0->google-adk)
   Downloading python_multipart-0.0.20-py3-none-any.whl.metadata (1.8 kB)
 Collecting sse-starlette>=1.6.1 (from mcp>=1.5.0->google-adk)
-  Downloading sse_starlette-2.3.3-py3-none-any.whl.metadata (7.8 kB)
+  Downloading sse_starlette-2.3.4-py3-none-any.whl.metadata (7.8 kB)
 Collecting PyJWT<3,>=1.0.0 (from PyJWT[crypto]<3,>=1.0.0->msal>=1.30.0->azure-identity)
   Downloading PyJWT-2.10.1-py3-none-any.whl.metadata (4.0 kB)
 Collecting deprecated>=1.2.6 (from opentelemetry-api>=1.31.0->google-adk)
@@ -234,20 +234,20 @@ Collecting google-cloud-trace~=1.1 (from opentelemetry-exporter-gcp-trace>=1.9.0
   Downloading google_cloud_trace-1.16.1-py3-none-any.whl.metadata (9.5 kB)
 Collecting opentelemetry-resourcedetector-gcp==1.*,>=1.5.0dev0 (from opentelemetry-exporter-gcp-trace>=1.9.0->google-adk)
   Downloading opentelemetry_resourcedetector_gcp-1.9.0a0-py3-none-any.whl.metadata (2.4 kB)
-Collecting opentelemetry-semantic-conventions==0.53b1 (from opentelemetry-sdk>=1.31.0->google-adk)
-  Downloading opentelemetry_semantic_conventions-0.53b1-py3-none-any.whl.metadata (2.5 kB)
+Collecting opentelemetry-semantic-conventions==0.54b0 (from opentelemetry-sdk>=1.31.0->google-adk)
+  Downloading opentelemetry_semantic_conventions-0.54b0-py3-none-any.whl.metadata (2.5 kB)
 Downloading langchain_community-0.3.23-py3-none-any.whl (2.5 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.5/2.5 MB 40.0 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.5/2.5 MB 147.5 MB/s eta 0:00:00
 Downloading requests-2.32.3-py3-none-any.whl (64 kB)
 Downloading aiohttp-3.11.18-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.7 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 144.9 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 151.1 MB/s eta 0:00:00
 Downloading charset_normalizer-3.4.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (147 kB)
 Downloading dataclasses_json-0.6.7-py3-none-any.whl (28 kB)
 Downloading httpx_sse-0.4.0-py3-none-any.whl (7.8 kB)
 Downloading idna-3.10-py3-none-any.whl (70 kB)
 Downloading langchain-0.3.25-py3-none-any.whl (1.0 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.0/1.0 MB 134.5 MB/s eta 0:00:00
-Downloading langchain_core-0.3.58-py3-none-any.whl (437 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.0/1.0 MB 118.1 MB/s eta 0:00:00
+Downloading langchain_core-0.3.59-py3-none-any.whl (437 kB)
 Downloading jsonpatch-1.33-py2.py3-none-any.whl (12 kB)
 Downloading langchain_text_splitters-0.3.8-py3-none-any.whl (32 kB)
 Downloading langsmith-0.3.42-py3-none-any.whl (360 kB)
@@ -259,33 +259,33 @@ Downloading orjson-3.10.18-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_6
 Downloading packaging-24.2-py3-none-any.whl (65 kB)
 Downloading pydantic-2.11.4-py3-none-any.whl (443 kB)
 Downloading pydantic_core-2.33.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.0 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 155.4 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 155.5 MB/s eta 0:00:00
 Downloading pydantic_settings-2.9.1-py3-none-any.whl (44 kB)
 Downloading requests_toolbelt-1.0.0-py2.py3-none-any.whl (54 kB)
 Downloading sqlalchemy-2.0.40-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.2 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.2/3.2 MB 139.3 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.2/3.2 MB 178.0 MB/s eta 0:00:00
 Downloading tenacity-9.1.2-py3-none-any.whl (28 kB)
 Downloading typing_inspect-0.9.0-py3-none-any.whl (8.8 kB)
 Downloading urllib3-2.4.0-py3-none-any.whl (128 kB)
 Downloading yarl-1.20.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (358 kB)
 Downloading zstandard-0.23.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (5.4 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.4/5.4 MB 154.4 MB/s eta 0:00:00
-Downloading azure_identity-1.21.0-py3-none-any.whl (189 kB)
-Downloading openai-1.77.0-py3-none-any.whl (662 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 662.0/662.0 kB 78.1 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.4/5.4 MB 188.0 MB/s eta 0:00:00
+Downloading azure_identity-1.22.0-py3-none-any.whl (185 kB)
+Downloading openai-1.78.0-py3-none-any.whl (680 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 680.4/680.4 kB 96.9 MB/s eta 0:00:00
 Downloading anyio-4.9.0-py3-none-any.whl (100 kB)
 Downloading distro-1.9.0-py3-none-any.whl (20 kB)
 Downloading jiter-0.9.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (351 kB)
 Downloading typing_extensions-4.13.2-py3-none-any.whl (45 kB)
 Downloading beautifulsoup4-4.13.4-py3-none-any.whl (187 kB)
 Downloading PyYAML-6.0.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (762 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 763.0/763.0 kB 99.0 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 763.0/763.0 kB 114.9 MB/s eta 0:00:00
 Downloading duckduckgo_search-8.0.1-py3-none-any.whl (18 kB)
-Downloading google_adk-0.4.0-py3-none-any.whl (1.2 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 130.8 MB/s eta 0:00:00
+Downloading google_adk-0.5.0-py3-none-any.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 108.7 MB/s eta 0:00:00
 Downloading google_cloud_storage-2.19.0-py2.py3-none-any.whl (131 kB)
-Downloading google_api_core-2.25.0rc0-py3-none-any.whl (160 kB)
-Downloading google_auth-2.39.0-py2.py3-none-any.whl (212 kB)
+Downloading google_api_core-2.25.0rc1-py3-none-any.whl (160 kB)
+Downloading google_auth-2.40.1-py2.py3-none-any.whl (216 kB)
 Downloading cachetools-5.5.2-py3-none-any.whl (10 kB)
 Downloading google_cloud_core-2.4.3-py2.py3-none-any.whl (29 kB)
 Downloading google_crc32c-1.7.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (32 kB)
@@ -294,9 +294,9 @@ Downloading proto_plus-1.26.1-py3-none-any.whl (50 kB)
 Downloading rsa-4.9.1-py3-none-any.whl (34 kB)
 Downloading google_generativeai-0.8.5-py3-none-any.whl (155 kB)
 Downloading google_ai_generativelanguage-0.6.15-py3-none-any.whl (1.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 128.9 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 100.7 MB/s eta 0:00:00
 Downloading grpcio-1.71.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (5.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.9/5.9 MB 157.1 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.9/5.9 MB 150.0 MB/s eta 0:00:00
 Downloading grpcio_status-1.71.0-py3-none-any.whl (14 kB)
 Downloading protobuf-5.29.4-cp38-abi3-manylinux2014_x86_64.whl (319 kB)
 Downloading aiohappyeyeballs-2.6.1-py3-none-any.whl (15 kB)
@@ -306,58 +306,58 @@ Downloading attrs-25.3.0-py3-none-any.whl (63 kB)
 Downloading authlib-1.5.2-py2.py3-none-any.whl (232 kB)
 Downloading azure_core-1.34.0-py3-none-any.whl (207 kB)
 Downloading certifi-2025.4.26-py3-none-any.whl (159 kB)
-Downloading click-8.1.8-py3-none-any.whl (98 kB)
+Downloading click-8.2.0-py3-none-any.whl (102 kB)
 Downloading cryptography-44.0.3-cp39-abi3-manylinux_2_34_x86_64.whl (4.2 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.2/4.2 MB 137.9 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.2/4.2 MB 176.6 MB/s eta 0:00:00
 Downloading cffi-1.17.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (467 kB)
 Downloading fastapi-0.115.12-py3-none-any.whl (95 kB)
 Downloading starlette-0.46.2-py3-none-any.whl (72 kB)
 Downloading frozenlist-1.6.0-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (313 kB)
 Downloading google_api_python_client-2.169.0-py3-none-any.whl (13.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.3/13.3 MB 155.4 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.3/13.3 MB 202.6 MB/s eta 0:00:00
 Downloading google_auth_httplib2-0.2.0-py2.py3-none-any.whl (9.3 kB)
 Downloading httplib2-0.22.0-py3-none-any.whl (96 kB)
 Downloading pyparsing-3.2.3-py3-none-any.whl (111 kB)
 Downloading uritemplate-4.1.1-py2.py3-none-any.whl (10 kB)
-Downloading google_cloud_aiplatform-1.91.0-py2.py3-none-any.whl (7.6 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.6/7.6 MB 147.2 MB/s eta 0:00:00
+Downloading google_cloud_aiplatform-1.92.0-py2.py3-none-any.whl (7.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.6/7.6 MB 172.4 MB/s eta 0:00:00
 Downloading docstring_parser-0.16-py3-none-any.whl (36 kB)
 Downloading google_cloud_bigquery-3.31.0-py3-none-any.whl (250 kB)
 Downloading google_cloud_resource_manager-1.14.2-py3-none-any.whl (394 kB)
+Downloading google_genai-1.14.0-py3-none-any.whl (168 kB)
 Downloading google_resumable_media-2.7.2-py2.py3-none-any.whl (81 kB)
 Downloading grpc_google_iam_v1-0.14.2-py3-none-any.whl (19 kB)
 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
 Downloading shapely-2.1.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.1 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 170.3 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 108.6 MB/s eta 0:00:00
+Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
 Downloading google_cloud_secret_manager-2.23.3-py3-none-any.whl (217 kB)
 Downloading google_cloud_speech-2.32.0-py3-none-any.whl (334 kB)
-Downloading google_genai-1.13.0-py3-none-any.whl (164 kB)
-Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
 Downloading graphviz-0.20.3-py3-none-any.whl (47 kB)
-Downloading greenlet-3.2.1-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (583 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 583.9/583.9 kB 79.0 MB/s eta 0:00:00
+Downloading greenlet-3.2.2-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (583 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 583.9/583.9 kB 80.4 MB/s eta 0:00:00
 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
 Downloading jsonpointer-3.0.0-py2.py3-none-any.whl (7.6 kB)
 Downloading lxml-5.4.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.9/4.9 MB 146.6 MB/s eta 0:00:00
-Downloading mcp-1.7.1-py3-none-any.whl (100 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.9/4.9 MB 169.9 MB/s eta 0:00:00
+Downloading mcp-1.8.0-py3-none-any.whl (119 kB)
 Downloading msal-1.32.3-py3-none-any.whl (115 kB)
 Downloading PyJWT-2.10.1-py3-none-any.whl (22 kB)
 Downloading msal_extensions-1.3.1-py3-none-any.whl (20 kB)
 Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
 Downloading numpy-2.2.5-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.4 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.4/16.4 MB 133.3 MB/s eta 0:00:00
-Downloading opentelemetry_api-1.32.1-py3-none-any.whl (65 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.4/16.4 MB 191.5 MB/s eta 0:00:00
+Downloading opentelemetry_api-1.33.0-py3-none-any.whl (65 kB)
 Downloading importlib_metadata-8.6.1-py3-none-any.whl (26 kB)
 Downloading Deprecated-1.2.18-py2.py3-none-any.whl (10.0 kB)
 Downloading wrapt-1.17.2-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (83 kB)
 Downloading opentelemetry_exporter_gcp_trace-1.9.0-py3-none-any.whl (13 kB)
 Downloading google_cloud_trace-1.16.1-py3-none-any.whl (103 kB)
 Downloading opentelemetry_resourcedetector_gcp-1.9.0a0-py3-none-any.whl (20 kB)
-Downloading opentelemetry_sdk-1.32.1-py3-none-any.whl (118 kB)
-Downloading opentelemetry_semantic_conventions-0.53b1-py3-none-any.whl (188 kB)
+Downloading opentelemetry_sdk-1.33.0-py3-none-any.whl (118 kB)
+Downloading opentelemetry_semantic_conventions-0.54b0-py3-none-any.whl (194 kB)
 Downloading primp-0.15.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 167.1 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 128.5 MB/s eta 0:00:00
 Downloading propcache-0.3.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (232 kB)
 Downloading pyasn1-0.6.1-py3-none-any.whl (83 kB)
 Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
@@ -366,7 +366,7 @@ Downloading python_multipart-0.0.20-py3-none-any.whl (24 kB)
 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
 Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
 Downloading soupsieve-2.7-py3-none-any.whl (36 kB)
-Downloading sse_starlette-2.3.3-py3-none-any.whl (10 kB)
+Downloading sse_starlette-2.3.4-py3-none-any.whl (10 kB)
 Downloading tqdm-4.67.1-py3-none-any.whl (78 kB)
 Downloading typing_inspection-0.4.0-py3-none-any.whl (14 kB)
 Downloading tzlocal-5.3.1-py3-none-any.whl (18 kB)
@@ -375,4 +375,4 @@ Downloading zipp-3.21.0-py3-none-any.whl (9.6 kB)
 Downloading pycparser-2.22-py3-none-any.whl (117 kB)
 Installing collected packages: zstandard, zipp, wrapt, websockets, urllib3, uritemplate, tzlocal, typing-extensions, tqdm, tenacity, soupsieve, sniffio, six, PyYAML, python-multipart, python-dotenv, pyparsing, PyJWT, pycparser, pyasn1, protobuf, propcache, primp, packaging, orjson, numpy, mypy-extensions, multidict, lxml, jsonpointer, jiter, idna, httpx-sse, h11, grpcio, greenlet, graphviz, google-crc32c, frozenlist, docstring-parser, distro, click, charset-normalizer, certifi, cachetools, attrs, annotated-types, aiohappyeyeballs, yarl, uvicorn, typing-inspection, typing-inspect, SQLAlchemy, shapely, rsa, requests, python-dateutil, pydantic-core, pyasn1-modules, proto-plus, marshmallow, jsonpatch, importlib-metadata, httplib2, httpcore, googleapis-common-protos, google-resumable-media, duckduckgo-search, deprecated, cffi, beautifulsoup4, anyio, aiosignal, starlette, requests-toolbelt, pydantic, opentelemetry-api, httpx, grpcio-status, google-auth, dataclasses-json, cryptography, azure-core, aiohttp, sse-starlette, pydantic-settings, opentelemetry-semantic-conventions, openai, langsmith, grpc-google-iam-v1, google-genai, google-auth-httplib2, google-api-core, fastapi, authlib, opentelemetry-sdk, msal, mcp, langchain-core, google-cloud-core, google-api-python-client, opentelemetry-resourcedetector-gcp, msal-extensions, langchain-text-splitters, google-cloud-trace, google-cloud-storage, google-cloud-speech, google-cloud-secret-manager, google-cloud-resource-manager, google-cloud-bigquery, google-ai-generativelanguage, opentelemetry-exporter-gcp-trace, langchain, google-generativeai, google-cloud-aiplatform, azure-identity, langchain-community, google-adk
 
-Successfully installed PyJWT-2.10.1 PyYAML-6.0.2 SQLAlchemy-2.0.40 aiohappyeyeballs-2.6.1 aiohttp-3.11.18 aiosignal-1.3.2 annotated-types-0.7.0 anyio-4.9.0 attrs-25.3.0 authlib-1.5.2 azure-core-1.34.0 azure-identity-1.21.0 beautifulsoup4-4.13.4 cachetools-5.5.2 certifi-2025.4.26 cffi-1.17.1 charset-normalizer-3.4.2 click-8.1.8 cryptography-44.0.3 dataclasses-json-0.6.7 deprecated-1.2.18 distro-1.9.0 docstring-parser-0.16 duckduckgo-search-8.0.1 fastapi-0.115.12 frozenlist-1.6.0 google-adk-0.4.0 google-ai-generativelanguage-0.6.15 google-api-core-2.25.0rc0 google-api-python-client-2.169.0 google-auth-2.39.0 google-auth-httplib2-0.2.0 google-cloud-aiplatform-1.91.0 google-cloud-bigquery-3.31.0 google-cloud-core-2.4.3 google-cloud-resource-manager-1.14.2 google-cloud-secret-manager-2.23.3 google-cloud-speech-2.32.0 google-cloud-storage-2.19.0 google-cloud-trace-1.16.1 google-crc32c-1.7.1 google-genai-1.13.0 google-generativeai-0.8.5 google-resumable-media-2.7.2 googleapis-common-protos-1.70.0 graphviz-0.20.3 greenlet-3.2.1 grpc-google-iam-v1-0.14.2 grpcio-1.71.0 grpcio-status-1.71.0 h11-0.16.0 httpcore-1.0.9 httplib2-0.22.0 httpx-0.28.1 httpx-sse-0.4.0 idna-3.10 importlib-metadata-8.6.1 jiter-0.9.0 jsonpatch-1.33 jsonpointer-3.0.0 langchain-0.3.25 langchain-community-0.3.23 langchain-core-0.3.58 langchain-text-splitters-0.3.8 langsmith-0.3.42 lxml-5.4.0 marshmallow-3.26.1 mcp-1.7.1 msal-1.32.3 msal-extensions-1.3.1 multidict-6.4.3 mypy-extensions-1.1.0 numpy-2.2.5 openai-1.77.0 opentelemetry-api-1.32.1 opentelemetry-exporter-gcp-trace-1.9.0 opentelemetry-resourcedetector-gcp-1.9.0a0 opentelemetry-sdk-1.32.1 opentelemetry-semantic-conventions-0.53b1 orjson-3.10.18 packaging-24.2 primp-0.15.0 propcache-0.3.1 proto-plus-1.26.1 protobuf-5.29.4 pyasn1-0.6.1 pyasn1-modules-0.4.2 pycparser-2.22 pydantic-2.11.4 pydantic-core-2.33.2 pydantic-settings-2.9.1 pyparsing-3.2.3 python-dateutil-2.9.0.post0 python-dotenv-1.1.0 python-multipart-0.0.20 requests-2.32.3 requests-toolbelt-1.0.0 rsa-4.9.1 shapely-2.1.0 six-1.17.0 sniffio-1.3.1 soupsieve-2.7 sse-starlette-2.3.3 starlette-0.46.2 tenacity-9.1.2 tqdm-4.67.1 typing-extensions-4.13.2 typing-inspect-0.9.0 typing-inspection-0.4.0 tzlocal-5.3.1 uritemplate-4.1.1 urllib3-2.4.0 uvicorn-0.34.2 websockets-15.0.1 wrapt-1.17.2 yarl-1.20.0 zipp-3.21.0 zstandard-0.23.0
+Successfully installed PyJWT-2.10.1 PyYAML-6.0.2 SQLAlchemy-2.0.40 aiohappyeyeballs-2.6.1 aiohttp-3.11.18 aiosignal-1.3.2 annotated-types-0.7.0 anyio-4.9.0 attrs-25.3.0 authlib-1.5.2 azure-core-1.34.0 azure-identity-1.22.0 beautifulsoup4-4.13.4 cachetools-5.5.2 certifi-2025.4.26 cffi-1.17.1 charset-normalizer-3.4.2 click-8.2.0 cryptography-44.0.3 dataclasses-json-0.6.7 deprecated-1.2.18 distro-1.9.0 docstring-parser-0.16 duckduckgo-search-8.0.1 fastapi-0.115.12 frozenlist-1.6.0 google-adk-0.5.0 google-ai-generativelanguage-0.6.15 google-api-core-2.25.0rc1 google-api-python-client-2.169.0 google-auth-2.40.1 google-auth-httplib2-0.2.0 google-cloud-aiplatform-1.92.0 google-cloud-bigquery-3.31.0 google-cloud-core-2.4.3 google-cloud-resource-manager-1.14.2 google-cloud-secret-manager-2.23.3 google-cloud-speech-2.32.0 google-cloud-storage-2.19.0 google-cloud-trace-1.16.1 google-crc32c-1.7.1 google-genai-1.14.0 google-generativeai-0.8.5 google-resumable-media-2.7.2 googleapis-common-protos-1.70.0 graphviz-0.20.3 greenlet-3.2.2 grpc-google-iam-v1-0.14.2 grpcio-1.71.0 grpcio-status-1.71.0 h11-0.16.0 httpcore-1.0.9 httplib2-0.22.0 httpx-0.28.1 httpx-sse-0.4.0 idna-3.10 importlib-metadata-8.6.1 jiter-0.9.0 jsonpatch-1.33 jsonpointer-3.0.0 langchain-0.3.25 langchain-community-0.3.23 langchain-core-0.3.59 langchain-text-splitters-0.3.8 langsmith-0.3.42 lxml-5.4.0 marshmallow-3.26.1 mcp-1.8.0 msal-1.32.3 msal-extensions-1.3.1 multidict-6.4.3 mypy-extensions-1.1.0 numpy-2.2.5 openai-1.78.0 opentelemetry-api-1.33.0 opentelemetry-exporter-gcp-trace-1.9.0 opentelemetry-resourcedetector-gcp-1.9.0a0 opentelemetry-sdk-1.33.0 opentelemetry-semantic-conventions-0.54b0 orjson-3.10.18 packaging-24.2 primp-0.15.0 propcache-0.3.1 proto-plus-1.26.1 protobuf-5.29.4 pyasn1-0.6.1 pyasn1-modules-0.4.2 pycparser-2.22 pydantic-2.11.4 pydantic-core-2.33.2 pydantic-settings-2.9.1 pyparsing-3.2.3 python-dateutil-2.9.0.post0 python-dotenv-1.1.0 python-multipart-0.0.20 requests-2.32.3 requests-toolbelt-1.0.0 rsa-4.9.1 shapely-2.1.0 six-1.17.0 sniffio-1.3.1 soupsieve-2.7 sse-starlette-2.3.4 starlette-0.46.2 tenacity-9.1.2 tqdm-4.67.1 typing-extensions-4.13.2 typing-inspect-0.9.0 typing-inspection-0.4.0 tzlocal-5.3.1 uritemplate-4.1.1 urllib3-2.4.0 uvicorn-0.34.2 websockets-15.0.1 wrapt-1.17.2 yarl-1.20.0 zipp-3.21.0 zstandard-0.23.0
