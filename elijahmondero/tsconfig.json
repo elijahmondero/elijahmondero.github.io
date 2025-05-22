@@ -17,14 +17,19 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "lib/*": ["./lib/*"]
+    }
   },
   "include": [
     "./*.ts",
     "./*.tsx",
     "./components/*.tsx",
     "./pages/**/*.tsx",
-    "./context/*.tsx"
+    "./context/*.tsx",
+    "./lib/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react'; // Import useCallback
 import Link from 'next/link';
 import Head from 'next/head';
 import BlogSummary from '../components/BlogSummary';
 import { useTheme } from '../context/ThemeContext';
-import { getSortedPostsMetadata, PostMetadata } from '../lib/posts'; // Import from the new lib file
+import { getSortedPostsData, PostData } from '../lib/posts'; // Import getSortedPostsData and PostData
 
 interface HomeProps {
-  posts: PostMetadata[];
+  posts: PostData[]; // Use PostData interface
 }
 
 export async function getStaticProps() {
-  const posts = getSortedPostsMetadata(); // Use the function from lib/posts.ts
+  const posts = getSortedPostsData(); // Use the function from lib/posts.ts
   return {
     props: {
       posts,
@@ -20,15 +20,25 @@ export async function getStaticProps() {
 
 const Home = ({ posts }: HomeProps) => {
   const { isDarkTheme, toggleTheme } = useTheme();
-  const [displayedPosts, setDisplayedPosts] = useState<PostMetadata[]>([]);
+  const [displayedPosts, setDisplayedPosts] = useState<PostData[]>([]); // Use PostData interface
   const postsPerPage = 10; // Number of posts to load per scroll
   const [nextPostIndex, setNextPostIndex] = useState(postsPerPage); // Index of the next post to load
 
-  const [trendingPosts, setTrendingPosts] = useState<PostMetadata[]>([]);
+  const [trendingPosts, setTrendingPosts] = useState<PostData[]>([]); // Use PostData interface
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(1); // Speed in ms
+
+  const loadMorePosts = useCallback(() => { // Wrap loadMorePosts in useCallback
+    const endIndex = nextPostIndex + postsPerPage;
+    const nextPosts = posts.slice(nextPostIndex, endIndex);
+
+    if (nextPosts.length > 0) {
+      setDisplayedPosts(prevPosts => [...prevPosts, ...nextPosts]);
+      setNextPostIndex(endIndex);
+    }
+  }, [nextPostIndex, posts, postsPerPage]); // Add dependencies for useCallback
 
   useEffect(() => {
     // Dynamic import of @microsoft/clarity to ensure it runs only on the client side
@@ -45,7 +55,7 @@ const Home = ({ posts }: HomeProps) => {
     // Initialize displayed posts with the first batch
     setDisplayedPosts(posts.slice(0, postsPerPage));
 
-  }, [posts]); // Add posts as a dependency
+  }, [posts, postsPerPage]); // Add posts and postsPerPage as dependencies
 
   useEffect(() => {
     if (!trendingPosts || trendingPosts.length === 0) return;
@@ -86,8 +96,7 @@ const Home = ({ posts }: HomeProps) => {
     return () => clearTimeout(timer);
   }, [displayText, isDeleting, currentPostIndex, trendingPosts]);
 
-
-  useEffect(() => {
+  useEffect(() => { // This useEffect uses loadMorePosts
     const handleScroll = () => {
       // Check if the user has scrolled to the bottom and there are more posts to load
       if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100 &&
@@ -98,17 +107,7 @@ const Home = ({ posts }: HomeProps) => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [nextPostIndex, posts]); // Add dependencies
-
-  const loadMorePosts = () => {
-    const endIndex = nextPostIndex + postsPerPage;
-    const nextPosts = posts.slice(nextPostIndex, endIndex);
-
-    if (nextPosts.length > 0) {
-      setDisplayedPosts(prevPosts => [...prevPosts, ...nextPosts]);
-      setNextPostIndex(endIndex);
-    }
-  };
+  }, [nextPostIndex, posts, loadMorePosts]); // Add dependencies
 
 
   return (
@@ -143,7 +142,6 @@ const Home = ({ posts }: HomeProps) => {
                 datePosted={post.datePosted}
                 dateModified={post.dateModified}
                 postedBy={post.postedBy}
-                modifiedBy={post.modifiedBy}
                 image_path={post.image_path}
                 isDarkTheme={isDarkTheme}
               />
