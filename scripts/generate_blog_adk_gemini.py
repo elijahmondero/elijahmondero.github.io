@@ -149,31 +149,15 @@ def generate_slug(title: str) -> str:
     slug = slug.strip('-')
     return slug
 
-# Save blog post to file
+# Save blog post to file as Markdown with frontmatter
 def save_post(title: str, excerpt: str, content: str, tags: List[str], sources: List[str], image_path: str = None):
-    # Normalize title and content for comparison
-    normalized_title = title.lower().strip()
-    normalized_content = content.lower().strip()
-
-    # Check if content starts with the title (considering markdown headings and whitespace)
-    # This regex looks for optional leading whitespace, optional markdown headings (#),
-    # optional whitespace after the heading, and then the normalized title.
-    title_pattern = re.compile(r'^\s*#*\s*' + re.escape(normalized_title), re.IGNORECASE)
-
-    if title_pattern.match(normalized_content):
-        # Find the end of the matched title in the original content
-        match_end_index = title_pattern.match(content.strip()).end()
-        content = content.strip()[match_end_index:].strip()
-
-
     post_id = generate_slug(title)
     post_date = datetime.utcnow().isoformat() + "Z"
 
-    post_data = {
-        "id": post_id,
+    # Prepare frontmatter
+    frontmatter = {
         "title": title,
         "excerpt": excerpt,
-        "content": content,
         "datePosted": post_date,
         "postedBy": "Elijah Mondero",
         "tags": tags,
@@ -181,36 +165,56 @@ def save_post(title: str, excerpt: str, content: str, tags: List[str], sources: 
         "image_path": image_path
     }
 
+    # Format frontmatter as YAML
+    frontmatter_str = "---\n"
+    for key, value in frontmatter.items():
+        if isinstance(value, list):
+            frontmatter_str += f"{key}: [\n"
+            for item in value:
+                frontmatter_str += f"  \"{item}\",\n"
+            frontmatter_str += "]\n"
+        else:
+            frontmatter_str += f"{key}: \"{value}\"\n"
+    frontmatter_str += "---\n\n"
+
+    # Combine frontmatter and content
+    markdown_content = frontmatter_str + content
+
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    post_filename = os.path.join(repo_root, "elijahmondero/public/posts", f"{post_id}.json")
+    # Save to the 'posts' directory, not 'public/posts'
+    post_filename = os.path.join(repo_root, "elijahmondero/posts", f"{post_id}.md")
     print("Post filename:", post_filename)
     os.makedirs(os.path.dirname(post_filename), exist_ok=True)
 
-    with open(post_filename, "w") as f:
-        json.dump(post_data, f, indent=2)
+    with open(post_filename, "w", encoding="utf-8") as f:
+        f.write(markdown_content)
 
-    return post_filename, post_data
+    # Return post_id and a dictionary of the frontmatter data for index/sitemap updates
+    return post_id, frontmatter
 
-# Update blog index
+# Update blog index (still generates index.json, but will be based on MD files later)
 def update_index(post_id: str, title: str, excerpt: str):
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    # Keep index.json in public/posts for now, as the frontend reads it
     index_file = os.path.join(repo_root, "elijahmondero/public/posts/index.json")
     print("Index file:", index_file)
     index_data = []
 
     if os.path.exists(index_file):
         try:
-            with open(index_file, "r") as f:
+            with open(index_file, "r", encoding="utf-8") as f:
                 index_data = json.load(f)
         except json.JSONDecodeError:
             print(f"Warning: Could not decode JSON from {index_file}. Starting with an empty index.")
             index_data = []
 
+    # Check if post_id already exists and remove it to update
+    index_data = [post for post in index_data if post.get("id") != post_id]
 
     # Insert the new blog post at the beginning of the list
     index_data.insert(0, {"id": post_id, "title": title, "excerpt": excerpt})
 
-    with open(index_file, "w") as f:
+    with open(index_file, "w", encoding="utf-8") as f:
         json.dump(index_data, f, indent=2)
 
 # Update sitemap
@@ -220,30 +224,48 @@ def update_sitemap(post_id: str, post_date: str):
     print("Sitemap file:", sitemap_file)
 
     new_url = f"https://elijahmondero.github.io/post/{post_id}"
-    post_date = post_date.split("T")[0]  # Extract the date in YYYY-MM-DD format
+    # Ensure date is in YYYY-MM-DD format
+    try:
+        # Parse ISO format and reformat
+        date_obj = datetime.fromisoformat(post_date.replace('Z', '+00:00'))
+        formatted_date = date_obj.strftime('%Y-%m-%d')
+    except ValueError:
+        print(f"Warning: Could not parse date format {post_date}. Using current date for sitemap.")
+        formatted_date = datetime.utcnow().strftime('%Y-%m-%d')
+
     new_entry = f"""
-  <sitemap>
+  <url>
     <loc>{new_url}</loc>
-    <lastmod>{post_date}</lastmod>
-  </sitemap>"""
+    <lastmod>{formatted_date}</lastmod>
+  </url>""" # Changed from <sitemap> to <url> as per standard sitemap.xml structure
 
     if os.path.exists(sitemap_file):
-        with open(sitemap_file, "r") as f:
+        with open(sitemap_file, "r", encoding="utf-8") as f:
             sitemap_data = f.read()
-        
-        # Find the position to insert the new URL
-        insert_pos = sitemap_data.rfind("</sitemapindex>")
-        if insert_pos != -1:
-            sitemap_data = sitemap_data[:insert_pos] + new_entry + sitemap_data[insert_pos:]
 
-        with open(sitemap_file, "w") as f:
+        # Check if the URL already exists and replace it
+        url_pattern = re.compile(rf"<loc>{re.escape(new_url)}</loc>.*?<\/url>", re.DOTALL)
+        if url_pattern.search(sitemap_data):
+             print(f"URL {new_url} already exists in sitemap. Replacing entry.")
+             sitemap_data = url_pattern.sub(new_entry, sitemap_data)
+        else:
+            # Find the position to insert the new URL before the closing </urlset> tag
+            insert_pos = sitemap_data.rfind("</urlset>")
+            if insert_pos != -1:
+                sitemap_data = sitemap_data[:insert_pos] + new_entry + sitemap_data[insert_pos:]
+            else:
+                 # If </urlset> not found, append to the end (less ideal)
+                 sitemap_data += new_entry
+
+
+        with open(sitemap_file, "w", encoding="utf-8") as f:
             f.write(sitemap_data)
     else:
         # Create a new sitemap file if it doesn't exist
         sitemap_data = f"""<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{new_entry}
-</sitemapindex>"""
-        with open(sitemap_file, "w") as f:
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{new_entry}
+</urlset>""" # Changed root element to <urlset>
+        with open(sitemap_file, "w", encoding="utf-8") as f:
             f.write(sitemap_data)
 
 # New function to consolidate publishing steps
@@ -254,8 +276,8 @@ def publish_blog_post(title: str, excerpt: str, content: str, tags: List[str], s
         image_prompt = title + " " + excerpt
         image_path = generate_image(image_prompt)
 
-        # Save blog post to file
-        post_file, post_data = save_post(
+        # Save blog post to file (now saves as .md)
+        post_id, post_data = save_post(
             title,
             excerpt,
             content, # Use edited content
@@ -264,11 +286,11 @@ def publish_blog_post(title: str, excerpt: str, content: str, tags: List[str], s
             image_path
         )
 
-        # Update blog index
-        update_index(post_data["id"], title, excerpt)
+        # Update blog index (still updates index.json)
+        update_index(post_id, title, excerpt)
 
         # Update sitemap
-        update_sitemap(post_data["id"], post_data["datePosted"])
+        update_sitemap(post_id, post_data["datePosted"])
 
         # Construct and write PR details to GITHUB_ENV
         pr_title = title

@@ -2,33 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import BlogSummary from '../components/BlogSummary';
-import fs from 'fs';
-import path from 'path';
 import { useTheme } from '../context/ThemeContext';
+import { getSortedPostsMetadata, PostMetadata } from '../lib/posts'; // Import from the new lib file
 
-interface Post {
-  title: string;
-  excerpt: string;
-  fullPost: string;
-  datePosted: string;
-  dateModified?: string;
-  modifiedBy?: string;
-  postedBy: string;
-  tags: string[];
-  sources: string[];
-  image_path?: string;
-}
-
-interface PostMetadata {
-  id: string;
-  title: string;
-  excerpt: string;
+interface HomeProps {
+  posts: PostMetadata[];
 }
 
 export async function getStaticProps() {
-  const filePath = path.join(process.cwd(), 'public', 'posts', 'index.json');
-  const jsonData = fs.readFileSync(filePath, 'utf8');
-  const posts = JSON.parse(jsonData);
+  const posts = getSortedPostsMetadata(); // Use the function from lib/posts.ts
   return {
     props: {
       posts,
@@ -36,11 +18,9 @@ export async function getStaticProps() {
   };
 }
 
-const Home = ({ posts }: { posts: PostMetadata[] }) => {
+const Home = ({ posts }: HomeProps) => {
   const { isDarkTheme, toggleTheme } = useTheme();
-  const [fullPosts, setFullPosts] = useState<{ [key: string]: Post }>({});
   const [displayedPosts, setDisplayedPosts] = useState<PostMetadata[]>([]);
-  const [loading, setLoading] = useState(false);
   const postsPerPage = 10; // Number of posts to load per scroll
   const [nextPostIndex, setNextPostIndex] = useState(postsPerPage); // Index of the next post to load
 
@@ -62,14 +42,10 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
       .then(response => response.json())
       .then(data => setTrendingPosts(data));
 
+    // Initialize displayed posts with the first batch
     setDisplayedPosts(posts.slice(0, postsPerPage));
 
-    // Fetch additional data for the initially displayed posts
-    posts.slice(0, postsPerPage).forEach((post: PostMetadata) => {
-      fetchBlogPost(post.id);
-    });
-
-  }, [posts]);
+  }, [posts]); // Add posts as a dependency
 
   useEffect(() => {
     if (!trendingPosts || trendingPosts.length === 0) return;
@@ -78,7 +54,7 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
     const words = fullText.split(' ');
     const currentWords = displayText.split(' ');
 
-    let timer;
+    let timer: NodeJS.Timeout; // Specify timer type
 
     if (isDeleting) {
       // Deleting word by word
@@ -113,42 +89,25 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100 && // 100px from bottom
-          nextPostIndex < posts.length && // Check if there are more posts to load
-          !loading) {
+      // Check if the user has scrolled to the bottom and there are more posts to load
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100 &&
+          nextPostIndex < posts.length) {
         loadMorePosts();
       }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [displayedPosts, loading, posts, nextPostIndex]); // Add dependencies
-
-  const fetchBlogPost = (id: string) => {
-    if (!fullPosts[id]) {
-      fetch(`/posts/${id}.json`)
-        .then(response => response.json())
-        .then(data => setFullPosts(prev => ({ ...prev, [id]: data })));
-    }
-  };
+  }, [nextPostIndex, posts]); // Add dependencies
 
   const loadMorePosts = () => {
-    if (loading || nextPostIndex >= posts.length) return; // Prevent multiple loads or loading beyond available posts
-    setLoading(true);
-
     const endIndex = nextPostIndex + postsPerPage;
     const nextPosts = posts.slice(nextPostIndex, endIndex);
 
     if (nextPosts.length > 0) {
       setDisplayedPosts(prevPosts => [...prevPosts, ...nextPosts]);
       setNextPostIndex(endIndex);
-      // Fetch full post data for the newly added posts
-      nextPosts.forEach((post: PostMetadata) => {
-        fetchBlogPost(post.id);
-      });
     }
-
-    setLoading(false);
   };
 
 
@@ -175,24 +134,21 @@ const Home = ({ posts }: { posts: PostMetadata[] }) => {
           </Link>
         </div>
         <main>
-          {displayedPosts.map(post => {
-            const fullPost = fullPosts[post.id];
-            return (
+          {displayedPosts.map(post => (
               <BlogSummary
                 key={post.id}
                 title={post.title}
                 excerpt={post.excerpt}
                 link={`/post/${post.id}`}
-                datePosted={fullPost ? fullPost.datePosted : ''}
-                dateModified={fullPost ? fullPost.dateModified : undefined}
-                postedBy={fullPost ? fullPost.postedBy : ''}
-                modifiedBy={fullPost ? fullPost.modifiedBy : undefined}
-                image_path={fullPost ? fullPost.image_path : undefined}
+                datePosted={post.datePosted}
+                dateModified={post.dateModified}
+                postedBy={post.postedBy}
+                modifiedBy={post.modifiedBy}
+                image_path={post.image_path}
                 isDarkTheme={isDarkTheme}
               />
-            );
-          })}
-          {loading && <div>Loading more posts...</div>}
+            ))}
+          {nextPostIndex < posts.length && <div>Loading more posts...</div>} {/* Indicate loading if there are more posts */}
         </main>
       </div>
     </>
