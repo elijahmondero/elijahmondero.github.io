@@ -5,46 +5,46 @@
                 gtag('config', 'G-P05ETFHS5F', {
                   page_path: window.location.pathname,
                 });
-              </script><link rel="preload" href="./_next/static/css/b362fc18b8b21f60.css" as="style"/><link rel="stylesheet" href="./_next/static/css/b362fc18b8b21f60.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="./_next/static/chunks/polyfills-42372ed130431b0a.js"></script><script src="./_next/static/chunks/webpack-b5c0892378f1f10f.js" defer=""></script><script src="./_next/static/chunks/framework-16252ba0501bace7.js" defer=""></script><script src="./_next/static/chunks/main-9fdfc2eb0acc5c1d.js" defer=""></script><script src="./_next/static/chunks/pages/_app-20d8339bf96dffbf.js" defer=""></script><script src="./_next/static/chunks/414-1f47c83dc8c08102.js" defer=""></script><script src="./_next/static/chunks/236-d684b14885f6b4b8.js" defer=""></script><script src="./_next/static/chunks/pages/post/%5Bid%5D-4dde9effcfd19711.js" defer=""></script><script src="./_next/static/Ppr4zVApPAPkh7QSXR-JO/_buildManifest.js" defer=""></script><script src="./_next/static/Ppr4zVApPAPkh7QSXR-JO/_ssgManifest.js" defer=""></script></head><body><div id="__next"><div class="App"><header class="App-header"><h1><a class="home-link" href="/">The Tech Oracle</a></h1><label class="switch"><input type="checkbox"/><span class="slider"></span></label></header><div class="blog-post-content"><img src="/posts/images/9065429f-4991-4fc8-b23b-4d89f5731552.png" alt="Top Common Pitfalls in .NET Development and How to Avoid Them" class="blog-post-image"/><div class="blog-post-text"><h2>Top Common Pitfalls in .NET Development and How to Avoid Them</h2>&lt;p&gt;In the world of modern .NET development, developers often encounter various pitfalls that can lead to bugs, performance issues, and unresponsive applications. In this post, we will explore some of the latest common pitfalls in .NET development and provide practical solutions with code examples to help you avoid them.&lt;/p&gt;
-&lt;h2&gt;1. Incorrect Usage of Async/Await&lt;/h2&gt;
-&lt;p&gt;The async/await paradigm is essential for efficient asynchronous programming in .NET. However, improper usage can lead to deadlocks or unresponsive applications.&lt;/p&gt;
-&lt;h3&gt;Mistake:&lt;/h3&gt;
-&lt;p&gt;Blocking an asynchronous operation with &lt;code&gt;.Result&lt;/code&gt; or &lt;code&gt;.Wait()&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;var result = SomeAsyncMethod().Result; // Potential deadlock
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Solution:&lt;/h3&gt;
-&lt;p&gt;Always &lt;code&gt;await&lt;/code&gt; asynchronous methods to avoid blocking.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;var result = await SomeAsyncMethod();
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;2. Neglecting to Dispose of Resources&lt;/h2&gt;
-&lt;p&gt;Failing to release unmanaged resources like database connections or file streams can cause memory leaks.&lt;/p&gt;
-&lt;h3&gt;Mistake:&lt;/h3&gt;
-&lt;p&gt;Forgetting to call &lt;code&gt;Dispose()&lt;/code&gt; or not using &lt;code&gt;using&lt;/code&gt; statements.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;var stream = new FileStream(&quot;file.txt&quot;, FileMode.Open);
+              </script><link rel="preload" href="./_next/static/css/b362fc18b8b21f60.css" as="style"/><link rel="stylesheet" href="./_next/static/css/b362fc18b8b21f60.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="./_next/static/chunks/polyfills-42372ed130431b0a.js"></script><script src="./_next/static/chunks/webpack-26e763366c89abad.js" defer=""></script><script src="./_next/static/chunks/framework-16252ba0501bace7.js" defer=""></script><script src="./_next/static/chunks/main-9fdfc2eb0acc5c1d.js" defer=""></script><script src="./_next/static/chunks/pages/_app-20d8339bf96dffbf.js" defer=""></script><script src="./_next/static/chunks/414-1f47c83dc8c08102.js" defer=""></script><script src="./_next/static/chunks/716-83c0e8f0eb5fc010.js" defer=""></script><script src="./_next/static/chunks/pages/post/%5Bid%5D-9aee1ee936e7cb3c.js" defer=""></script><script src="./_next/static/AhocoIfTj-aeijxpZnKUv/_buildManifest.js" defer=""></script><script src="./_next/static/AhocoIfTj-aeijxpZnKUv/_ssgManifest.js" defer=""></script></head><body><div id="__next"><div class="App"><header class="App-header"><h1><a class="home-link" href="/">The Tech Oracle</a></h1><label class="switch"><input type="checkbox"/><span class="slider"></span></label></header><div class="blog-post-content"><img src="/posts/images/9065429f-4991-4fc8-b23b-4d89f5731552.png" alt="Top Common Pitfalls in .NET Development and How to Avoid Them" class="blog-post-image"/><div class="blog-post-text"><h2>Top Common Pitfalls in .NET Development and How to Avoid Them</h2><div><p>In the world of modern .NET development, developers often encounter various pitfalls that can lead to bugs, performance issues, and unresponsive applications. In this post, we will explore some of the latest common pitfalls in .NET development and provide practical solutions with code examples to help you avoid them.</p>
+<h2>1. Incorrect Usage of Async/Await</h2>
+<p>The async/await paradigm is essential for efficient asynchronous programming in .NET. However, improper usage can lead to deadlocks or unresponsive applications.</p>
+<h3>Mistake:</h3>
+<p>Blocking an asynchronous operation with <code>.Result</code> or <code>.Wait()</code>.</p>
+<pre><code class="language-csharp">var result = SomeAsyncMethod().Result; // Potential deadlock
+</code></pre>
+<h3>Solution:</h3>
+<p>Always <code>await</code> asynchronous methods to avoid blocking.</p>
+<pre><code class="language-csharp">var result = await SomeAsyncMethod();
+</code></pre>
+<h2>2. Neglecting to Dispose of Resources</h2>
+<p>Failing to release unmanaged resources like database connections or file streams can cause memory leaks.</p>
+<h3>Mistake:</h3>
+<p>Forgetting to call <code>Dispose()</code> or not using <code>using</code> statements.</p>
+<pre><code class="language-csharp">var stream = new FileStream("file.txt", FileMode.Open);
 // Forgetting to dispose of the stream
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Solution:&lt;/h3&gt;
-&lt;p&gt;Use &lt;code&gt;using&lt;/code&gt; blocks or &lt;code&gt;IAsyncDisposable&lt;/code&gt; in modern C#.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;using (var stream = new FileStream(&quot;file.txt&quot;, FileMode.Open))
+</code></pre>
+<h3>Solution:</h3>
+<p>Use <code>using</code> blocks or <code>IAsyncDisposable</code> in modern C#.</p>
+<pre><code class="language-csharp">using (var stream = new FileStream("file.txt", FileMode.Open))
 {
     // Use the stream
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;3. Inefficient Database Interactions&lt;/h2&gt;
-&lt;p&gt;Optimizing database interactions is crucial for application performance. Common issues include the N+1 query problem and inefficient queries.&lt;/p&gt;
-&lt;h3&gt;Mistake:&lt;/h3&gt;
-&lt;p&gt;Using multiple queries to fetch related data.&lt;/p&gt;
-&lt;h3&gt;Solution:&lt;/h3&gt;
-&lt;p&gt;Use JOINs or eager loading to fetch all necessary data in a single query.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-sql&quot;&gt;SELECT c.CustomerName, o.OrderID
+</code></pre>
+<h2>3. Inefficient Database Interactions</h2>
+<p>Optimizing database interactions is crucial for application performance. Common issues include the N+1 query problem and inefficient queries.</p>
+<h3>Mistake:</h3>
+<p>Using multiple queries to fetch related data.</p>
+<h3>Solution:</h3>
+<p>Use JOINs or eager loading to fetch all necessary data in a single query.</p>
+<pre><code class="language-sql">SELECT c.CustomerName, o.OrderID
 FROM Customers c
 JOIN Orders o ON c.CustomerID = o.CustomerID;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;4. Poor Exception Handling in Async/Await&lt;/h2&gt;
-&lt;p&gt;Effective exception handling in asynchronous methods is key for application stability.&lt;/p&gt;
-&lt;h3&gt;Mistake:&lt;/h3&gt;
-&lt;p&gt;Not enclosing async calls in try-catch blocks.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;try
+</code></pre>
+<h2>4. Poor Exception Handling in Async/Await</h2>
+<p>Effective exception handling in asynchronous methods is key for application stability.</p>
+<h3>Mistake:</h3>
+<p>Not enclosing async calls in try-catch blocks.</p>
+<pre><code class="language-csharp">try
 {
     await SomeAsyncMethod();
 }
@@ -52,16 +52,17 @@ catch (Exception ex)
 {
     // Handle the exception
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;5. Ignoring Cancellation Tokens&lt;/h2&gt;
-&lt;p&gt;Implementing cancellation tokens provides a mechanism to cancel long-running operations, enhancing application responsiveness.&lt;/p&gt;
-&lt;h3&gt;Solution:&lt;/h3&gt;
-&lt;p&gt;Use cancellation tokens in asynchronous methods.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;public async Task SomeAsyncMethod(CancellationToken cancellationToken)
+</code></pre>
+<h2>5. Ignoring Cancellation Tokens</h2>
+<p>Implementing cancellation tokens provides a mechanism to cancel long-running operations, enhancing application responsiveness.</p>
+<h3>Solution:</h3>
+<p>Use cancellation tokens in asynchronous methods.</p>
+<pre><code class="language-csharp">public async Task SomeAsyncMethod(CancellationToken cancellationToken)
 {
     // Check for cancellation
     cancellationToken.ThrowIfCancellationRequested();
     await Task.Delay(1000, cancellationToken);
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;By being aware of these common pitfalls and following the recommended practices, developers can create more responsive, efficient, and maintainable .NET applications.&lt;/p&gt;<p class="meta"><strong>Posted by:</strong> <!-- -->Elijah Mondero</p><p class="meta"><strong>Tags:</strong> <!-- -->dotnet, development, async-await, database, csharp</p></div></div></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"post":{"id":"dotnet-common-pitfalls","title":"Top Common Pitfalls in .NET Development and How to Avoid Them","date":"2025-02-20T11:39:13.754784Z","contentHtml":"\u003cp\u003eIn the world of modern .NET development, developers often encounter various pitfalls that can lead to bugs, performance issues, and unresponsive applications. In this post, we will explore some of the latest common pitfalls in .NET development and provide practical solutions with code examples to help you avoid them.\u003c/p\u003e\n\u003ch2\u003e1. Incorrect Usage of Async/Await\u003c/h2\u003e\n\u003cp\u003eThe async/await paradigm is essential for efficient asynchronous programming in .NET. However, improper usage can lead to deadlocks or unresponsive applications.\u003c/p\u003e\n\u003ch3\u003eMistake:\u003c/h3\u003e\n\u003cp\u003eBlocking an asynchronous operation with \u003ccode\u003e.Result\u003c/code\u003e or \u003ccode\u003e.Wait()\u003c/code\u003e.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003evar result = SomeAsyncMethod().Result; // Potential deadlock\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch3\u003eSolution:\u003c/h3\u003e\n\u003cp\u003eAlways \u003ccode\u003eawait\u003c/code\u003e asynchronous methods to avoid blocking.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003evar result = await SomeAsyncMethod();\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003e2. Neglecting to Dispose of Resources\u003c/h2\u003e\n\u003cp\u003eFailing to release unmanaged resources like database connections or file streams can cause memory leaks.\u003c/p\u003e\n\u003ch3\u003eMistake:\u003c/h3\u003e\n\u003cp\u003eForgetting to call \u003ccode\u003eDispose()\u003c/code\u003e or not using \u003ccode\u003eusing\u003c/code\u003e statements.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003evar stream = new FileStream(\"file.txt\", FileMode.Open);\n// Forgetting to dispose of the stream\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch3\u003eSolution:\u003c/h3\u003e\n\u003cp\u003eUse \u003ccode\u003eusing\u003c/code\u003e blocks or \u003ccode\u003eIAsyncDisposable\u003c/code\u003e in modern C#.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003eusing (var stream = new FileStream(\"file.txt\", FileMode.Open))\n{\n    // Use the stream\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003e3. Inefficient Database Interactions\u003c/h2\u003e\n\u003cp\u003eOptimizing database interactions is crucial for application performance. Common issues include the N+1 query problem and inefficient queries.\u003c/p\u003e\n\u003ch3\u003eMistake:\u003c/h3\u003e\n\u003cp\u003eUsing multiple queries to fetch related data.\u003c/p\u003e\n\u003ch3\u003eSolution:\u003c/h3\u003e\n\u003cp\u003eUse JOINs or eager loading to fetch all necessary data in a single query.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-sql\"\u003eSELECT c.CustomerName, o.OrderID\nFROM Customers c\nJOIN Orders o ON c.CustomerID = o.CustomerID;\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003e4. Poor Exception Handling in Async/Await\u003c/h2\u003e\n\u003cp\u003eEffective exception handling in asynchronous methods is key for application stability.\u003c/p\u003e\n\u003ch3\u003eMistake:\u003c/h3\u003e\n\u003cp\u003eNot enclosing async calls in try-catch blocks.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003etry\n{\n    await SomeAsyncMethod();\n}\ncatch (Exception ex)\n{\n    // Handle the exception\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003e5. Ignoring Cancellation Tokens\u003c/h2\u003e\n\u003cp\u003eImplementing cancellation tokens provides a mechanism to cancel long-running operations, enhancing application responsiveness.\u003c/p\u003e\n\u003ch3\u003eSolution:\u003c/h3\u003e\n\u003cp\u003eUse cancellation tokens in asynchronous methods.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003epublic async Task SomeAsyncMethod(CancellationToken cancellationToken)\n{\n    // Check for cancellation\n    cancellationToken.ThrowIfCancellationRequested();\n    await Task.Delay(1000, cancellationToken);\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eBy being aware of these common pitfalls and following the recommended practices, developers can create more responsive, efficient, and maintainable .NET applications.\u003c/p\u003e\n","excerpt":"In this blog post, we explore the latest common pitfalls in .NET development and how to avoid them. We also provide practical code examples to help developers improve their coding practices.","postedBy":"Elijah Mondero","tags":["dotnet","development","async-await","database","csharp"],"image_path":"/posts/images/9065429f-4991-4fc8-b23b-4d89f5731552.png"}},"__N_SSG":true},"page":"/post/[id]","query":{"id":"dotnet-common-pitfalls"},"buildId":"Ppr4zVApPAPkh7QSXR-JO","assetPrefix":".","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>
+</code></pre>
+<p>By being aware of these common pitfalls and following the recommended practices, developers can create more responsive, efficient, and maintainable .NET applications.</p>
+</div><p class="meta"><strong>Posted by:</strong> <!-- -->Elijah Mondero</p><p class="meta"><strong>Tags:</strong> <!-- -->dotnet, development, async-await, database, csharp</p></div></div></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"post":{"id":"dotnet-common-pitfalls","title":"Top Common Pitfalls in .NET Development and How to Avoid Them","date":"2025-02-20T11:39:13.754784Z","contentHtml":"\u003cp\u003eIn the world of modern .NET development, developers often encounter various pitfalls that can lead to bugs, performance issues, and unresponsive applications. In this post, we will explore some of the latest common pitfalls in .NET development and provide practical solutions with code examples to help you avoid them.\u003c/p\u003e\n\u003ch2\u003e1. Incorrect Usage of Async/Await\u003c/h2\u003e\n\u003cp\u003eThe async/await paradigm is essential for efficient asynchronous programming in .NET. However, improper usage can lead to deadlocks or unresponsive applications.\u003c/p\u003e\n\u003ch3\u003eMistake:\u003c/h3\u003e\n\u003cp\u003eBlocking an asynchronous operation with \u003ccode\u003e.Result\u003c/code\u003e or \u003ccode\u003e.Wait()\u003c/code\u003e.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003evar result = SomeAsyncMethod().Result; // Potential deadlock\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch3\u003eSolution:\u003c/h3\u003e\n\u003cp\u003eAlways \u003ccode\u003eawait\u003c/code\u003e asynchronous methods to avoid blocking.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003evar result = await SomeAsyncMethod();\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003e2. Neglecting to Dispose of Resources\u003c/h2\u003e\n\u003cp\u003eFailing to release unmanaged resources like database connections or file streams can cause memory leaks.\u003c/p\u003e\n\u003ch3\u003eMistake:\u003c/h3\u003e\n\u003cp\u003eForgetting to call \u003ccode\u003eDispose()\u003c/code\u003e or not using \u003ccode\u003eusing\u003c/code\u003e statements.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003evar stream = new FileStream(\"file.txt\", FileMode.Open);\n// Forgetting to dispose of the stream\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch3\u003eSolution:\u003c/h3\u003e\n\u003cp\u003eUse \u003ccode\u003eusing\u003c/code\u003e blocks or \u003ccode\u003eIAsyncDisposable\u003c/code\u003e in modern C#.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003eusing (var stream = new FileStream(\"file.txt\", FileMode.Open))\n{\n    // Use the stream\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003e3. Inefficient Database Interactions\u003c/h2\u003e\n\u003cp\u003eOptimizing database interactions is crucial for application performance. Common issues include the N+1 query problem and inefficient queries.\u003c/p\u003e\n\u003ch3\u003eMistake:\u003c/h3\u003e\n\u003cp\u003eUsing multiple queries to fetch related data.\u003c/p\u003e\n\u003ch3\u003eSolution:\u003c/h3\u003e\n\u003cp\u003eUse JOINs or eager loading to fetch all necessary data in a single query.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-sql\"\u003eSELECT c.CustomerName, o.OrderID\nFROM Customers c\nJOIN Orders o ON c.CustomerID = o.CustomerID;\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003e4. Poor Exception Handling in Async/Await\u003c/h2\u003e\n\u003cp\u003eEffective exception handling in asynchronous methods is key for application stability.\u003c/p\u003e\n\u003ch3\u003eMistake:\u003c/h3\u003e\n\u003cp\u003eNot enclosing async calls in try-catch blocks.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003etry\n{\n    await SomeAsyncMethod();\n}\ncatch (Exception ex)\n{\n    // Handle the exception\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003e5. Ignoring Cancellation Tokens\u003c/h2\u003e\n\u003cp\u003eImplementing cancellation tokens provides a mechanism to cancel long-running operations, enhancing application responsiveness.\u003c/p\u003e\n\u003ch3\u003eSolution:\u003c/h3\u003e\n\u003cp\u003eUse cancellation tokens in asynchronous methods.\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-csharp\"\u003epublic async Task SomeAsyncMethod(CancellationToken cancellationToken)\n{\n    // Check for cancellation\n    cancellationToken.ThrowIfCancellationRequested();\n    await Task.Delay(1000, cancellationToken);\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eBy being aware of these common pitfalls and following the recommended practices, developers can create more responsive, efficient, and maintainable .NET applications.\u003c/p\u003e\n","excerpt":"In this blog post, we explore the latest common pitfalls in .NET development and how to avoid them. We also provide practical code examples to help developers improve their coding practices.","postedBy":"Elijah Mondero","tags":["dotnet","development","async-await","database","csharp"],"image_path":"/posts/images/9065429f-4991-4fc8-b23b-4d89f5731552.png"}},"__N_SSG":true},"page":"/post/[id]","query":{"id":"dotnet-common-pitfalls"},"buildId":"AhocoIfTj-aeijxpZnKUv","assetPrefix":".","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>
