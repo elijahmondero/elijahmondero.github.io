@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 import { Helmet } from 'react-helmet';
 import Giscus from '@giscus/react';
 import { format } from 'date-fns';
@@ -79,7 +78,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
         {post.image_path && <img src={post.image_path} alt={post.title} className="blog-post-image" />}
         <div className="blog-post-text">
           <h2>{post.title}</h2>
-          <ReactMarkdown>{post.contentHtml}</ReactMarkdown>
+          <div dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
           <p className="meta"><strong>Posted by:</strong> {post.postedBy}</p>
           {post.dateModified && post.modifiedBy && (
             <p className="meta"><strong>Modified by:</strong> {post.modifiedBy} on {format(new Date(post.dateModified), 'MMMM d, yyyy \'at\' hh:mm:ss a')}</p>
