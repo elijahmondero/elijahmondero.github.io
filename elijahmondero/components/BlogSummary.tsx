@@ -7,10 +7,7 @@ interface BlogSummaryProps {
   title: string;
   excerpt: string;
   link: string;
-  datePosted: string;
-  dateModified?: string;
   postedBy: string;
-  modifiedBy?: string;
   image_path?: string;
   isDarkTheme: boolean;
 }
@@ -28,7 +25,7 @@ const formatDateTime = (dateTime: string) => {
   return new Date(dateTime).toLocaleString(undefined, options);
 };
 
-const BlogSummary: React.FC<BlogSummaryProps> = ({ title, excerpt, link, datePosted, dateModified, postedBy, modifiedBy, image_path }) => {
+const BlogSummary: React.FC<BlogSummaryProps> = ({ title, excerpt, link, postedBy, image_path }) => {
   const [url, setUrl] = useState('');
 
   useEffect(() => {
@@ -47,8 +44,6 @@ const BlogSummary: React.FC<BlogSummaryProps> = ({ title, excerpt, link, datePos
             "headline": title,
             "description": excerpt,
             "author": postedBy,
-            "datePublished": datePosted,
-            "dateModified": dateModified,
             "url": url
           })}
         </script>
@@ -70,10 +65,7 @@ const BlogSummary: React.FC<BlogSummaryProps> = ({ title, excerpt, link, datePos
         <div className="blog-summary-text">
           <h2>{title}</h2>
           <p>{excerpt}</p>
-          <p className="meta"><strong>Posted by:</strong> {postedBy} on {formatDateTime(datePosted)}</p>
-          {dateModified && modifiedBy && (
-            <p className="meta"><strong>Modified by:</strong> {modifiedBy} on {formatDateTime(dateModified)}</p>
-          )}
+          <p className="meta"><strong>Posted by:</strong> {postedBy}</p>
           <Link href={link} className="read-more">Read more</Link>
         </div>
       </div>

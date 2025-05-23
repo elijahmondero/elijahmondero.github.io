@@ -10,13 +10,11 @@ import { useTheme } from '../context/ThemeContext';
 interface Post {
   title: string;
   excerpt: string;
-  content: string;
-  datePosted: string;
+  contentHtml: string;
   dateModified?: string;
   modifiedBy?: string;
   postedBy: string;
   tags: string[];
-  sources: string[];
   image_path?: string;
 }
 
@@ -53,10 +51,9 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
             "headline": post.title,
             "description": post.excerpt,
             "author": post.postedBy,
-            "datePublished": post.datePosted,
             "dateModified": post.dateModified,
             "url": url,
-            "articleBody": post.content,
+            "articleBody": post.contentHtml,
             "keywords": post.tags.join(', '),
             "mainEntityOfPage": {
               "@type": "WebPage",
@@ -82,25 +79,12 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
         {post.image_path && <img src={post.image_path} alt={post.title} className="blog-post-image" />}
         <div className="blog-post-text">
           <h2>{post.title}</h2>
-          <ReactMarkdown>{post.content}</ReactMarkdown>
-          <p className="meta"><strong>Posted by:</strong> {post.postedBy} on {format(new Date(post.datePosted), 'MMMM d, yyyy \'at\' hh:mm:ss a')}</p>
+          <ReactMarkdown>{post.contentHtml}</ReactMarkdown>
+          <p className="meta"><strong>Posted by:</strong> {post.postedBy}</p>
           {post.dateModified && post.modifiedBy && (
             <p className="meta"><strong>Modified by:</strong> {post.modifiedBy} on {format(new Date(post.dateModified), 'MMMM d, yyyy \'at\' hh:mm:ss a')}</p>
           )}
           <p className="meta"><strong>Tags:</strong> {post.tags.join(', ')}</p>
-          
-          {post.sources.length > 0 && (
-            <div className="meta">
-              <strong>Sources:</strong>
-              <ul className="sources-list">
-                {post.sources.map((source, index) => (
-                  <li key={index}>
-                    <a href={source} target="_blank" rel="noopener noreferrer">{source}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
         <Giscus
           repo="elijahmondero/elijahmondero.github.io"

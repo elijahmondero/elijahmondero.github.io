@@ -3,14 +3,14 @@ import Link from 'next/link';
 import Head from 'next/head';
 import BlogSummary from '../components/BlogSummary';
 import { useTheme } from '../context/ThemeContext';
-import { getSortedPostsMetadata, PostMetadata } from '../lib/posts'; // Import from the new lib file
+import { getSortedPostsData, PostData } from '../lib/posts'; // Import from the new lib file
 
 interface HomeProps {
-  posts: PostMetadata[];
+  posts: PostData[];
 }
 
 export async function getStaticProps() {
-  const posts = getSortedPostsMetadata(); // Use the function from lib/posts.ts
+  const posts = getSortedPostsData(); // Use the function from lib/posts.ts
   return {
     props: {
       posts,
@@ -20,11 +20,11 @@ export async function getStaticProps() {
 
 const Home = ({ posts }: HomeProps) => {
   const { isDarkTheme, toggleTheme } = useTheme();
-  const [displayedPosts, setDisplayedPosts] = useState<PostMetadata[]>([]);
+  const [displayedPosts, setDisplayedPosts] = useState<PostData[]>([]);
   const postsPerPage = 10; // Number of posts to load per scroll
   const [nextPostIndex, setNextPostIndex] = useState(postsPerPage); // Index of the next post to load
 
-  const [trendingPosts, setTrendingPosts] = useState<PostMetadata[]>([]);
+  const [trendingPosts, setTrendingPosts] = useState<PostData[]>([]);
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -140,10 +140,7 @@ const Home = ({ posts }: HomeProps) => {
                 title={post.title}
                 excerpt={post.excerpt}
                 link={`/post/${post.id}`}
-                datePosted={post.datePosted}
-                dateModified={post.dateModified}
                 postedBy={post.postedBy}
-                modifiedBy={post.modifiedBy}
                 image_path={post.image_path}
                 isDarkTheme={isDarkTheme}
               />

@@ -1,53 +1,133 @@
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+import { remark } from 'remark';
+import html from 'remark-html';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Define the interface for blog post data
 export interface PostData {
   id: string; // Unique identifier for the post (e.g., slug)
   title: string;
-  date: string; // Consider using Date type if parsing dates
+  date: string; // Date string from frontmatter
   contentHtml: string; // HTML content of the post
-  excerpt: string;
-  postedBy: string;
-  datePosted: string;
-  dateModified?: string; // Optional property
+  excerpt: string; // Mapped from summary
+  postedBy: string; // Mapped from authors
   tags: string[];
-  sources: string[];
   image_path?: string; // Optional property
 }
 
-// Placeholder function to get all post IDs (for static paths)
-export function getAllPostIds() {
-  // This function should read your post files (e.g., markdown files)
-  // and return an array of objects like [{ params: { id: 'post-slug' } }]
-  // For now, return an empty array or dummy data
-  console.warn("getAllPostIds is a placeholder and needs implementation.");
-  return [];
-}
+const postsDirectory = path.join(__dirname, '..', 'posts');
 
-// Placeholder function to get post data by ID (for static props)
-export function getPostData(id: string): PostData {
-  // This function should read the specific post file based on the ID
-  // and return the parsed PostData object.
-  // For now, return dummy data
-  console.warn(`getPostData for ID "${id}" is a placeholder and needs implementation.`);
-  return {
-    id,
-    title: `Placeholder Post: ${id}`,
-    date: '2023-01-01',
-    contentHtml: '<p>This is placeholder content for post: <strong>${id}</strong>.</p>',
-    excerpt: `Placeholder excerpt for post: ${id}`,
-    postedBy: 'Placeholder Author',
-    datePosted: '2023-01-01T10:00:00Z', // Dummy date string
-    dateModified: '2023-01-01T10:00:00Z', // Dummy date string
-    tags: ['placeholder', 'dummy'],
-    sources: ['http://placeholder.com'],
-    image_path: undefined, // Or a dummy image path if available
-  };
-}
-
-// Placeholder function to get sorted posts (for index page)
 export function getSortedPostsData(): PostData[] {
-  // This function should read all post files, parse them, sort them by date,
-  // and return an array of PostData objects (or a summary version).
-  // For now, return an empty array or dummy data
-  console.warn("getSortedPostsData is a placeholder and needs implementation.");
-  return [];
+  // Get file names under /posts
+  const fileNames = fs.readdirSync(postsDirectory);
+  const allPostsData = fileNames.map((fileName) => {
+    // Remove ".md" from file name to get id
+    const id = fileName.replace(/\.md$/, '');
+
+    // Read markdown file as string
+    const fullPath = path.join(postsDirectory, fileName);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+
+    // Use gray-matter to parse the post metadata section
+    const matterResult = matter(fileContents);
+
+    // Extract data from frontmatter and map to PostData interface
+    const frontmatter = matterResult.data as {
+      title: string;
+      date: string;
+      summary: string;
+      tags: string[];
+      authors: Array<{ name: string }>;
+      image_path?: string;
+    };
+
+    const postData: PostData = {
+      id,
+      title: frontmatter.title,
+      date: frontmatter.date,
+      contentHtml: '', // contentHtml will be generated later for individual posts
+      excerpt: frontmatter.summary,
+      postedBy: frontmatter.authors && frontmatter.authors.length > 0 ? frontmatter.authors[0].name : 'Unknown Author',
+      tags: frontmatter.tags || [],
+      image_path: frontmatter.image_path ?? null, // Use null if image_path is undefined
+    };
+
+    return postData;
+  });
+
+  // Sort posts by date
+  return allPostsData.sort((a, b) => {
+    if (a.date < b.date) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+}
+
+export function getAllPostIds() {
+  const fileNames = fs.readdirSync(postsDirectory);
+
+  // Returns an array that looks like this:
+  // [
+  //   {
+  //     params: {
+  //       id: 'ssg-ssr'
+  //     }
+  //   },
+  //   {
+  //     params: {
+  //       id: 'pre-rendering'
+  //     }
+  //   }
+  // ]
+  return fileNames.map((fileName) => {
+    return {
+      params: {
+        id: fileName.replace(/\.md$/, ''),
+      },
+    };
+  });
+}
+
+export async function getPostData(id: string): Promise<PostData> {
+  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fileContents = fs.readFileSync(fullPath, 'utf8');
+
+  // Use gray-matter to parse the post metadata section
+  const matterResult = matter(fileContents);
+
+  // Use remark to convert markdown into HTML string
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content);
+  const contentHtml = processedContent.toString();
+
+  // Extract data from frontmatter and map to PostData interface
+  const frontmatter = matterResult.data as {
+    title: string;
+    date: string;
+    summary: string;
+    tags: string[];
+    authors: Array<{ name: string }>;
+    image_path?: string;
+  };
+
+  const postData: PostData = {
+    id,
+    title: frontmatter.title,
+    date: frontmatter.date,
+    contentHtml,
+    excerpt: frontmatter.summary,
+    postedBy: frontmatter.authors && frontmatter.authors.length > 0 ? frontmatter.authors[0].name : 'Unknown Author',
+    tags: frontmatter.tags || [],
+    image_path: frontmatter.image_path ?? null, // Use null if image_path is undefined
+  };
+
+  return postData;
 }
