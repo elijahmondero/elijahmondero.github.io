@@ -1,21 +1,32 @@
 import React, { useEffect, useState } from 'react';
-// import ReactMarkdown from 'react-markdown'; // No longer needed as we use contentHtml
+import ReactMarkdown from 'react-markdown';
 import { Helmet } from 'react-helmet';
 import Giscus from '@giscus/react';
 import { format } from 'date-fns';
 import Link from 'next/link';
-import Image from 'next/image'; // Import Image component
 import Head from 'next/head';
 import { useTheme } from '../context/ThemeContext';
-import { PostData } from '../lib/posts'; // Import PostData interface
 
-interface BlogPostProps {
-  post: PostData; // Use the imported PostData interface
-  isDarkTheme: boolean; // Keep this prop as it's used
+interface Post {
+  title: string;
+  excerpt: string;
+  content: string;
+  datePosted: string;
+  dateModified?: string;
+  modifiedBy?: string;
+  postedBy: string;
+  tags: string[];
+  sources: string[];
+  image_path?: string;
 }
 
-const BlogPost: React.FC<BlogPostProps> = ({ post, isDarkTheme }) => { // Destructure isDarkTheme
-  const { toggleTheme } = useTheme(); // Only need toggleTheme here
+interface BlogPostProps {
+  post: Post;
+  isDarkTheme: boolean;
+}
+
+const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
+  const { isDarkTheme, toggleTheme } = useTheme();
   const [url, setUrl] = useState('');
 
   useEffect(() => {
@@ -45,7 +56,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ post, isDarkTheme }) => { // Destru
             "datePublished": post.datePosted,
             "dateModified": post.dateModified,
             "url": url,
-            "articleBody": post.contentHtml, // Use contentHtml here
+            "articleBody": post.content,
             "keywords": post.tags.join(', '),
             "mainEntityOfPage": {
               "@type": "WebPage",
@@ -68,27 +79,16 @@ const BlogPost: React.FC<BlogPostProps> = ({ post, isDarkTheme }) => { // Destru
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="blog-post-content">
-        {post.image_path && (
-          <div style={{ position: 'relative', width: '100%', height: 'auto' }}> {/* Wrapper div for layout="fill" */}
-            <Image
-              src={post.image_path}
-              alt={post.title}
-              className="blog-post-image"
-              layout="fill" // Use layout="fill" to maintain aspect ratio and fill parent
-              objectFit="contain" // Or "cover" depending on desired behavior
-            />
-          </div>
-        )}
+        {post.image_path && <img src={post.image_path} alt={post.title} className="blog-post-image" />}
         <div className="blog-post-text">
           <h2>{post.title}</h2>
-          {/* Use dangerouslySetInnerHTML for pre-rendered HTML */}
-          <div dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
+          <ReactMarkdown>{post.content}</ReactMarkdown>
           <p className="meta"><strong>Posted by:</strong> {post.postedBy} on {format(new Date(post.datePosted), 'MMMM d, yyyy \'at\' hh:mm:ss a')}</p>
-          {post.dateModified && ( // Keep dateModified check if needed, but remove modifiedBy
-            <p className="meta"><strong>Last Modified:</strong> {format(new Date(post.dateModified), 'MMMM d, yyyy \'at\' hh:mm:ss a')}</p>
+          {post.dateModified && post.modifiedBy && (
+            <p className="meta"><strong>Modified by:</strong> {post.modifiedBy} on {format(new Date(post.dateModified), 'MMMM d, yyyy \'at\' hh:mm:ss a')}</p>
           )}
           <p className="meta"><strong>Tags:</strong> {post.tags.join(', ')}</p>
-
+          
           {post.sources.length > 0 && (
             <div className="meta">
               <strong>Sources:</strong>
@@ -117,7 +117,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ post, isDarkTheme }) => { // Destru
           loading="lazy"
         />
       </div>
-
+      
     </div>
   );
 };
