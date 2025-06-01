@@ -411,23 +411,38 @@ USER_ID = "blog_user"
 SESSION_ID = "blog_session"
 
 session_service = InMemorySessionService()
-session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID)
 runner = Runner(agent=pipeline, app_name=APP_NAME, session_service=session_service)
 
 # Run the pipeline
-def run_blog_generation_pipeline(prompt: str):
+async def run_blog_generation_pipeline(prompt: str):
     print("Gemini ADK Sequential Pipeline: Starting blog generation process...")
     print("--- ADK Runner Events ---")
     content = types.Content(role="user", parts=[types.Part(text=prompt)])
-    events = runner.run(user_id=USER_ID, session_id=SESSION_ID, new_message=content)
-    for event in events:
-        print(event)
-        if event.is_final_response():
-            print("\n📢 Final Publishing Status:\n")
-            print(event.content.parts[0].text)
 
-    print("--- End of ADK Runner Events ---")
-    print("Gemini ADK Sequential Pipeline: Pipeline complete.")
+    # Use await for session creation
+    await session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID)
+
+    try:
+        # Use run_async and async for
+        events = runner.run_async(
+            user_id=USER_ID,
+            session_id=SESSION_ID,
+            new_message=content
+        )
+
+        final_response_text = "Pipeline finished without final response"
+        async for event in events:
+            print(event)
+            if event.is_final_response():
+                final_response_text = event.content.parts[0].text
+                print("\n📢 Final Publishing Status:\n", final_response_text)
+
+        print("--- End of ADK Runner Events ---")
+        print("Gemini ADK Sequential Pipeline: Pipeline complete.")
+
+    except Exception as e:
+        print(f"Error running pipeline: {e}")
+        # Handle potential errors during the async run
 
 
 # Main execution
@@ -437,4 +452,5 @@ if __name__ == "__main__":
         sys.exit(1)
 
     prompt = sys.argv[1]
-    run_blog_generation_pipeline(prompt)
+    # Use asyncio.run to execute the async function
+    asyncio.run(run_blog_generation_pipeline(prompt))
