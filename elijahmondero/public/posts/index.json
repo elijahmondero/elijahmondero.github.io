@@ -1,5 +1,10 @@
 [
   {
+    "id": "llms-are-ai-but-theyre-not-all-of-it-understanding-the-difference",
+    "title": "LLMs Are AI, But They're Not *All* of It: Understanding the Difference",
+    "excerpt": "Confused about the difference between AI and LLMs? You're not alone. While Large Language Models are a powerful part of the AI landscape, they represent just one piece of a much bigger puzzle. Learn why they're related but distinct."
+  },
+  {
     "id": "beyond-the-chat-window-understanding-the-rise-of-ambient-agents",
     "title": "Beyond the Chat Window: Understanding the Rise of Ambient Agents",
     "excerpt": "Move over, chatbots. Ambient agents are a new wave of AI designed to work proactively in the background, monitoring information streams and taking intelligent action \u2013 often with smart human oversight. Discover how these agents differ from traditional AI and why the 'human-in-the-loop' is key to their success."
