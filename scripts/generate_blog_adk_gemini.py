@@ -159,7 +159,7 @@ def save_post(title: str, excerpt: str, content: str, tags: List[str], sources: 
         "title": title,
         "summary": excerpt,
         "date": post_date,
-        "postedBy": "Elijah Mondero",
+        "authors": [{ "name": "Elijah Mondero" }],
         "tags": tags,
         "sources": sources,
         "image_path": image_path
