@@ -157,8 +157,8 @@ def save_post(title: str, excerpt: str, content: str, tags: List[str], sources: 
     # Prepare frontmatter
     frontmatter = {
         "title": title,
-        "excerpt": excerpt,
-        "datePosted": post_date,
+        "summary": excerpt,
+        "date": post_date,
         "postedBy": "Elijah Mondero",
         "tags": tags,
         "sources": sources,

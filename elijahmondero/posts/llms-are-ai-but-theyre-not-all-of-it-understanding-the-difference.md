@@ -1,7 +1,7 @@
 ---
 title: "LLMs Are AI, But They're Not *All* of It: Understanding the Difference"
-excerpt: "Confused about the difference between AI and LLMs? You're not alone. While Large Language Models are a powerful part of the AI landscape, they represent just one piece of a much bigger puzzle. Learn why they're related but distinct."
-datePosted: "2025-06-01T08:37:22.771538Z"
+summary: "Confused about the difference between AI and LLMs? You're not alone. While Large Language Models are a powerful part of the AI landscape, they represent just one piece of a much bigger puzzle. Learn why they're related but distinct."
+date: "2025-06-01T08:37:22.771538Z"
 postedBy: "Elijah Mondero"
 tags: [
   "AI",
