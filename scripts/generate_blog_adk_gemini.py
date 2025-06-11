@@ -290,7 +290,7 @@ def publish_blog_post(title: str, excerpt: str, content: str, tags: List[str], s
         update_index(post_id, title, excerpt)
 
         # Update sitemap
-        update_sitemap(post_id, post_data["datePosted"])
+        update_sitemap(post_id, post_data["date"])
 
         # Construct and write PR details to GITHUB_ENV
         pr_title = title
