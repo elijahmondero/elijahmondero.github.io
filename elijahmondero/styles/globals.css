@@ -194,9 +194,6 @@ input:checked + .slider:before {
 }
 
 .blog-post-content {
-  display: flex;
-  
-  align-items: flex-start;
   flex-wrap: wrap;
   margin-top: 20px;
   padding: 20px;
@@ -207,7 +204,14 @@ input:checked + .slider:before {
   margin-right: 20px;
 }
 
+.blog-post-content::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .blog-post-image {
+  float: left;
   width: 100%;
   max-width: 500px; /* Ensure image takes full width of the container */
   height: auto;
