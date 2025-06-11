@@ -2,9 +2,8 @@
 title: "From Prompt Hacks to Protocols: The Evolution of Building Smarter AI Agents"
 summary: "AI agents are getting smarter, moving beyond simple text generation to taking actions and interacting with the real world. This leap is powered by the evolution of how we 'prompt' them, progressing from clever text patterns like ReAct to standardized tools and data access protocols. Explore this journey and what it means for the future of AI."
 date: "2025-06-11T10:42:56.796944Z"
-authors: [
-  "{'name': 'Elijah Mondero'}",
-]
+authors:
+  - name: 'Elijah Mondero'
 tags: [
   "AI Agents",
   "Prompt Engineering",

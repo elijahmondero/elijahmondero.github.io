@@ -169,10 +169,13 @@ def save_post(title: str, excerpt: str, content: str, tags: List[str], sources: 
     frontmatter_str = "---\n"
     for key, value in frontmatter.items():
         if isinstance(value, list):
-            frontmatter_str += f"{key}: [\n"
+            frontmatter_str += f"{key}:\n"
             for item in value:
-                frontmatter_str += f"  \"{item}\",\n"
-            frontmatter_str += "]\n"
+                # Handle authors list specifically as it's a list of dicts
+                if key == "authors" and isinstance(item, dict):
+                    frontmatter_str += f"  - name: '{item.get('name', '')}'\n"
+                else:
+                    frontmatter_str += f"  - \"{item}\"\n"
         else:
             frontmatter_str += f"{key}: \"{value}\"\n"
     frontmatter_str += "---\n\n"
