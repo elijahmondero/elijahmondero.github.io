@@ -10,7 +10,7 @@ In 2006, I joined AccountMate Philippines. It was here that my career's theme be
 
 ### Chapter 2: The Singapore Hustle
 
-Driven by a desire for new challenges and a better financial position to support my family, I moved to Singapore. My first role at Xuenn was in the fast-paced world of online gaming, where I delivered product features for a high-traffic betting site. When that role was made redundant, I quickly pivoted.
+Driven by a desire for new challenges and career growth, I moved to Singapore. My first role at Xuenn was in the fast-paced world of online gaming, where I delivered product features for a high-traffic betting site. When that role was made redundant, I quickly pivoted.
 
 I joined Comtel Solutions as a consultant, deployed to their client, IHiS, Singapore's central healthcare IT agency. Here, I was again at the heart of a modernization project: migrating a critical clinical desktop application feature to the web.
 
@@ -18,13 +18,13 @@ My next role, at CrimsonLogic, became my proudest achievement in Singapore. I jo
 
 ### Chapter 3: A New Home in New Zealand
 
-Seeking long-term stability, my journey took me to New Zealand. My first role at Fiserv was a great introduction to the local tech scene and my first formal experience with Agile, working in sprints on their mobile banking platform. My dedication to delivering features was recognized when I was named **Most Valuable Player** for September 2014. However, with a growing family to support, I moved on after six months for an opportunity that offered better financial security, beginning a period where I was the sole income earner for our family for the next several years.
+Seeking long-term stability, my journey took me to New Zealand. My first role at Fiserv was a great introduction to the local tech scene and my first formal experience with Agile, working in sprints on their mobile banking platform. My dedication to delivering features was recognized when I was named **Most Valuable Player** for September 2014. After six months, I sought a role that better suited our family's move towards a suburban lifestyle and offered a much closer workplace on the North Shore.
 
 This led me to RAMM Software, a smaller company where I would spend nearly eight years. Though my title was Senior Developer, I carried the responsibilities of a Technical Lead. This role was the most front-end intensive of my career. We were migrating a legacy Delphi desktop application to a modern SaaS platform. This wasn't just any app; it was the asset management software used by nearly every council in New Zealand to manage the nation's roading infrastructure.
 
 ### Chapter 4: The Cloud and AI Frontier
 
-In 2022, I moved to MYOB for a better financial position, a year that brought many positive changes. My wife began her own full-time tech career, and together, we bought our first home. At MYOB, I transitioned into a platform engineering role, quickly becoming a "go-to" developer for our AWS-based systems. I was recognized as a high-performer, leading initiatives to build new microservices and infrastructure using AWS Lambda and Fargate.
+In 2022, after nearly eight years at RAMM, I felt it was time to move on to the next chapter of my career. This brought me to MYOB as a platform engineer (still maintaining my Senior Developer title), where I quickly accelerated my knowledge in cloud engineering. At MYOB, I transitioned into platform engineering, quickly becoming a "go-to" developer for our AWS-based systems. I was recognized as a high-performer, leading initiatives to build new microservices and infrastructure using AWS Lambda and Fargate. I also championed collaboration across teams and was nominated twice for this category, demonstrating my commitment to fostering teamwork and knowledge sharing.
 
 Seeking a company where I could build a long-term career with excellent growth prospects, I joined **Visa Inc.** in late 2024. While my core role involved migrating a legacy UI to React, I saw an opportunity to bring my passion for AI to the forefront. I joined a GenAI hackathon, and our "smart search" project was so successful it was greenlit as a major product initiative.
 
