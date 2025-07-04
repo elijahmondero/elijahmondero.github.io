@@ -431,13 +431,13 @@ const CareerStory = () => {
                     <div className={`award-card ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                       <div className="award-year">2025</div>
                       <h3>Champion of Change</h3>
-                      <p>Visa NZ - For GenAI initiatives and evangelism</p>
+                      <p>Visa Inc. - For taking charge of Spend Clarity's first GenAI initiatives</p>
                     </div>
                     
                     <div className={`award-card ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                       <div className="award-year">2025</div>
                       <h3>GenAI Ambassador</h3>
-                      <p>Visa Inc. - For knowledge sharing in LLMs and agent engineering</p>
+                      <p>Visa Inc. - For GenAI evangelism</p>
                     </div>
                     
                     <div className={`award-card ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
