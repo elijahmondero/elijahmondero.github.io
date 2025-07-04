@@ -102,7 +102,7 @@ const CareerStory = () => {
                   
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">October 2024 - Present</div>
-                    <div className="timeline-company"><a href="https://www.visa.co.nz/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#e0e0e0' : '#2c3e50', textDecoration: 'none' }}>Visa Inc.</a></div>
+                    <div className="timeline-company"><a href="https://www.visa.co.nz/" target="_blank" rel="noopener noreferrer">Visa Inc.</a></div>
                     <div className="timeline-role">Senior Developer</div>
                     <div className="timeline-description">
                       Leading React migration of employee management system and driving GenAI initiatives.
@@ -120,7 +120,7 @@ const CareerStory = () => {
 
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">May 2022 - September 2024</div>
-                    <div className="timeline-company"><a href="https://www.myob.com/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#e0e0e0' : '#2c3e50', textDecoration: 'none' }}>MYOB</a></div>
+                    <div className="timeline-company"><a href="https://www.myob.com/" target="_blank" rel="noopener noreferrer">MYOB</a></div>
                     <div className="timeline-role">Senior Developer (Platform Engineering)</div>
                     <div className="timeline-description">
                       Transitioned into platform engineering, becoming a "go-to" developer for AWS-based systems.
@@ -139,7 +139,7 @@ const CareerStory = () => {
 
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">November 2014 - April 2022</div>
-                    <div className="timeline-company"><a href="https://www.thinkproject.com/products/thinkproject-ramm/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#e0e0e0' : '#2c3e50', textDecoration: 'none' }}>RAMM Software</a></div>
+                    <div className="timeline-company"><a href="https://www.thinkproject.com/products/thinkproject-ramm/" target="_blank" rel="noopener noreferrer">RAMM Software</a></div>
                     <div className="timeline-role">Senior Developer / Technical Lead</div>
                     <div className="timeline-description">
                       Nearly eight years leading product teams, modernizing legacy systems, and mentoring developers. RAMM Software was acquired by Thinkproject on April 1st, 2020.
@@ -157,7 +157,7 @@ const CareerStory = () => {
 
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">May 2014 - November 2014</div>
-                    <div className="timeline-company"><a href="https://www.fiserv.com/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#e0e0e0' : '#2c3e50', textDecoration: 'none' }}>Fiserv</a></div>
+                    <div className="timeline-company"><a href="https://www.fiserv.com/" target="_blank" rel="noopener noreferrer">Fiserv</a></div>
                     <div className="timeline-role">Senior Software Developer</div>
                     <div className="timeline-description">
                       Contributed to "Mobiliti" mobile banking platform in fast-paced FinTech environment.
@@ -174,7 +174,7 @@ const CareerStory = () => {
 
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">May 2012 - 2014</div>
-                    <div className="timeline-company"><a href="https://www.crimsonlogic.com/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#e0e0e0' : '#2c3e50', textDecoration: 'none' }}>CrimsonLogic</a></div>
+                    <div className="timeline-company"><a href="https://www.crimsonlogic.com/" target="_blank" rel="noopener noreferrer">CrimsonLogic</a></div>
                     <div className="timeline-role">Senior Software Engineer → Lead Software Engineer</div>
                     <div className="timeline-description">
                       Instrumental in building Singapore's first electronic litigation system for the Supreme Court.
@@ -192,7 +192,7 @@ const CareerStory = () => {
 
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">May 2011 - May 2012</div>
-                    <div className="timeline-company">Comtel Solutions / <a href="https://www.synapxe.sg/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#e0e0e0' : '#2c3e50', textDecoration: 'none' }}>IHiS</a></div>
+                    <div className="timeline-company">Comtel Solutions / <a href="https://www.synapxe.sg/" target="_blank" rel="noopener noreferrer">IHiS</a></div>
                     <div className="timeline-role">Senior Software Consultant</div>
                     <div className="timeline-description">
                       Modernized clinical systems for Singapore's National Health Group. Worked with Integrated Health Information Systems (IHiS), now known as Synapxe Pte Ltd since 2023.
@@ -209,7 +209,7 @@ const CareerStory = () => {
 
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">August 2010 - April 2011</div>
-                    <div className="timeline-company"><a href="https://www.xuenn.com/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#e0e0e0' : '#2c3e50', textDecoration: 'none' }}>Xuenn Pte Ltd</a></div>
+                    <div className="timeline-company"><a href="https://www.xuenn.com/" target="_blank" rel="noopener noreferrer">Xuenn Pte Ltd</a></div>
                     <div className="timeline-role">IT Consultant</div>
                     <div className="timeline-description">
                       Fast-paced online gaming development for high-traffic betting platform.
@@ -227,7 +227,7 @@ const CareerStory = () => {
 
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">April 2006 - August 2010</div>
-                    <div className="timeline-company"><a href="https://www.accountmate.com/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#e0e0e0' : '#2c3e50', textDecoration: 'none' }}>AccountMate Philippines</a></div>
+                    <div className="timeline-company"><a href="https://www.accountmate.com/" target="_blank" rel="noopener noreferrer">AccountMate Philippines</a></div>
                     <div className="timeline-role">Junior Engineer → Senior → Team Lead</div>
                     <div className="timeline-description">
                       Career foundation: pioneered .NET development and earned trips to California, USA.
@@ -666,7 +666,20 @@ const CareerStory = () => {
           font-family: 'Merriweather', serif;
         }
 
+        .timeline-company a {
+          color: inherit;
+          text-decoration: none;
+        }
+
+        .timeline-company a:hover {
+          text-decoration: underline;
+        }
+
         .timeline-item.dark-theme .timeline-company {
+          color: #e0e0e0;
+        }
+
+        .timeline-item.dark-theme .timeline-company a {
           color: #e0e0e0;
         }
 

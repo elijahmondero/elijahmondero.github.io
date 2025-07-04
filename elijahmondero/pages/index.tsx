@@ -118,8 +118,8 @@ const Home = ({ posts }: HomeProps) => {
         <meta name="description" content="A blog about the latest in technology by Elijah Mondero" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="App">
-        <header className="App-header">
+      <div className={`App ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
+        <header className={`App-header ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
           <h1><Link href="/" className="home-link">The Tech Oracle</Link></h1>
           <label className="switch">
             <input type="checkbox" checked={isDarkTheme} onChange={toggleTheme} />
@@ -142,7 +142,7 @@ const Home = ({ posts }: HomeProps) => {
               <p>
                 Senior Developer with <strong>19+ years</strong> experience across 4 countries. 
                 Currently <strong>GenAI Champion at Visa Inc.</strong> 
-                <Link href="/career-story" className="read-more-inline">
+                <Link href="/career-story" className={`read-more-inline ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                   View full career story →
                 </Link>
               </p>
