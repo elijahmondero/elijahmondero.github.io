@@ -13,15 +13,24 @@ interface ThemeProviderProps {
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [isDarkTheme, setIsDarkTheme] = useState(() => {
-    const savedTheme = Cookies.get('theme');
-    return savedTheme === 'dark';
-  });
+  const [isDarkTheme, setIsDarkTheme] = useState(false); // Default to light theme during SSR
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    document.body.className = isDarkTheme ? 'dark-theme' : 'light-theme';
-    Cookies.set('theme', isDarkTheme ? 'dark' : 'light', { expires: 365 });
-  }, [isDarkTheme]);
+    // This runs only on the client side
+    setIsClient(true);
+    const savedTheme = Cookies.get('theme');
+    const shouldBeDark = savedTheme === 'dark';
+    setIsDarkTheme(shouldBeDark);
+    document.body.className = shouldBeDark ? 'dark-theme' : 'light-theme';
+  }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      document.body.className = isDarkTheme ? 'dark-theme' : 'light-theme';
+      Cookies.set('theme', isDarkTheme ? 'dark' : 'light', { expires: 365 });
+    }
+  }, [isDarkTheme, isClient]);
 
   const toggleTheme = () => {
     setIsDarkTheme(prevTheme => !prevTheme);
