@@ -112,11 +112,16 @@ body.dark-theme {
   color: #e0e0e0;
 }
 
-.App-header.dark-theme,
 body.dark-theme .App-header {
-  background-color: #1f1f1f !important;
-  color: #e0e0e0 !important;
-  border-bottom: 1px solid #333 !important;
+  background-color: #1f1f1f;
+  color: #e0e0e0;
+  border-bottom: 1px solid #333;
+}
+
+body.light-theme .App-header {
+  background-color: #f8f9fa;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .blog-summary.dark-theme, .blog-post-content.dark-theme {
@@ -369,11 +374,16 @@ input:checked + .slider:before {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.career-brief.dark-theme,
 body.dark-theme .career-brief {
-  background: #1f1f1f !important;
-  border-color: #333 !important;
-  color: #e0e0e0 !important;
+  background: #1f1f1f;
+  border-color: #333;
+  color: #e0e0e0;
+}
+
+body.light-theme .career-brief {
+  background: #f8f9fa;
+  border-color: #e0e0e0;
+  color: #333;
 }
 
 .career-summary h3 {
@@ -384,8 +394,12 @@ body.dark-theme .career-brief {
   font-family: 'Merriweather', serif;
 }
 
-.career-brief.dark-theme .career-summary h3 {
+body.dark-theme .career-brief .career-summary h3 {
   color: #e0e0e0;
+}
+
+body.light-theme .career-brief .career-summary h3 {
+  color: #495057;
 }
 
 .career-summary p {
