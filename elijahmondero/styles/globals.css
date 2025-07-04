@@ -350,3 +350,74 @@ input:checked + .slider:before {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+/* Career Overview Compact Section */
+.career-overview-compact {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.career-brief {
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f8f9fa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.career-brief.dark-theme {
+  background: #1f1f1f;
+  border-color: #333;
+  color: #e0e0e0;
+}
+
+.career-summary h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #495057;
+  font-family: 'Merriweather', serif;
+}
+
+.career-brief.dark-theme .career-summary h3 {
+  color: #e0e0e0;
+}
+
+.career-summary p {
+  margin: 0;
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+
+.read-more-inline {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.read-more-inline:hover {
+  text-decoration: underline;
+}
+
+.career-brief.dark-theme .read-more-inline {
+  color: #bb86fc;
+}
+
+@media (max-width: 768px) {
+  .career-brief {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 12px;
+  }
+  
+  .career-summary h3 {
+    font-size: 1.1em;
+  }
+  
+  .career-summary p {
+    font-size: 0.9em;
+  }
+}

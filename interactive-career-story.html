@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elijah Mondero - Interactive Career Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .timeline-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .timeline-nav {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            overflow-x: auto;
+        }
+
+        .timeline-nav button {
+            background: none;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .timeline-nav button:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .timeline-nav button.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .timeline-content {
+            padding: 30px;
+        }
+
+        .timeline-section {
+            display: none;
+        }
+
+        .timeline-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .career-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .career-timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-left: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 30px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .timeline-company {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .timeline-role {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .timeline-description {
+            margin-bottom: 15px;
+        }
+
+        .timeline-achievements {
+            background: #e8f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .timeline-achievements h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .timeline-achievements ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .timeline-achievements li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .timeline-achievements li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .skill-category {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill-category h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            transition: background 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: #5a67d8;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .project-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .project-period {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .awards-section {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .award-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .award-year {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .current-focus {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .current-focus h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .current-focus p {
+            color: #34495e;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .timeline-content {
+                padding: 20px;
+            }
+            
+            .timeline-item {
+                margin-left: 10px;
+                padding: 20px;
+            }
+            
+            .skills-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Elijah Mondero</h1>
+            <p>Senior Developer | Cloud Engineering | AI Champion</p>
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline-nav">
+                <button onclick="showSection('overview')" class="active">Overview</button>
+                <button onclick="showSection('timeline')">Career Timeline</button>
+                <button onclick="showSection('skills')">Skills Journey</button>
+                <button onclick="showSection('projects')">Tech Hobbies</button>
+                <button onclick="showSection('awards')">Awards & Recognition</button>
+            </div>
+
+            <div class="timeline-content">
+                <!-- Overview Section -->
+                <div id="overview" class="timeline-section active">
+                    <h2>My Developer Journey: A Story of Evolution</h2>
+                    <p style="font-size: 1.1em; margin-bottom: 20px;">My career has been a journey across countries, industries, and technologies. Looking back, a clear theme emerges: a passion for driving technological evolution. From migrating legacy systems to pioneering new frameworks, I've always been drawn to the challenge of building the future.</p>
+                    
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h3>🌍 Geographic Journey</h3>
+                            <p>Started in <strong>Philippines</strong>, expanded to <strong>USA (California)</strong>, thrived in <strong>Singapore</strong>, and now calling <strong>New Zealand</strong> home.</p>
+                        </div>
+                        <div class="skill-category">
+                            <h3>📈 Career Progression</h3>
+                            <p>From <strong>Junior Engineer</strong> to <strong>Technical Lead</strong> to <strong>Senior Developer</strong> with AI expertise, spanning <strong>19+ years</strong> of experience.</p>
+                        </div>
+                        <div class="skill-category">
+                            <h3>🎯 Industry Impact</h3>
+                            <p>Contributed to <strong>ERP systems</strong>, <strong>online gaming</strong>, <strong>healthcare</strong>, <strong>e-government</strong>, <strong>fintech</strong>, and <strong>AI innovation</strong>.</p>
+                        </div>
+                    </div>
+
+                    <div class="current-focus">
+                        <h2>Current Focus</h2>
+                        <p>Today, I am a Senior Developer with my sights set on a senior Individual Contributor (IC) role, such as a Development Specialist or Principal Engineer. My journey has been defined by embracing change and driving technological evolution. From desktop to web, from monoliths to microservices, and now into the frontier of Generative AI, I am more excited than ever to continue learning, mentoring, and solving the complex challenges of tomorrow.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Section -->
+                <div id="timeline" class="timeline-section">
+                    <h2>Career Timeline</h2>
+                    <div class="career-timeline">
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">October 2024 - Present</div>
+                            <div class="timeline-company">Visa Inc.</div>
+                            <div class="timeline-role">Senior Developer</div>
+                            <div class="timeline-description">
+                                Leading React migration of employee management system and driving GenAI initiatives.
+                            </div>
+                            <div class="timeline-achievements">
+                                <h4>Key Achievements</h4>
+                                <ul>
+                                    <li>Champion of Change for Visa NZ (May 2025)</li>
+                                    <li>GenAI Ambassador badge (June 2025)</li>
+                                    <li>Led successful GenAI hackathon project - "smart search" feature</li>
+                                    <li>Member of AI Champions community</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">2022 - October 2024</div>
+                            <div class="timeline-company">MYOB</div>
+                            <div class="timeline-role">Senior Developer (Platform Engineering)</div>
+                            <div class="timeline-description">
+                                Transitioned into platform engineering, becoming a "go-to" developer for AWS-based systems.
+                            </div>
+                            <div class="timeline-achievements">
+                                <h4>Key Achievements</h4>
+                                <ul>
+                                    <li>Led design of secure debug provisioning system</li>
+                                    <li>Built new modern hosting platform for SREs</li>
+                                    <li>Pioneered microservices using AWS Lambda and Fargate</li>
+                                    <li>Developed RAG application using Azure OpenAI</li>
+                                    <li>Nominated twice for collaboration excellence</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">November 2014 - 2022</div>
+                            <div class="timeline-company">RAMM Software</div>
+                            <div class="timeline-role">Senior Developer / Technical Lead</div>
+                            <div class="timeline-description">
+                                Nearly eight years leading product teams, modernizing legacy systems, and mentoring developers.
+                            </div>
+                            <div class="timeline-achievements">
+                                <h4>Key Achievements</h4>
+                                <ul>
+                                    <li>Led migration from legacy Delphi to modern SaaS platform</li>
+                                    <li>Promoted to Technical Lead within 3 months</li>
+                                    <li>Established Gitflow workflow and Git migration</li>
+                                    <li>Pioneered first .NET Core application</li>
+                                    <li>Served as Scrum Master and mentor</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">May 2014 - November 2014</div>
+                            <div class="timeline-company">Fiserv</div>
+                            <div class="timeline-role">Senior Software Developer</div>
+                            <div class="timeline-description">
+                                Contributed to "Mobiliti" mobile banking platform in fast-paced FinTech environment.
+                            </div>
+                            <div class="timeline-achievements">
+                                <h4>Key Achievements</h4>
+                                <ul>
+                                    <li>Most Valuable Player for September 2014</li>
+                                    <li>Delivered key features for mobile banking platform</li>
+                                    <li>First formal experience with Agile methodology</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">May 2012 - 2014</div>
+                            <div class="timeline-company">CrimsonLogic</div>
+                            <div class="timeline-role">Senior Software Engineer → Lead Software Engineer</div>
+                            <div class="timeline-description">
+                                Instrumental in building Singapore's first electronic litigation system for the Supreme Court.
+                            </div>
+                            <div class="timeline-achievements">
+                                <h4>Key Achievements</h4>
+                                <ul>
+                                    <li>Core contributor to eLitigation (elitigation.sg)</li>
+                                    <li>Built bespoke JavaScript framework (similar to early AngularJS)</li>
+                                    <li>On-site deployment at Supreme Court data center</li>
+                                    <li>Promoted to Lead Software Engineer</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">May 2011 - May 2012</div>
+                            <div class="timeline-company">Comtel Solutions / IHiS</div>
+                            <div class="timeline-role">Senior Software Consultant</div>
+                            <div class="timeline-description">
+                                Modernized clinical systems for Singapore's National Health Group.
+                            </div>
+                            <div class="timeline-achievements">
+                                <h4>Key Achievements</h4>
+                                <ul>
+                                    <li>Results Module Webify project - desktop to web migration</li>
+                                    <li>Disaster Recovery Tool using Silverlight and WCF</li>
+                                    <li>Contributed to critical healthcare applications</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">August 2010 - April 2011</div>
+                            <div class="timeline-company">Xuenn Pte Ltd</div>
+                            <div class="timeline-role">IT Consultant</div>
+                            <div class="timeline-description">
+                                Fast-paced online gaming development for high-traffic betting platform.
+                            </div>
+                            <div class="timeline-achievements">
+                                <h4>Key Achievements</h4>
+                                <ul>
+                                    <li>Delivered features for www.188bet.com</li>
+                                    <li>Worked on "AgileBet" second-generation system</li>
+                                    <li>Solved critical concurrency and performance issues</li>
+                                    <li>Handled thousands of concurrent users</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">April 2006 - August 2010</div>
+                            <div class="timeline-company">AccountMate Philippines</div>
+                            <div class="timeline-role">Junior Engineer → Senior → Team Lead</div>
+                            <div class="timeline-description">
+                                Career foundation: pioneered .NET development and earned trips to California, USA.
+                            </div>
+                            <div class="timeline-achievements">
+                                <h4>Key Achievements</h4>
+                                <ul>
+                                    <li>Special Merit Award for Development Innovation (2007)</li>
+                                    <li>Led Visual FoxPro to .NET migration</li>
+                                    <li>Two deployments to California (2008, 2009-2010)</li>
+                                    <li>Promoted to Team Lead after 4 years</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Skills Section -->
+                <div id="skills" class="timeline-section">
+                    <h2>Technical Skills Journey</h2>
+                    <p style="margin-bottom: 30px;">My technical skills have evolved alongside my career, from foundational Microsoft technologies to modern cloud and AI expertise.</p>
+                    
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h3>Core Languages & Frameworks</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">C#</span>
+                                <span class="skill-tag">.NET Framework</span>
+                                <span class="skill-tag">.NET Core</span>
+                                <span class="skill-tag">VB.NET</span>
+                                <span class="skill-tag">TypeScript</span>
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">Entity Framework</span>
+                                <span class="skill-tag">LINQ</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3>Web Development</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">React</span>
+                                <span class="skill-tag">ASP.NET MVC</span>
+                                <span class="skill-tag">Web API</span>
+                                <span class="skill-tag">AngularJS</span>
+                                <span class="skill-tag">SignalR</span>
+                                <span class="skill-tag">WPF (MVVM)</span>
+                                <span class="skill-tag">Knockout.js</span>
+                                <span class="skill-tag">jQuery</span>
+                                <span class="skill-tag">Bootstrap</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3>Cloud & DevOps</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">AWS Lambda</span>
+                                <span class="skill-tag">AWS Fargate</span>
+                                <span class="skill-tag">AWS S3</span>
+                                <span class="skill-tag">Microsoft Azure</span>
+                                <span class="skill-tag">Docker</span>
+                                <span class="skill-tag">Kubernetes</span>
+                                <span class="skill-tag">Terraform</span>
+                                <span class="skill-tag">Git (Gitflow)</span>
+                                <span class="skill-tag">Azure DevOps</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3>Artificial Intelligence</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Generative AI</span>
+                                <span class="skill-tag">Large Language Models</span>
+                                <span class="skill-tag">Agent Engineering</span>
+                                <span class="skill-tag">RAG (Retrieval-Augmented Generation)</span>
+                                <span class="skill-tag">Azure OpenAI</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3>Databases & Data</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">MS SQL Server</span>
+                                <span class="skill-tag">Oracle 10g</span>
+                                <span class="skill-tag">ADO.NET</span>
+                                <span class="skill-tag">nHibernate</span>
+                                <span class="skill-tag">Crystal Reports</span>
+                                <span class="skill-tag">SSRS</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3>Methodologies & Architecture</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Microservices</span>
+                                <span class="skill-tag">Domain-Driven Design</span>
+                                <span class="skill-tag">Test-Driven Development</span>
+                                <span class="skill-tag">Scrum</span>
+                                <span class="skill-tag">Design Patterns</span>
+                                <span class="skill-tag">OOP</span>
+                                <span class="skill-tag">N-Tier Architecture</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Section -->
+                <div id="projects" class="timeline-section">
+                    <h2>Tech Hobbies & Side Projects</h2>
+                    <p style="margin-bottom: 30px;">My passion for technology extends beyond professional work through personal projects, freelance work, and experimental ventures.</p>
+                    
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <h3>🤖 The New Oracle</h3>
+                            <div class="project-period">Current Project</div>
+                            <p>AI-generated news blog powered by multi-agent architecture. Fully automated system using GitHub Actions that analyzes news and publishes articles hourly.</p>
+                            <div style="margin-top: 15px;">
+                                <strong>Tech Stack:</strong> AI Agents, GitHub Actions, Multi-Agent Architecture
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <h3>💼 Clubfit Gym Management</h3>
+                            <div class="project-period">Freelance Project</div>
+                            <p>Cloud-hosted gym management system for Australian client. Integrated various hardware entry systems including fob and fingerprint scanners (InnerRange, Genie).</p>
+                            <div style="margin-top: 15px;">
+                                <strong>Status:</strong> Still active today
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <h3>🎮 Project Emerald</h3>
+                            <div class="project-period">Personal Project</div>
+                            <p>Top-down Pokémon-style RPG simulation using WPF and WCF duplex services. Complex real-time, multi-user server logic implementation.</p>
+                            <div style="margin-top: 15px;">
+                                <strong>Tech Stack:</strong> WPF, WCF, Real-time Gaming
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <h3>📊 Project Julie</h3>
+                            <div class="project-period">Personal Project</div>
+                            <p>Full n-Tier, domain-driven accounting system with MVVM frontend, WCF services, and Entity Framework POCO data layer.</p>
+                            <div style="margin-top: 15px;">
+                                <strong>Tech Stack:</strong> MVVM, WCF, Entity Framework
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <h3>🎮 Ninjuro Ragnarok Online</h3>
+                            <div class="project-period">University Era</div>
+                            <p>Successfully hosted private MMORPG server using rAthena emulator. Managed databases, server maintenance, and online gaming communities.</p>
+                            <div style="margin-top: 15px;">
+                                <strong>Learning:</strong> Server Management, Database Administration
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <h3>🔧 Self-Hosted DevOps</h3>
+                            <div class="project-period">mondero.net era</div>
+                            <p>Ran personal server hosting Git repositories (Stash), bug tracker (JIRA), and tech blog. Personal DevOps learning laboratory.</p>
+                            <div style="margin-top: 15px;">
+                                <strong>Tech Stack:</strong> Git, JIRA, Bamboo CI, Self-hosted Infrastructure
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Awards Section -->
+                <div id="awards" class="timeline-section">
+                    <div class="awards-section">
+                        <h2>Awards & Recognition</h2>
+                        <p style="margin-bottom: 30px;">Recognition received throughout my career journey across different companies and countries.</p>
+                        
+                        <div class="awards-grid">
+                            <div class="award-card">
+                                <div class="award-year">2025</div>
+                                <h3>Champion of Change</h3>
+                                <p>Visa NZ - For GenAI initiatives and evangelism</p>
+                            </div>
+                            
+                            <div class="award-card">
+                                <div class="award-year">2025</div>
+                                <h3>GenAI Ambassador</h3>
+                                <p>Visa Inc. - For knowledge sharing in LLMs and agent engineering</p>
+                            </div>
+                            
+                            <div class="award-card">
+                                <div class="award-year">2014</div>
+                                <h3>Most Valuable Player</h3>
+                                <p>Fiserv Limited - September 2014</p>
+                            </div>
+                            
+                            <div class="award-card">
+                                <div class="award-year">2007</div>
+                                <h3>Special Merit Award</h3>
+                                <p>AccountMate Philippines - Development Innovation</p>
+                            </div>
+                            
+                            <div class="award-card">
+                                <div class="award-year">2006</div>
+                                <h3>Third Honors (Cum Laude)</h3>
+                                <p>University of Cebu - Computer Science Degree</p>
+                            </div>
+                            
+                            <div class="award-card">
+                                <div class="award-year">1998-2002</div>
+                                <h3>Best in Computer (4x)</h3>
+                                <p>San Isidro Parish School - Four consecutive years</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.timeline-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.timeline-nav button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Add some interactive animations on scroll
+        window.addEventListener('scroll', () => {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach(item => {
+                item.style.opacity = '0.3';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+        });
+    </script>
+</body>
+</html>
