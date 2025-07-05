@@ -1,5 +1,10 @@
 [
   {
+    "id": "navigating-the-ai-hype-cycle-where-enterprise-ai-stands-today",
+    "title": "Navigating the AI Hype Cycle: Where Enterprise AI Stands Today",
+    "excerpt": "AI technologies are evolving rapidly, and their journey is often mapped by the Gartner Hype Cycle. Learn where key areas like Cloud AI and Generative AI sit in 2024, why they're entering the 'Trough of Disillusionment,' and what this means for businesses focused on practical adoption and real value."
+  },
+  {
     "id": "from-prompt-hacks-to-protocols-the-evolution-of-building-smarter-ai-agents",
     "title": "From Prompt Hacks to Protocols: The Evolution of Building Smarter AI Agents",
     "excerpt": "AI agents are getting smarter, moving beyond simple text generation to taking actions and interacting with the real world. This leap is powered by the evolution of how we 'prompt' them, progressing from clever text patterns like ReAct to standardized tools and data access protocols. Explore this journey and what it means for the future of AI."
