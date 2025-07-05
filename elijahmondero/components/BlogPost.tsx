@@ -25,33 +25,48 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
   }, []);
 
   useEffect(() => {
-    document.body.className = isDarkTheme ? 'dark-theme' : 'light-theme';
+    if (typeof window !== 'undefined' && document.body) {
+      document.body.className = isDarkTheme ? 'dark-theme' : 'light-theme';
+    }
   }, [isDarkTheme]);
 
   // Extract table of contents from content
   useEffect(() => {
-    if (post.contentHtml) {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(post.contentHtml, 'text/html');
-      const headings = doc.querySelectorAll('h1, h2, h3, h4');
-      const toc = Array.from(headings).map((heading, index) => {
-        const id = `heading-${index}`;
-        heading.id = id;
-        return {
-          id,
-          title: heading.textContent || '',
-          level: parseInt(heading.tagName.charAt(1))
-        };
-      });
-      setTableOfContents(toc);
-      
-      // Update the post content with IDs
-      const updatedContent = doc.body.innerHTML;
-      if (updatedContent !== post.contentHtml) {
-        post.contentHtml = updatedContent;
+    if (post?.contentHtml && typeof window !== 'undefined') {
+      try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(post.contentHtml, 'text/html');
+        const headings = doc.querySelectorAll('h1, h2, h3, h4');
+        const toc = Array.from(headings).map((heading, index) => {
+          const id = `heading-${index}`;
+          if (heading) {
+            heading.id = id;
+          }
+          return {
+            id,
+            title: heading?.textContent || '',
+            level: parseInt(heading?.tagName?.charAt(1) || '2')
+          };
+        });
+        setTableOfContents(toc);
+      } catch (error) {
+        console.warn('Error parsing table of contents:', error);
+        setTableOfContents([]);
       }
     }
-  }, [post.contentHtml]);
+  }, [post?.contentHtml]);
+
+  // Update actual DOM headings with IDs after render
+  useEffect(() => {
+    if (typeof window !== 'undefined' && tableOfContents.length > 0) {
+      tableOfContents.forEach((item, index) => {
+        const heading = document.querySelector(`h${item.level}:nth-of-type(${index + 1})`);
+        if (heading && !heading.id) {
+          heading.id = item.id;
+        }
+      });
+    }
+  }, [tableOfContents]);
 
   // Reading progress tracking
   useEffect(() => {
