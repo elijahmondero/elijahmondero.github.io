@@ -231,9 +231,9 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
               repo="elijahmondero/elijahmondero.github.io"
               repoId="R_kgDOMKsj5g"
               category="General"
-              categoryId="General"
-              mapping="specific"
-              term={post.title}
+              categoryId="DIC_kwDOMKsj5s4CkWwg"
+              mapping="pathname"
+              strict="0"
               reactionsEnabled="1"
               emitMetadata="0"
               inputPosition="top"
