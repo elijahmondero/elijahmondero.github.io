@@ -65,7 +65,6 @@ const BlogSummary: React.FC<BlogSummaryProps> = ({ title, excerpt, link, postedB
         <div className="blog-summary-text">
           <h2>{title}</h2>
           <p>{excerpt}</p>
-          <p className="meta"><strong>Posted by:</strong> {postedBy}</p>
           <Link href={link} className="read-more">Read more</Link>
         </div>
       </div>
