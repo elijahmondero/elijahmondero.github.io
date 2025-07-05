@@ -1,74 +1,62 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Helmet } from 'react-helmet';
+import { PostData } from '../lib/posts';
 
 interface BlogSummaryProps {
-  title: string;
-  excerpt: string;
-  link: string;
-  postedBy: string;
-  image_path?: string;
+  post: PostData;
   isDarkTheme: boolean;
 }
 
-const formatDateTime = (dateTime: string) => {
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: true,
-  };
-  return new Date(dateTime).toLocaleString(undefined, options);
-};
+const BlogSummary: React.FC<BlogSummaryProps> = ({ post, isDarkTheme }) => {
+  const { title, excerpt, id, postedBy, image_path, tags, date } = post;
 
-const BlogSummary: React.FC<BlogSummaryProps> = ({ title, excerpt, link, postedBy, image_path }) => {
-  const [url, setUrl] = useState('');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setUrl(window.location.href);
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return '';
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    } catch {
+      return dateString;
     }
-  }, []);
+  };
 
   return (
-    <div className="blog-summary">
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "http://schema.org",
-            "@type": "BlogPosting",
-            "headline": title,
-            "description": excerpt,
-            "author": postedBy,
-            "url": url
-          })}
-        </script>
-      </Helmet>
-      <div className="blog-summary-content">
+    <Link href={`/post/${id}`} className="blog-card-link">
+      <div className={`blog-card ${isDarkTheme ? 'dark' : 'light'}`}>
         {image_path && (
-          <Image
-            src={image_path}
-            alt={title}
-            className="blog-summary-image"
-            width={300} // Adjust as needed
-            height={200} // Adjust as needed
-            style={{
-              maxWidth: '100%',
-              height: 'auto',
-            }}
-          />
+          <div className="card-image-container">
+            <Image
+              src={image_path}
+              alt={title}
+              className="card-image"
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
         )}
-        <div className="blog-summary-text">
-          <h2>{title}</h2>
-          <p>{excerpt}</p>
-          <Link href={link} className="read-more">Read more</Link>
+        <div className="card-content">
+          <div className="card-tags">
+            {tags.slice(0, 2).map((tag, index) => (
+              <span key={index} className="card-tag">{tag}</span>
+            ))}
+          </div>
+          <h2 className="card-title">{title}</h2>
+          <p className="card-excerpt">{excerpt}</p>
+          <div className="card-footer">
+            <div className="author-info">
+              <span className="author-name">{postedBy}</span>
+            </div>
+            <div className="date-info">
+              <span className="publish-date">{formatDate(date)}</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

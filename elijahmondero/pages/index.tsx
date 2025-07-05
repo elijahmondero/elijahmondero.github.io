@@ -150,20 +150,22 @@ const Home = ({ posts }: HomeProps) => {
           </div>
         </div>
 
-        <main>
+        <main className="blog-grid">
           {displayedPosts.map(post => (
-              <BlogSummary
-                key={post.id}
-                title={post.title}
-                excerpt={post.excerpt}
-                link={`/post/${post.id}`}
-                postedBy={post.postedBy}
-                image_path={post.image_path}
-                isDarkTheme={isDarkTheme}
-              />
-            ))}
-          {nextPostIndex < posts.length && <div>Loading more posts...</div>} {/* Indicate loading if there are more posts */}
+            <BlogSummary
+              key={post.id}
+              post={post}
+              isDarkTheme={isDarkTheme}
+            />
+          ))}
         </main>
+        {nextPostIndex < posts.length && (
+          <div className="load-more-container">
+            <button onClick={loadMorePosts} className="load-more-button">
+              Load More Posts
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
