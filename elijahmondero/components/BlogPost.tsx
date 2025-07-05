@@ -227,20 +227,41 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
           {/* Comments Section */}
           <section className="comments-section">
             <h3>Comments & Discussion</h3>
-            <Giscus
-              repo="elijahmondero/elijahmondero.github.io"
-              repoId="R_kgDOMKsj5g"
-              category="General"
-              categoryId="DIC_kwDOMKsj5s4CkWwg"
-              mapping="pathname"
-              strict="0"
-              reactionsEnabled="1"
-              emitMetadata="0"
-              inputPosition="top"
-              theme={isDarkTheme ? "dark" : "light"}
-              lang="en"
-              loading="lazy"
-            />
+            <div className="giscus-container">
+              <Giscus
+                repo="elijahmondero/elijahmondero.github.io"
+                repoId="R_kgDOMKsj5g"
+                category="Announcements"
+                categoryId="DIC_kwDOMKsj5s4CkWwh"
+                mapping="title"
+                strict="0"
+                reactionsEnabled="1"
+                emitMetadata="0"
+                inputPosition="bottom"
+                theme={isDarkTheme ? "dark" : "light"}
+                lang="en"
+                loading="lazy"
+              />
+            </div>
+            <div className="comments-fallback">
+              <p>Comments powered by GitHub Discussions. If comments don't load, please ensure:</p>
+              <ul>
+                <li>GitHub Discussions is enabled on the repository</li>
+                <li>You're signed in to GitHub</li>
+                <li>JavaScript is enabled in your browser</li>
+              </ul>
+              <p>
+                You can also comment directly on{' '}
+                <a 
+                  href="https://github.com/elijahmondero/elijahmondero.github.io/discussions" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="github-discussions-link"
+                >
+                  GitHub Discussions
+                </a>
+              </p>
+            </div>
           </section>
         </article>
 
