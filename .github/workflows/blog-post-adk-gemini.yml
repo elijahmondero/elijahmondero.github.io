@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install uv
-          uv pip install langchain-community azure-identity openai requests beautifulsoup4 PyYAML duckduckgo-search google-adk google-generativeai
+          uv pip install --system langchain-community azure-identity openai requests beautifulsoup4 PyYAML duckduckgo-search google-adk google-generativeai
           sudo apt-get update && sudo apt-get install -y jq
 
       - name: Run blog post script
