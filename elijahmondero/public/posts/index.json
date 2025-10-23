@@ -1,5 +1,10 @@
 [
   {
+    "id": "awaiting-insights-our-journey-to-understanding-trm-and-hrm",
+    "title": "Awaiting Insights: Our Journey to Understanding TRM and HRM",
+    "excerpt": "We aimed to bring you a comprehensive guide on Talent Relationship Management (TRM) and Human Resources Management (HRM). Unfortunately, our research tools encountered an unexpected error, preventing us from gathering the necessary information at this time. Learn more about this temporary setback and what it means for our exploration of these vital HR concepts."
+  },
+  {
     "id": "from-chains-to-brains-how-langgraph-is-building-the-deep-agents-of-tomorrow",
     "title": "From Chains to Brains: How LangGraph is Building the 'Deep Agents' of Tomorrow",
     "excerpt": "LangChain made building LLM apps easy, but its linear 'chains' limited agent intelligence. Enter LangGraph, a powerful evolution that uses graph-based logic to create stateful, cyclical, and truly smart 'deep agents' capable of complex reasoning and self-correction. Discover how this shift is changing AI development."
