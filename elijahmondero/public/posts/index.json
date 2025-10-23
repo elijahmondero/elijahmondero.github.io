@@ -1,5 +1,10 @@
 [
   {
+    "id": "the-rise-of-tiny-ai-trm-redefines-efficient-reasoning-for-complex-puzzles",
+    "title": "The Rise of Tiny AI: TRM Redefines Efficient Reasoning for Complex Puzzles",
+    "excerpt": "Discover how the Tiny Recursive Model (TRM), a streamlined successor to the Hierarchical Reasoning Model (HRM), is revolutionizing complex reasoning in AI. Operating with a fraction of the parameters of large language models, TRM delivers superior performance and efficiency, proving that sometimes, less truly is more."
+  },
+  {
     "id": "from-chains-to-brains-how-langgraph-is-building-the-deep-agents-of-tomorrow",
     "title": "From Chains to Brains: How LangGraph is Building the 'Deep Agents' of Tomorrow",
     "excerpt": "LangChain made building LLM apps easy, but its linear 'chains' limited agent intelligence. Enter LangGraph, a powerful evolution that uses graph-based logic to create stateful, cyclical, and truly smart 'deep agents' capable of complex reasoning and self-correction. Discover how this shift is changing AI development."
