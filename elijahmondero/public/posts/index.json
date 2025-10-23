@@ -1,5 +1,10 @@
 [
   {
+    "id": "unable-to-generate-blog-post-information-on-trm-and-hrm-unavailable",
+    "title": "Unable to Generate Blog Post: Information on TRM and HRM Unavailable",
+    "excerpt": "This blog post cannot be generated as the necessary research findings on Tiny Recursive Model (TRM) and Hierarchical Reasoning Model (HRM) could not be retrieved due to a technical error."
+  },
+  {
     "id": "from-chains-to-brains-how-langgraph-is-building-the-deep-agents-of-tomorrow",
     "title": "From Chains to Brains: How LangGraph is Building the 'Deep Agents' of Tomorrow",
     "excerpt": "LangChain made building LLM apps easy, but its linear 'chains' limited agent intelligence. Enter LangGraph, a powerful evolution that uses graph-based logic to create stateful, cyclical, and truly smart 'deep agents' capable of complex reasoning and self-correction. Discover how this shift is changing AI development."
