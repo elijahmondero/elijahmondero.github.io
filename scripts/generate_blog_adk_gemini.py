@@ -4,196 +4,231 @@ import sys
 import uuid
 import re
 import asyncio
+import time
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-from openai import AzureOpenAI
-from langchain_community.tools import DuckDuckGoSearchResults
-from typing import List, Union
+from ddgs import DDGS
+from typing import List, Union, Dict
 import google.generativeai as genai
+from google.genai import Client, types as genai_types
 from google.adk.agents import Agent, SequentialAgent
 from google.adk.sessions import InMemorySessionService
 from google.adk.runners import Runner
 from google.genai import types # For creating message Content/Parts
 
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
 
 # LLM Provider configuration
-LLM_PROVIDER = os.getenv("LLM_PROVIDER") # This will be 'gemini' for this script
+LLM_PROVIDER = os.getenv("LLM_PROVIDER") 
 GOOGLE_GEMINI_API_KEY = os.getenv("GOOGLE_GEMINI_API_KEY")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-pro-latest")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash") 
 
-# Initialize Google Gemini client
+# Initialize Google Gemini clients
 genai.configure(api_key=GOOGLE_GEMINI_API_KEY)
-gemini_model = genai.GenerativeModel(GEMINI_MODEL)
+rephrase_model = genai.GenerativeModel(GEMINI_MODEL)
+gemini_client = Client(api_key=GOOGLE_GEMINI_API_KEY) # For Imagen 3
 
 
-# Configure ADK to use API keys directly (not Vertex AI for this multi-model setup)
+# Configure ADK to use API keys directly
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
 
-# Initialize Azure OpenAI DALL-E client (for image generation)
-AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
-AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
-dalle_client = AzureOpenAI(api_key=AZURE_OPENAI_API_KEY, azure_endpoint=AZURE_OPENAI_ENDPOINT, api_version="2024-02-01")
 
-
-# Scraping tool
+# Scraping tool with exponential backoff
 def scrape_link(link: str) -> str:
-    print("Scraping link:", link)
+    """Scrapes the content of a given URL and returns the text. Includes exponential backoff."""
+    print(f"Attempting to scrape: {link}")
+    max_retries = 3
+    delay = 5
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(link, timeout=15)
+            # If rate limited or server error, trigger retry
+            if response.status_code == 429 or 500 <= response.status_code < 600:
+                print(f"Scrape rate limited or server error ({response.status_code}) for {link}. Attempt {attempt+1}/{max_retries}. Retrying in {delay}s...")
+                time.sleep(delay)
+                delay *= 2
+                continue
 
-    scraped_content = ""
-    try:
-        response = requests.get(link, timeout=10)
-        if response.status_code == 200:
+            response.raise_for_status() 
             soup = BeautifulSoup(response.content, 'html.parser')
-            text = soup.get_text(separator="\n", strip=True)
-            scraped_content = text[:5000]  # Limit to 5000 chars
-        else:
-            scraped_content = f"Failed to scrape {link}: Status {response.status_code}"
-    except requests.exceptions.RequestException as e:
-        scraped_content = f"Error scraping {link}: {e}"
-    except Exception as e:
-        scraped_content = f"An unexpected error occurred while scraping {link}: {e}"
 
-    return scraped_content
+            # Attempt to find common article content containers
+            article_text = ""
+            for tag in ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li']:
+                 for element in soup.find_all(tag):
+                     article_text += element.get_text(separator=' ', strip=True) + '\n'
 
-# DALL-E image generation
+            # Fallback if specific tags don't yield much
+            if not article_text.strip():
+                 article_text = soup.get_text(separator=' ', strip=True)
+
+            print(f"Scraped content length: {len(article_text)}")
+            return article_text.strip()[:8000] # Increased limit to 8000
+
+        except requests.exceptions.RequestException as e:
+            print(f"Request error for {link} (attempt {attempt+1}/{max_retries}): {e}")
+            if attempt < max_retries - 1:
+                time.sleep(delay)
+                delay *= 2
+            else:
+                return f"Error scraping {link} after {max_retries} attempts: {e}"
+        except Exception as e:
+            print(f"An unexpected error occurred during scraping {link}: {e}")
+            return f"Error scraping {link}: {e}"
+    
+    return f"Failed to scrape {link} after {max_retries} attempts."
+
+# Gemini (Imagen 3) image generation
 def generate_image(prompt: str) -> str:
+    """Generates an image using Gemini's Imagen 3 model."""
+    if not GOOGLE_GEMINI_API_KEY:
+        print("Gemini API Key not found. Skipping image generation.")
+        return None
+        
     retries = 3
-    rephrase_attempts = 2 # Limit rephrasing attempts
+    rephrase_attempts = 2 
     current_prompt = prompt
 
     for attempt in range(retries):
         try:
-            result = dalle_client.images.generate(model="dall-e-3", prompt=current_prompt, n=1)
-            image_url = json.loads(result.model_dump_json())['data'][0]['url']
+            print(f"Generating image with Gemini (Imagen 3). Attempt {attempt+1}/{retries}...")
+            # Use imagen-4.0-generate-001 for high quality image generation
+            response = gemini_client.models.generate_images(
+                model='imagen-4.0-generate-001',
+                prompt=current_prompt,
+                config=genai_types.GenerateImagesConfig(
+                    number_of_images=1,
+                    include_rai_reason=True,
+                    output_mime_type='image/png'
+                )
+            )
 
-            image_response = requests.get(image_url)
-            if image_response.status_code == 200:
+            if response.generated_images:
+                image_data = response.generated_images[0].image.image_bytes
                 image_filename = f"{uuid.uuid4()}.png"
                 image_path = os.path.join("elijahmondero/public/posts/images", image_filename)
                 os.makedirs(os.path.dirname(image_path), exist_ok=True)
+                
                 with open(image_path, "wb") as f:
-                    f.write(image_response.content)
-                return os.path.join("/posts/images", image_filename)  # Return relative path
+                    f.write(image_data)
+                
+                print(f"Image generated and saved to {image_path}")
+                return os.path.join("/posts/images", image_filename).replace('\\', '/')
             else:
-                print(f"Error downloading image: {image_response.status_code}")
-                # If download fails, try generating again
+                print(f"No image generated. RAI reason: {response.generated_images[0].rai_filter_reason if response.generated_images else 'Unknown'}")
                 if attempt < retries - 1:
-                    print(f"Attempt {attempt + 1} failed, retrying...")
                     continue
                 else:
-                    print("Max retries reached for image download.")
                     return None
         except Exception as e:
             error_message = str(e)
             print(f"Error generating image (Attempt {attempt + 1}): {error_message}")
-            if "content_policy_violation" in error_message and attempt < retries - 1:
-                print("Content policy violation detected.")
+            if ("content" in error_message.lower() or "policy" in error_message.lower()) and attempt < retries - 1:
                 if rephrase_attempts > 0:
-                    print(f"Attempting to rephrase prompt using Gemini (Rephrasing attempts left: {rephrase_attempts})...")
-                    rephrase_prompt_text = f"Rephrase the following image generation prompt to avoid content policy violations: {current_prompt}"
+                    print("Prompt might have violated policy. Rephrasing...")
+                    rephrase_prompt_text = f"Rephrase the following image generation prompt to be safe and descriptive for a blog post: {current_prompt}"
                     try:
-                        rephrased_response = gemini_model.generate_content(rephrase_prompt_text)
+                        rephrased_response = rephrase_model.generate_content(rephrase_prompt_text)
                         rephrased_prompt = rephrased_response.text.strip()
                         if rephrased_prompt and rephrased_prompt != current_prompt:
-                            print(f"Prompt rephrased to: {rephrased_prompt}")
                             current_prompt = rephrased_prompt
                             rephrase_attempts -= 1
-                            continue # Retry with the new prompt
-                        else:
-                            print("Gemini returned an empty or identical rephrased prompt.")
-                            rephrase_attempts -= 1
-                            if rephrase_attempts == 0:
-                                print("Max rephrasing attempts reached.")
-                                return None # Give up if rephrasing fails
-                            else:
-                                continue # Try rephrasing again if attempts remain
-                    except Exception as gemini_e:
-                        print(f"Error rephrasing prompt with Gemini: {gemini_e}")
+                            continue 
+                    except Exception as rephrase_err:
+                        print(f"Rephrase failed: {rephrase_err}")
                         rephrase_attempts -= 1
-                        if rephrase_attempts == 0:
-                            print("Max rephrasing attempts reached.")
-                            return None # Give up if rephrasing fails
-                        else:
-                            continue # Try rephrasing again if attempts remain
-                else:
-                    print("Max rephrasing attempts reached.")
-                    return None # Give up if rephrasing attempts are exhausted
+                        continue
             else:
-                print("Max retries reached or non-content policy violation error.")
+                if attempt < retries - 1:
+                    time.sleep(5)
+                    continue
                 return None
-    return None # Return None if all retries fail
+    return None 
 
 
-# DuckDuckGo search tool
+# DuckDuckGo search tool with exponential backoff and fixed parameter
 def search_topics(query: str) -> str:
-    print("Searching for:", query)
-    try:
-        search_results = DuckDuckGoSearchResults().invoke(query)
-        print(search_results)
-        return search_results
-    except Exception as e:
-        print(f"Error during search: {e}")
-        return f"Error during search: {e}"
+    """Searches for news using DuckDuckGo Search and returns a formatted string of results. Includes exponential backoff."""
+    print(f"Searching news for: {query}")
+    max_retries = 5
+    delay = 2
+    results: list = []
+    for attempt in range(max_retries):
+        try:
+            with DDGS() as ddgs:
+                # Use query= instead of keywords=
+                for r in ddgs.news(query=query, max_results=5):
+                    results.append(r)
+            break
+        except Exception as e:
+            print(f"Error during DuckDuckGo search (attempt {attempt+1}): {e}")
+            if attempt < max_retries - 1:
+                time.sleep(delay)
+                delay *= 2
+            else:
+                return f"Error during search after {max_retries} attempts: {e}"
+    
+    if not results:
+        return "No news results found."
+        
+    formatted_results = "News Search Results:\n\n"
+    for i, r in enumerate(results):
+        formatted_results += f"{i+1}. Title: {r['title']}\n   Link: {r['url']}\n   Snippet: {r['body']}\n\n"
+    return formatted_results
 
 def generate_slug(title: str) -> str:
-    # Convert to lowercase
     slug = title.lower()
-    # Remove non-alphanumeric characters (except for hyphens and spaces)
     slug = re.sub(r'[^a-z0-9\s-]', '', slug)
-    # Replace spaces and hyphens with a single hyphen
     slug = re.sub(r'[\s-]+', '-', slug)
-    # Trim hyphens from the start and end
     slug = slug.strip('-')
-    return slug
+    return slug[:50]
 
-# Save blog post to file as Markdown with frontmatter
-def save_post(title: str, excerpt: str, content: str, tags: List[str], sources: List[str], image_path: str = None):
+# Save blog post to file as Markdown with frontmatter and YAML validation
+def save_post(title: str, excerpt: str, content: str, tags: List[str], sources: List[Union[str, Dict[str, str]]], image_path: str = None):
     post_id = generate_slug(title)
-    post_date = datetime.utcnow().isoformat() + "Z"
+    post_date = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
-    # Prepare frontmatter
-    frontmatter = {
-        "title": title,
-        "summary": excerpt,
-        "date": post_date,
-        "authors": [{ "name": "Elijah Mondero" }],
-        "tags": tags,
-        "sources": sources,
-        "image_path": image_path
-    }
+    authors_yaml = "  - name: 'Elijah Mondero'" # Default author
 
-    # Format frontmatter as YAML
-    frontmatter_str = "---\n"
-    for key, value in frontmatter.items():
-        if isinstance(value, list):
-            frontmatter_str += f"{key}:\n"
-            for item in value:
-                # Handle authors list specifically as it's a list of dicts
-                if key == "authors" and isinstance(item, dict):
-                    frontmatter_str += f"  - name: '{item.get('name', '')}'\n"
-                else:
-                    frontmatter_str += f"  - \"{item}\"\n"
-        else:
-            frontmatter_str += f"{key}: \"{value}\"\n"
-    frontmatter_str += "---\n\n"
+    # Format tags as a YAML list
+    tags_yaml_list = ""
+    if tags:
+        tags_yaml_list = "\n" + "\n".join(["  - \"{}\"".format(tag.replace('"', '\\"')) for tag in tags])
+
+    # Format sources as a YAML list (handles both string and dict formats)
+    sources_yaml_list = ""
+    if sources:
+        sources_yaml_list = "\nsources:"
+        for source in sources:
+            if isinstance(source, dict):
+                url = source.get('url', '').replace('"', '\\"')
+                src_title = source.get('title', 'Untitled').replace('"', '\\"')
+                sources_yaml_list += f'\n  - url: "{url}"\n    title: "{src_title}"'
+            else:
+                url = str(source).replace('"', '\\"')
+                sources_yaml_list += f'\n  - "{url}"'
+
+    img_path_yaml = f'\nimage_path: "{image_path}"' if image_path else ""
+
+    # Prepare escaped values to avoid backslashes in f-string expressions
+    escaped_title = title.replace('"', '\\"')
+    escaped_excerpt = excerpt.replace('"', '\\"')
+
+    frontmatter_str = f"""---\ntitle: \"{escaped_title}\"\nauthors:\n{authors_yaml}\ndate: \"{post_date}\"\nsummary: \"{escaped_excerpt}\"\ntags:{tags_yaml_list}{sources_yaml_list}{img_path_yaml}\n---\n\n"""
 
     # Combine frontmatter and content
-    markdown_content = frontmatter_str + content
+    markdown_content = frontmatter_str + content.strip() + "\n"
 
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    # Save to the 'posts' directory, not 'public/posts'
     post_filename = os.path.join(repo_root, "elijahmondero/posts", f"{post_id}.md")
-    print("Post filename:", post_filename)
     os.makedirs(os.path.dirname(post_filename), exist_ok=True)
 
     with open(post_filename, "w", encoding="utf-8") as f:
         f.write(markdown_content)
 
-    # Return post_id and a dictionary of the frontmatter data for index/sitemap updates
-    return post_id, frontmatter
+    return post_id, {"date": post_date, "title": title, "excerpt": excerpt}
 
 # Update blog index (still generates index.json, but will be based on MD files later)
 def update_index(post_id: str, title: str, excerpt: str):
@@ -422,8 +457,10 @@ async def run_blog_generation_pipeline(prompt: str):
     print("--- ADK Runner Events ---")
     content = types.Content(role="user", parts=[types.Part(text=prompt)])
 
-    # Use await for session creation
-    await session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID)
+    # create_session can be sync or async depending on the ADK version
+    result = session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID)
+    if asyncio.iscoroutine(result):
+        await result
 
     try:
         # Use run_async and async for

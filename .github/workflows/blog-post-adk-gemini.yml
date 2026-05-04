@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -26,16 +28,18 @@ jobs:
       - name: Install dependencies
         run: |
           pip install uv
-          uv pip install --system langchain-community azure-identity openai requests beautifulsoup4 PyYAML duckduckgo-search ddgs google-adk google-generativeai
+          uv pip install --system langchain-community azure-identity openai requests beautifulsoup4 PyYAML ddgs google-adk google-generativeai PyGithub
           sudo apt-get update && sudo apt-get install -y jq
 
       - name: Run blog post script
         env:
-          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
           GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_ACTIONS: true
+          PYTHONIOENCODING: "utf-8"
         run: |
           for i in {1..5}; do
             python scripts/generate_blog_adk_gemini.py "${{ github.event.inputs.prompt }}" && break || sleep 10
@@ -45,7 +49,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           branch: ${{ env.BRANCH_NAME }}
-          title: ${{ env.PR_TITLE }}
+          title: "feat: ${{ env.PR_TITLE }}"
           body: ${{ env.PR_BODY }}
           base: main
           token: ${{ secrets.GITHUB_TOKEN }}
