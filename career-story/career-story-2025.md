@@ -1,12 +1,16 @@
 # My Developer Journey: The AI Champion Chapter (2025)
 
-The next chapter of my career began in October 2024 when I joined the global powerhouse, Visa Inc., as a Senior Developer in New Zealand. This move marked a pivot towards a new set of challenges and an incredible opportunity to dive deep into my growing passion: Generative AI. With 18 years of experience behind me, I was ready to make an impact.
+The next chapter of my career began in October 2024 when I joined the global powerhouse, Visa Inc., as a Staff Software Engineer in New Zealand. This move marked a pivot towards a new set of challenges and an incredible opportunity to dive deep into my growing passion: Generative AI. With 20 years of experience behind me, I was ready to make an impact.
 
-### Making an Impact at Visa
+### Leading the AI Frontier at Visa
 
-My primary role on the team was to help drive the migration of a critical employee management system from a legacy XSLT-based UI to a modern React frontend. Alongside this core delivery work, I contributed to broader engineering initiatives, including containerization efforts and the push for a test-first development culture.
+Since joining Visa, I have focused on building foundational AI infrastructure and high-velocity workflows. My key contributions include:
 
-However, it was in the realm of AI where I found a chance to make a truly unique contribution. Drawing on my experience building an AI-powered Slackbot at MYOB, I joined a GenAI hackathon in February 2025. My team's project, a "smart search" feature for the Spend Clarity product, was a success. It wasn't just a hackathon win; it was recognized as a major feature initiative for the product. As of June 2025, we are deep in the solutioning phase, working to bring this intelligent AI agent to production.
+*   **Internal AI Tools Hub & Builder**: Designed and launched a self-service ecosystem within the company portal, empowering both technical and non-technical teams to create, deploy, and manage their own AI-powered tools without manual coding.
+*   **Organizational Productivity Suite**: Developed a comprehensive suite of productivity tools that integrated seamlessly into our existing workflows, drastically reducing manual overhead and standardizing departmental outputs.
+*   **Generative UI & Intelligent Dashboards**: Introduced "Generative UI" patterns, enabling the creation of self-configuring, context-aware dashboards that adapt in real-time to user intent and data changes.
+*   **Enterprise GraphRAG**: Pioneered the implementation of GraphRAG (Knowledge Graph-enhanced Retrieval-Augmented Generation) to solve complex cross-domain queries and provide deeper contextual accuracy for our internal AI models.
+*   **Agentic Coding Workflow**: Orchestrated a paradigm shift in our development process by introducing an **All-Agentic Coding** model. By leveraging specialized agent skills to handle implementation tasks, I significantly expanded team velocity and overall output, transitioning the leadership role from manual code oversight to agent orchestration.
 
 ### Championing Change and Evangelizing AI
 
@@ -16,7 +20,7 @@ I was invited to join the "AI Champions" community, where I've had the privilege
 
 ### The Path Forward
 
-Today, I continue to serve as a Senior Developer, but my sights are set on a senior Individual Contributor (IC) path. I am actively working towards a future role as a Development Specialist or Principal Engineer, where I can continue to solve complex technical problems, mentor others, and drive innovation at the intersection of software engineering and artificial intelligence.
+Today, I continue to serve as an **AI Augmented Engineer**, with my sights set on roles like **AI Engineer**, **Development Specialist**, or **Principal Engineer**. I am actively working towards a future where I can continue to solve complex technical problems, lead IC or leadership initiatives, and drive innovation at the intersection of software engineering and artificial intelligence.
 
 ### My Evolving Toolbox
 

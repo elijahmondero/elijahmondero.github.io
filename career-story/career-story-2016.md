@@ -8,7 +8,7 @@ My Kiwi adventure began in the fast-paced world of FinTech and quickly transitio
 
 **Fiserv (May 2014 - Nov 2014)**
 
-I joined Fiserv, a global leader in financial services technology, as a Senior Software Developer. I was part of a large scrum organization, contributing to their "Mobiliti" mobile banking platform. The work was demanding and impactful, and my contributions to delivering key features were recognized when I was awarded **Most Valuable Player** for the month of September 2014.
+I joined Fiserv, a global leader in financial services technology, as a **Software Developer**. I was part of a large scrum organization, contributing to their "Mobiliti" mobile banking platform. The work was demanding and impactful, and my contributions to delivering key features were recognized when I was awarded **Most Valuable Player** for the month of September 2014.
 
 **RAMM Software (Nov 2014 - Present)**
 
@@ -27,7 +27,7 @@ My personal server, now at `mondero.net`, evolved with me. It became a full-fled
 ### My Toolbox in 2016
 
 After 10 years, my toolkit had expanded to embrace modern web technologies:
-*   **Languages & Frameworks**: C# (Senior), ASP.NET MVC, Web API, WPF, WCF, LINQ, Entity Framework
+*   **Languages & Frameworks**: C# (Expert), ASP.NET MVC, Web API, WPF, WCF, LINQ, Entity Framework
 *   **Web**: AngularJS, Knockout.js, jQuery, Bootstrap, Typescript, SignalR
 *   **Databases**: MS SQL Server 2005-2012
 *   **DevOps & Source Control**: Git (Gitflow), Team Foundation Server (TFS), Subversion, Powershell

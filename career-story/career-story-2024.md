@@ -8,7 +8,7 @@ My nearly eight years at RAMM Software were a period of significant growth and l
 
 ### The MYOB Era: A Leap into Platform Engineering (2022 - Present)
 
-In 2022, I joined MYOB as a Senior Developer, a role that quickly expanded into the realm of platform engineering on AWS. Here, I've had the opportunity to work on foundational systems that impact hundreds of developers and thousands of customers.
+In 2022, I joined MYOB as a **Platform Engineer** (transitioning from a traditional dev role), a role that quickly expanded into the realm of platform engineering on AWS. Here, I've had the opportunity to work on foundational systems that impact hundreds of developers and thousands of customers.
 
 My work has been centered on enhancing the MYOB Advanced provisioning platform. I've led the design and delivery of several major initiatives:
 *   **A secure debug provisioning system** to empower developers and support teams.

@@ -237,6 +237,23 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
               ))}
             </div>
             
+            {/* Author Bio Card */}
+            <div className={`author-bio-card ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
+              <div className="author-image-container">
+                <div className="author-placeholder">EM</div>
+              </div>
+              <div className="author-details">
+                <h3>About Elijah Mondero</h3>
+                <p>
+                  <strong>AI Augmented Engineer</strong> with <strong>20+ years</strong> experience. 
+                  Currently <strong>Staff Software Engineer</strong> at <strong>Visa Inc.</strong>, where I lead the 
+                  <strong> AI Tools Hub</strong> and <strong>Agentic Coding</strong> initiatives.
+                  <Link href="/career-story" className={`read-more-inline ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
+                    View full career story →
+                  </Link>
+                </p>
+              </div>
+            </div>
           </footer>
 
           {/* Comments Section */}

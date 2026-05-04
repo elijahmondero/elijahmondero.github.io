@@ -21,7 +21,7 @@ Joining Fiserv was a significant milestone in my career. It was here that I hone
 
 Seeking long-term stability, my journey took me to New Zealand. My first role at Fiserv was a great introduction to the local tech scene and my first formal experience with Agile, working in sprints on their mobile banking platform. My dedication to delivering features was recognized when I was named **Most Valuable Player** for September 2014. After six months, I sought a role that better suited our family's move towards a suburban lifestyle and offered a much closer workplace on the North Shore.
 
-This led me to RAMM Software, a smaller company where I would spend nearly eight years. Though my title was Senior Developer, I carried the responsibilities of a Technical Lead. This role was the most front-end intensive of my career. We were migrating a legacy Delphi desktop application to a modern SaaS platform. This wasn't just any app; it was the asset management software used by nearly every council in New Zealand to manage the nation's roading infrastructure.
+This led me to RAMM Software, a smaller company where I would spend nearly eight years. Though my title was **Software Engineer**, I carried the responsibilities of a **Technical Lead**. This role was the most front-end intensive of my career. We were migrating a legacy Delphi desktop application to a modern SaaS platform. This wasn't just any app; it was the asset management software used by nearly every council in New Zealand to manage the nation's roading infrastructure.
 
 ### Chapter 4: The Cloud and AI Frontier
 

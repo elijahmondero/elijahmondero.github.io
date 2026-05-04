@@ -15,7 +15,7 @@ const CareerStory = () => {
     <>
       <Head>
         <title>Career Story - Elijah Mondero</title>
-        <meta name="description" content="Interactive career journey of Elijah Mondero - 19+ years of software development across countries and industries" />
+        <meta name="description" content="Interactive career journey of Elijah Mondero - 20+ years of software development across countries and industries" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="App">
@@ -77,7 +77,7 @@ const CareerStory = () => {
                   </div>
                   <div className={`highlight-card ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <h3>📈 Career Progression</h3>
-                    <p>From <strong>Junior Engineer</strong> to <strong>Technical Lead</strong> to <strong>Senior Developer</strong> with AI expertise, spanning <strong>19+ years</strong> of experience.</p>
+                    <p>From <strong>Junior Engineer</strong> to <strong>Technical Lead</strong> and now <strong>Staff Software Engineer</strong> at Visa, driving the AI frontier with <strong>20+ years</strong> of experience.</p>
                   </div>
                   <div className={`highlight-card ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <h3>🎯 Industry Impact</h3>
@@ -87,7 +87,7 @@ const CareerStory = () => {
 
                 <div className={`current-focus ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                   <h3>Current Focus</h3>
-                  <p>Today, I am a Senior Developer with my sights set on a senior Individual Contributor (IC) role, such as a Development Specialist or Principal Engineer. My journey has been defined by embracing change and driving technological evolution. From desktop to web, from monoliths to microservices, and now into the frontier of Generative AI, I am more excited than ever to continue learning, mentoring, and solving the complex challenges of tomorrow.</p>
+                  <p>Today, I am an <strong>AI Augmented Engineer</strong> with my sights set on roles like <strong>AI Engineer</strong>, <strong>Development Specialist</strong>, or <strong>Principal Engineer</strong>. My journey has been defined by embracing change and driving technological evolution. From desktop to web, from monoliths to microservices, and now into the frontier of Generative AI, I am more excited than ever to continue learning, mentoring, and solving the complex challenges of tomorrow.</p>
                 </div>
               </div>
             </div>
@@ -103,17 +103,19 @@ const CareerStory = () => {
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">October 2024 - Present</div>
                     <div className="timeline-company"><a href="https://www.visa.co.nz/" target="_blank" rel="noopener noreferrer">Visa Inc.</a></div>
-                    <div className="timeline-role">Senior Developer</div>
+                    <div className="timeline-role">Staff Software Engineer</div>
                     <div className="timeline-description">
                       Leading React migration of employee management system and driving GenAI initiatives.
                     </div>
                     <div className={`timeline-achievements ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                       <h4>Key Achievements</h4>
                       <ul>
-                        <li>Champion of Change (May 2025)</li>
-                        <li>GenAI Ambassador badge (June 2025)</li>
-                        <li>Led successful GenAI hackathon project - "smart search" feature</li>
-                        <li>Member of AI Champions community</li>
+                        <li><strong>AI Tools Hub & Builder</strong>: Architected an internal ecosystem allowing both technical and non-technical staff to build custom AI tools.</li>
+                        <li><strong>Org-Wide Productivity Suite</strong>: Developed a centralized suite of tools that transformed departmental workflows and efficiency.</li>
+                        <li><strong>Generative UI & Dashboards</strong>: Pioneered dynamic, AI-driven user interfaces and self-configuring dashboards for real-time data visualization.</li>
+                        <li><strong>GraphRAG Implementation</strong>: Introduced advanced Knowledge Graph-based RAG to enhance contextual accuracy in AI responses.</li>
+                        <li><strong>Agentic Coding Pioneer</strong>: Revolutionized team velocity by implementing an "Agent-First" coding workflow, shifting from manual coding to agent-orchestrated development.</li>
+                        <li>Champion of Change (2025) & GenAI Ambassador</li>
                       </ul>
                     </div>
                   </div>
@@ -121,7 +123,7 @@ const CareerStory = () => {
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">May 2022 - September 2024</div>
                     <div className="timeline-company"><a href="https://www.myob.com/" target="_blank" rel="noopener noreferrer">MYOB</a></div>
-                    <div className="timeline-role">Senior Developer (Platform Engineering)</div>
+                    <div className="timeline-role">Platform Engineer</div>
                     <div className="timeline-description">
                       Transitioned into platform engineering, becoming a "go-to" developer for AWS-based systems.
                     </div>
@@ -140,7 +142,7 @@ const CareerStory = () => {
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">November 2014 - April 2022</div>
                     <div className="timeline-company"><a href="https://www.thinkproject.com/products/thinkproject-ramm/" target="_blank" rel="noopener noreferrer">RAMM Software</a></div>
-                    <div className="timeline-role">Senior Developer / Technical Lead</div>
+                    <div className="timeline-role">Technical Lead</div>
                     <div className="timeline-description">
                       Nearly eight years leading product teams, modernizing legacy systems, and mentoring developers. RAMM Software was acquired by Thinkproject on April 1st, 2020.
                     </div>
@@ -158,7 +160,7 @@ const CareerStory = () => {
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">May 2014 - November 2014</div>
                     <div className="timeline-company"><a href="https://www.fiserv.com/" target="_blank" rel="noopener noreferrer">Fiserv</a></div>
-                    <div className="timeline-role">Senior Software Developer</div>
+                    <div className="timeline-role">Software Developer</div>
                     <div className="timeline-description">
                       Contributed to "Mobiliti" mobile banking platform in fast-paced FinTech environment.
                     </div>
@@ -175,7 +177,7 @@ const CareerStory = () => {
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">May 2012 - 2014</div>
                     <div className="timeline-company"><a href="https://www.crimsonlogic.com/" target="_blank" rel="noopener noreferrer">CrimsonLogic</a></div>
-                    <div className="timeline-role">Senior Software Engineer → Lead Software Engineer</div>
+                    <div className="timeline-role">Lead Software Engineer</div>
                     <div className="timeline-description">
                       Instrumental in building Singapore's first electronic litigation system for the Supreme Court.
                     </div>
@@ -193,7 +195,7 @@ const CareerStory = () => {
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">May 2011 - May 2012</div>
                     <div className="timeline-company">Comtel Solutions / <a href="https://www.synapxe.sg/" target="_blank" rel="noopener noreferrer">IHiS</a></div>
-                    <div className="timeline-role">Senior Software Consultant</div>
+                    <div className="timeline-role">Software Consultant</div>
                     <div className="timeline-description">
                       Modernized clinical systems for Singapore's National Health Group. Worked with Integrated Health Information Systems (IHiS), now known as Synapxe Pte Ltd since 2023.
                     </div>
@@ -228,7 +230,7 @@ const CareerStory = () => {
                   <div className={`timeline-item ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                     <div className="timeline-date">April 2006 - August 2010</div>
                     <div className="timeline-company"><a href="https://www.accountmate.com/" target="_blank" rel="noopener noreferrer">AccountMate Philippines</a></div>
-                    <div className="timeline-role">Junior Engineer → Senior → Team Lead</div>
+                    <div className="timeline-role">Junior Engineer → Team Lead</div>
                     <div className="timeline-description">
                       Career foundation: pioneered .NET development and earned trips to California, USA.
                     </div>

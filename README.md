@@ -6,7 +6,7 @@ Welcome to my personal website! This site serves as a portfolio to showcase my w
 
 ## About Me 👤
 
-I am a Staff Software Engineer (Senior Full Stack Developer) with extensive experience in building scalable web applications. I enjoy exploring new technologies and applying them to solve complex problems.
+I am an **AI Augmented Engineer** (**Staff Software Engineer**) with extensive experience in building scalable web applications and driving Generative AI initiatives. I enjoy exploring new technologies and applying them to solve complex problems.
 
 ## Features ✨
 

@@ -137,11 +137,12 @@ const Home = ({ posts }: HomeProps) => {
         {/* Career Overview Section */}
         <div className={`career-overview-compact ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
           <div className={`career-brief ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
-            <div className="career-summary">
+          <div className="career-summary">
               <h3>About the Author</h3>
               <p>
-                Senior Developer with <strong>19+ years</strong> experience across 4 countries. 
-                Currently <strong>GenAI Champion at Visa Inc.</strong> 
+                <strong>AI Augmented Engineer</strong> with <strong>20+ years</strong> experience. 
+                Currently <strong>Staff Software Engineer</strong> at <strong>Visa Inc.</strong>, where I lead the 
+                <strong> AI Tools Hub</strong> and <strong>Agentic Coding</strong> initiatives.
                 <Link href="/career-story" className={`read-more-inline ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                   View full career story →
                 </Link>
