@@ -13,14 +13,15 @@ interface ThemeProviderProps {
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false); // Default to light theme during SSR
+  const [isDarkTheme, setIsDarkTheme] = useState(true); // Default to dark theme
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     // This runs only on the client side
     setIsClient(true);
     const savedTheme = Cookies.get('theme');
-    const shouldBeDark = savedTheme === 'dark';
+    // Default to dark if no cookie is found, otherwise respect the cookie
+    const shouldBeDark = savedTheme ? savedTheme === 'dark' : true;
     setIsDarkTheme(shouldBeDark);
     document.body.className = shouldBeDark ? 'dark-theme' : 'light-theme';
   }, []);

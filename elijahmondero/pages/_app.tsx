@@ -32,13 +32,13 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               (function() {
                 try {
                   const theme = document.cookie.split('; ').find(row => row.startsWith('theme='))?.split('=')[1];
-                  if (theme === 'dark') {
-                    document.body.className = 'dark-theme';
-                  } else {
+                  if (theme === 'light') {
                     document.body.className = 'light-theme';
+                  } else {
+                    document.body.className = 'dark-theme';
                   }
                 } catch (e) {
-                  document.body.className = 'light-theme';
+                  document.body.className = 'dark-theme';
                 }
               })();
             `
