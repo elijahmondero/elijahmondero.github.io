@@ -2,13 +2,14 @@ import os
 import json
 import sys
 import time
+import asyncio
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from ddgs import DDGS
 from typing import List, Dict, Any
-import google.generativeai as genai
+from google.genai import Client
 from google.adk.agents import Agent, SequentialAgent 
 from google.adk.sessions import InMemorySessionService
 from google.adk.runners import Runner
@@ -20,12 +21,13 @@ load_dotenv()
 GOOGLE_GEMINI_API_KEY = os.getenv("GOOGLE_GEMINI_API_KEY")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash") # Uplifted to 2.5-flash
 
-# Initialize Google Gemini client
+# Initialize Google Gemini client (new SDK)
 if not GOOGLE_GEMINI_API_KEY:
     print("Error: GOOGLE_GEMINI_API_KEY not found in environment variables.")
     sys.exit(1)
 
-genai.configure(api_key=GOOGLE_GEMINI_API_KEY)
+gemini_client = Client(api_key=GOOGLE_GEMINI_API_KEY)
+
 
 # Configure ADK to use API keys directly
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
@@ -259,7 +261,7 @@ USER_ID = "github_actions_user"
 SESSION_ID = "daily_run"
 
 session_service = InMemorySessionService()
-session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID)
+asyncio.run(session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID))
 runner = Runner(agent=pipeline, app_name=APP_NAME, session_service=session_service)
 
 # Run the pipeline
