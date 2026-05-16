@@ -1,5 +1,10 @@
 [
   {
+    "id": "from-net-to-reactive-java-my-agentic-journey-to-hi",
+    "title": "From .NET to Reactive Java: My Agentic Journey to High-Quality Software",
+    "excerpt": "Discover how a seasoned .NET developer leveraged agentic coding, specifically with an AI co-pilot, to successfully build a complex Java/React application using Spring Boot, WebFlux, OpenTelemetry, and more. This journey redefines the SDLC, showcasing how AI partnership accelerates learning and delivers high-quality software."
+  },
+  {
     "id": "beyond-code-generation-how-claude-code-mcp-and-plu",
     "title": "Beyond Code Generation: How Claude Code, MCP, and Plugins Are Revolutionizing AI Development Through Context",
     "excerpt": "The landscape of AI development is rapidly shifting from simple code generation to sophisticated, agentic systems. This post explores how Anthropic's Claude Code, powered by innovations like the Model Context Protocol (MCP), Command Line Interfaces (CLI), and robust plugin architecture, is leading this charge by prioritizing persistent context and autonomous capabilities."
