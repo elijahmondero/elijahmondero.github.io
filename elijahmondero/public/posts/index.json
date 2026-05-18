@@ -1,5 +1,10 @@
 [
   {
+    "id": "decoding-ai-agents-capabilities-challenges-and-a-c",
+    "title": "Decoding AI Agents: Capabilities, Challenges, and a Call for Responsible Governance",
+    "excerpt": "AI agents are transforming how we work, excelling in defined tasks but still trailing human intuition in complex research. This post explores their impressive capabilities, the pitfalls of treating them like human employees, the urgent need for robust governance, and critical safety concerns as these autonomous systems rapidly integrate into our businesses."
+  },
+  {
     "id": "from-net-to-reactive-java-my-agentic-journey-to-hi",
     "title": "From .NET to Reactive Java: My Agentic Journey to High-Quality Software",
     "excerpt": "Discover how a seasoned .NET developer leveraged agentic coding, specifically with an AI co-pilot, to successfully build a complex Java/React application using Spring Boot, WebFlux, OpenTelemetry, and more. This journey redefines the SDLC, showcasing how AI partnership accelerates learning and delivers high-quality software."
