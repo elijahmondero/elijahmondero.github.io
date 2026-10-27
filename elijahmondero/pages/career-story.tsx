@@ -366,7 +366,7 @@ const CareerStory = () => {
                     <div className="project-period">Personal Blog</div>
                     <p>AI-assisted technology blog covering software development, cloud engineering, and AI innovations. Features insights on .NET, AWS, and Generative AI from a practitioner's perspective.</p>
                     <div style={{ marginTop: '15px' }}>
-                      <strong>Website:</strong> <a href="https://elijahmondero.github.io/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#bb86fc' : '#007bff', textDecoration: 'none' }}>elijahmondero.github.io</a><br/>
+                      <strong>Website:</strong> <a href="https://elijah.mondero.nz/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#bb86fc' : '#007bff', textDecoration: 'none' }}>elijah.mondero.nz</a><br/>
                       <strong>Tech Stack:</strong> Next.js, React, Static Site Generation, AI-Assisted Writing
                     </div>
                   </div>

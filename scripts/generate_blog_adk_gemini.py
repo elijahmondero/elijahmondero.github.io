@@ -261,7 +261,7 @@ def update_sitemap(post_id: str, post_date: str):
     sitemap_file = os.path.join(repo_root, "elijahmondero/public/sitemap.xml")
     print("Sitemap file:", sitemap_file)
 
-    new_url = f"https://elijahmondero.github.io/post/{post_id}"
+    new_url = f"https://elijah.mondero.nz/post/{post_id}"
     # Ensure date is in YYYY-MM-DD format
     try:
         # Parse ISO format and reformat

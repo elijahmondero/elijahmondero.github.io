@@ -1,6 +1,6 @@
 # 🌐 Personal Website
 
-https://elijahmondero.github.io/
+https://elijah.mondero.nz/
 
 Welcome to my personal website! This site serves as a portfolio to showcase my work, blogs, and resume.
 

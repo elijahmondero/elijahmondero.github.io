@@ -260,7 +260,7 @@ def update_sitemap(post_id, post_date):
     sitemap_file = os.path.join(repo_root, "elijahmondero/public/sitemap.xml")
     print("Sitemap file:", sitemap_file)
 
-    new_url = f"https://elijahmondero.github.io/post/{post_id}"
+    new_url = f"https://elijah.mondero.nz/post/{post_id}"
     post_date = post_date.split("T")[0]  # Extract the date in YYYY-MM-DD format
     new_entry = f"""
   <sitemap>
@@ -323,7 +323,7 @@ if __name__ == "__main__":
 
     pr_body = f"Automated blog post creation from workflow\n\n**Excerpt:**\n{pr_excerpt}\n\n"
     if pr_image_path:
-        pr_body += f"**Featured Image:**\nhttps://elijahmondero.github.io{pr_image_path}\n\n"
+        pr_body += f"**Featured Image:**\nhttps://elijah.mondero.nz{pr_image_path}\n\n"
 
     # Create a slug from the title for the branch name
     title_slug = re.sub(r'[^a-z0-9]+', '-', pr_title.lower()).strip('-')
