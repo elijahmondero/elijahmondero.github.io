@@ -143,10 +143,10 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
         <title>{post.title} - Monderings: Beyond the Prompt by Elijah Mondero</title>
         <meta name="description" content={post.excerpt} />
         <meta name="keywords" content={post.tags.join(', ')} />
-        <meta property="og:title" content={${post.title} - Monderings: Beyond the Prompt} />
+        <meta property="og:title" content={`${post.title} - Monderings: Beyond the Prompt`} />
         <meta property="og:description" content={post.excerpt} />
         <meta property="og:site_name" content="Monderings: Beyond the Prompt" />
-        <link rel="canonical" href={https://elijah.mondero.nz/post//} />
+        <link rel="canonical" href={`https://elijah.mondero.nz/post/${post.id}/`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
