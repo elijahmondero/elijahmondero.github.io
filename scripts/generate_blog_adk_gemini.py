@@ -11,7 +11,6 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from ddgs import DDGS
 from typing import List, Union, Dict
-import google.generativeai as genai
 from google.genai import Client, types as genai_types
 from google.adk.agents import Agent, SequentialAgent
 from google.adk.sessions import InMemorySessionService
@@ -25,10 +24,8 @@ LLM_PROVIDER = os.getenv("LLM_PROVIDER")
 GOOGLE_GEMINI_API_KEY = os.getenv("GOOGLE_GEMINI_API_KEY")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash") 
 
-# Initialize Google Gemini clients
-genai.configure(api_key=GOOGLE_GEMINI_API_KEY)
-rephrase_model = genai.GenerativeModel(GEMINI_MODEL)
-gemini_client = Client(api_key=GOOGLE_GEMINI_API_KEY) # For Imagen 3
+# Initialize Google Gemini client (new SDK)
+gemini_client = Client(api_key=GOOGLE_GEMINI_API_KEY)
 
 
 # Configure ADK to use API keys directly
@@ -130,7 +127,10 @@ def generate_image(prompt: str) -> str:
                     print("Prompt might have violated policy. Rephrasing...")
                     rephrase_prompt_text = f"Rephrase the following image generation prompt to be safe and descriptive for a blog post: {current_prompt}"
                     try:
-                        rephrased_response = rephrase_model.generate_content(rephrase_prompt_text)
+                        rephrased_response = gemini_client.models.generate_content(
+                            model=GEMINI_MODEL,
+                            contents=rephrase_prompt_text
+                        )
                         rephrased_prompt = rephrased_response.text.strip()
                         if rephrased_prompt and rephrased_prompt != current_prompt:
                             current_prompt = rephrased_prompt

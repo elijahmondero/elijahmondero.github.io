@@ -20,12 +20,12 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11.3'
+        python-version: '3.11'
 
     - name: Install dependencies
       run: |
         pip install uv
-        uv pip install --system python-dotenv google-generativeai requests beautifulsoup4 ddgs google-adk
+        uv pip install --system python-dotenv requests beautifulsoup4 ddgs google-adk google-genai
 
     - name: Run update script
       env:
