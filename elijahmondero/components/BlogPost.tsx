@@ -132,7 +132,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
       </div>
 
       <header className="App-header">
-        <h1><Link href="/" className="home-link">The Tech Oracle</Link></h1>
+        <h1><Link href="/" className="home-link">Monderings: Beyond the Prompt</Link></h1>
         <label className="switch">
           <input type="checkbox" checked={isDarkTheme} onChange={toggleTheme} />
           <span className="slider"></span>
@@ -140,7 +140,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
       </header>
 
       <Head>
-        <title>{post.title} - The Tech Oracle by Elijah Mondero</title>
+        <title>{post.title} - Monderings: Beyond the Prompt by Elijah Mondero</title>
         <meta name="description" content={post.excerpt} />
         <meta name="keywords" content={post.tags.join(', ')} />
         <link rel="icon" href="/favicon.ico" />

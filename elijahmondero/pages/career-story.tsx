@@ -20,7 +20,7 @@ const CareerStory = () => {
       </Head>
       <div className="App">
         <header className={`App-header ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
-          <h1><Link href="/" className="home-link">The Tech Oracle</Link></h1>
+          <h1><Link href="/" className="home-link">Monderings: Beyond the Prompt</Link></h1>
           <label className="switch">
             <input type="checkbox" checked={isDarkTheme} onChange={toggleTheme} />
             <span className="slider"></span>
@@ -352,17 +352,17 @@ const CareerStory = () => {
                 
                 <div className="projects-grid">
                   <div className={`project-card ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
-                    <h3>🤖 The New Oracle</h3>
+                    <h3>🤖 The Synthetic Chronicle</h3>
                     <div className="project-period">Current Project</div>
                     <p>AI-generated news blog powered by multi-agent architecture. Fully automated system using GitHub Actions that analyzes news and publishes articles hourly.</p>
                     <div style={{ marginTop: '15px' }}>
-                      <strong>Website:</strong> <a href="https://theneworacle.github.io/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#bb86fc' : '#007bff', textDecoration: 'none' }}>theneworacle.github.io</a><br/>
+                      <strong>Website:</strong> <a href="https://news.mondero.nz/" target="_blank" rel="noopener noreferrer" style={{ color: isDarkTheme ? '#bb86fc' : '#007bff', textDecoration: 'none' }}>news.mondero.nz</a><br/>
                       <strong>Tech Stack:</strong> AI Agents, GitHub Actions, Multi-Agent Architecture
                     </div>
                   </div>
 
                   <div className={`project-card ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
-                    <h3>📝 The Tech Oracle Blog</h3>
+                    <h3>📝 Monderings: Beyond the Prompt</h3>
                     <div className="project-period">Personal Blog</div>
                     <p>AI-assisted technology blog covering software development, cloud engineering, and AI innovations. Features insights on .NET, AWS, and Generative AI from a practitioner's perspective.</p>
                     <div style={{ marginTop: '15px' }}>

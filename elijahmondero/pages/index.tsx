@@ -114,13 +114,13 @@ const Home = ({ posts }: HomeProps) => {
   return (
     <>
       <Head>
-        <title>The Tech Oracle by Elijah Mondero</title>
-        <meta name="description" content="A blog about the latest in technology by Elijah Mondero" />
+        <title>Monderings: Beyond the Prompt by Elijah Mondero</title>
+        <meta name="description" content="Monderings: Beyond the Prompt - A blog about the latest in AI and technology by Elijah Mondero" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={`App ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
         <header className={`App-header ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
-          <h1><Link href="/" className="home-link">The Tech Oracle</Link></h1>
+          <h1><Link href="/" className="home-link">Monderings: Beyond the Prompt</Link></h1>
           <label className="switch">
             <input type="checkbox" checked={isDarkTheme} onChange={toggleTheme} />
             <span className="slider"></span>

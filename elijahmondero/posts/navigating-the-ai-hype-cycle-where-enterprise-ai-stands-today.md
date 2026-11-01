@@ -14,7 +14,7 @@ tags:
   - "Technology Adoption"
   - "Business Strategy"
 sources:
-  - "https://theneworacle.github.io/posts/inside-the-ai-hype-cycle-whats-next-for-enterprise"
+  - "https://news.mondero.nz/posts/inside-the-ai-hype-cycle-whats-next-for-enterprise"
   - "https://www.forbes.com/councils/forbestechcouncil/2025/07/01/scaling-ai-adoption-four-strategies-for-enterprise-integration/"
   - "https://www.forbes.com/sites/rscottraynovich/2025/07/01/inside-the-ai-hype-cycle-whats-next-for-enterprise-ai/"
   - "https://www.zdnet.com/article/what-gartners-2024-hype-cycle-forecast-tells-us-about-the-future-of-ai-and-other-tech/"

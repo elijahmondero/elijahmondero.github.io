@@ -28,7 +28,7 @@ As I began my professional career, my focus shifted to building more complex app
 
 Today, my hobbies reflect my professional interest in AI and automation, but with a creative twist.
 
--   **AI-Generated News:** My main project is **[The New Oracle](https://theneworacle.github.io)**, an AI-generated news blog. This isn't just a simple blog; it's a fully automated system powered by a multi-agent architecture. Every hour, a GitHub Actions pipeline kicks off, pulling news, having AI agents analyze and write articles, and then publishing them. It's a practical application of my passion for both AI and DevOps.
--   **Personal Blog:** I also maintain my personal blog, **[elijahmondero.github.io](https://elijahmondero.github.io)**, where I document my projects, learnings, and career journey.
+-   **AI-Generated News:** My main project is **[The Synthetic Chronicle](https://news.mondero.nz)**, an AI-generated news blog. This isn't just a simple blog; it's a fully automated system powered by a multi-agent architecture. Every hour, a GitHub Actions pipeline kicks off, pulling news, having AI agents analyze and write articles, and then publishing them. It's a practical application of my passion for both AI and DevOps.
+-   **Personal Blog:** I also maintain my personal blog, **[Monderings: Beyond the Prompt](https://elijah.mondero.nz)**, where I document my projects, learnings, and career journey.
 
 From game servers to AI news agents, my hobbies have always been a reflection of my desire to learn, build, and explore the possibilities of technology.
