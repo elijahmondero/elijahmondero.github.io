@@ -116,6 +116,11 @@ const Home = ({ posts }: HomeProps) => {
       <Head>
         <title>Monderings: Beyond the Prompt by Elijah Mondero</title>
         <meta name="description" content="Monderings: Beyond the Prompt - A blog about the latest in AI and technology by Elijah Mondero" />
+        <meta property="og:title" content="Monderings: Beyond the Prompt by Elijah Mondero" />
+        <meta property="og:description" content="Monderings: Beyond the Prompt - A blog about the latest in AI and technology by Elijah Mondero" />
+        <meta property="og:url" content="https://elijah.mondero.nz/" />
+        <meta property="og:site_name" content="Monderings: Beyond the Prompt" />
+        <link rel="canonical" href="https://elijah.mondero.nz/" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={`App ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
