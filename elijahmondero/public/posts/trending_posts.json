@@ -15,11 +15,6 @@
     "excerpt": "AI agents and agentic AI are reshaping technology and business. This blog post explores the distinctions between these two frequently confused terms and their implications for the future."
   },
   {
-    "id": "hosting-services-in-net-examples-best-practices-and-gotchas",
-    "title": "Hosting Services in .NET: Examples, Best Practices, and Gotchas",
-    "excerpt": "Learn about hosting services in .NET, how to implement them, examples of real-world use cases, best practices, and common pitfalls. This guide provides actionable insights for developers."
-  },
-  {
     "id": "openai-unveils-new-gpt-4o-transcribe-models-revolutionizing-voice-ai",
     "title": "OpenAI Unveils New GPT-4o Transcribe Models: Revolutionizing Voice AI",
     "excerpt": "OpenAI has announced a new suite of audio models, including GPT-4o-transcribe and GPT-4o-mini-transcribe, which promises to push the boundaries of speech recognition and transcribing technology."
@@ -40,13 +35,18 @@
     "excerpt": "Explore some of the most impactful AI tools that are changing lives and solving real-world problems."
   },
   {
-    "id": "understanding-vertical-slice-architecture-in-net-core",
-    "title": "Understanding Vertical Slice Architecture in .NET Core",
-    "excerpt": "In this post, we explore the concept of vertical slice architecture, its benefits, and how to implement it in .NET Core."
+    "id": "the-dawn-of-diffusion-large-language-models-introducing-mercury-by-inception-labs",
+    "title": "The Dawn of Diffusion Large Language Models: Introducing Mercury by Inception Labs",
+    "excerpt": "Inception Labs has introduced a groundbreaking approach to AI with Diffusion Large Language Models (dLLMs). Their first commercial product, Mercury, promises faster and more efficient text generation, marking a significant advancement in the field."
   },
   {
-    "id": "dotnet-common-pitfalls",
-    "title": "Top Common Pitfalls in .NET Development and How to Avoid Them",
-    "excerpt": "In this blog post, we explore the latest common pitfalls in .NET development and how to avoid them. We also provide practical code examples to help developers improve their coding practices."
+    "id": "testing-strategies",
+    "title": "Testing Strategies and Integration with BDD, TDD, ReqNRoll, Playwright, and Test Containers on a ReactJS, .NET 8, and MSSQL Setup",
+    "excerpt": "Explore the integration of BDD, TDD, ReqNRoll, Playwright, and Test Containers in your ReactJS, .NET 8, and MSSQL projects to enhance your software quality and streamline development processes."
+  },
+  {
+    "id": "open-ais-struggle-with-gpt-5",
+    "title": "The $19.6 Billion Pivot: OpenAI's Struggle with GPT-5 and Their New Direction",
+    "excerpt": "Over the past two years, OpenAI has faced a challenging journey attempting to launch GPT-5. Despite significant investment and effort, the progress was slow and the core AI strategy of OpenAI needed a crucial shift. This post explores the reasons behind this struggle and the company's pivot to a new approach."
   }
 ]
