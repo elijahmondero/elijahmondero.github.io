@@ -1,38 +1,8 @@
 [
   {
-    "id": "deepseek-china-ai-competition",
-    "title": "South Korea's DeepSeek Faces Competition from China's AI Giants",
-    "excerpt": "South Korea's leading AI company, DeepSeek, is encountering increasing competition from China's rapidly advancing AI sector."
-  },
-  {
-    "id": "llm-advancements-2024-2025",
-    "title": "The Advancements in Training Large Language Models in 2024 and 2025",
-    "excerpt": "A comprehensive review of the significant strides made in the training of large language models (LLMs) in 2024 and 2025."
-  },
-  {
-    "id": "boost-your-vs-code-workflow-using-google-gemini-with-the-cline-extension",
-    "title": "Boost Your VS Code Workflow: Using Google Gemini with the 'cline' Extension",
-    "excerpt": "Bring the power of Google Gemini's AI coding assistance directly into your VS Code editor with the 'cline' extension. Streamline your development process and get context-aware help without leaving your IDE."
-  },
-  {
-    "id": "introducing-googles-new-agent-to-agent-a2a-framework",
-    "title": "Introducing Google's New Agent-to-Agent (A2A) Framework",
-    "excerpt": "Discover Google's latest framework, Agent-to-Agent (A2A), designed to facilitate seamless communication and collaboration between various AI agents."
-  },
-  {
-    "id": "beyond-training-why-test-time-compute-is-reshaping-ai-performance",
-    "title": "Beyond Training: Why Test-Time Compute is Reshaping AI Performance",
-    "excerpt": "Explore Test-Time Compute (TTC), the crucial-yet-often-overlooked computational cost of running AI models *after* training. Discover why TTC is a bottleneck for modern AI, its impact on user experience and cost, and how techniques like 'slow thinking' and Meta Reinforcement Fine-Tuning are unlocking new levels of AI reasoning."
-  },
-  {
     "id": "the-dawn-of-diffusion-large-language-models-introducing-mercury-by-inception-labs",
     "title": "The Dawn of Diffusion Large Language Models: Introducing Mercury by Inception Labs",
     "excerpt": "Inception Labs has introduced a groundbreaking approach to AI with Diffusion Large Language Models (dLLMs). Their first commercial product, Mercury, promises faster and more efficient text generation, marking a significant advancement in the field."
-  },
-  {
-    "id": "openai-unveils-new-gpt-4o-transcribe-models-revolutionizing-voice-ai",
-    "title": "OpenAI Unveils New GPT-4o Transcribe Models: Revolutionizing Voice AI",
-    "excerpt": "OpenAI has announced a new suite of audio models, including GPT-4o-transcribe and GPT-4o-mini-transcribe, which promises to push the boundaries of speech recognition and transcribing technology."
   },
   {
     "id": "exploring-rag-techniques",
@@ -40,13 +10,43 @@
     "excerpt": "Discover the power of Retrieval-Augmented Generation (RAG) techniques in enhancing the capabilities of language models. This blog post provides a detailed guide on building a RAG application with LangChain, including example code and practical use cases."
   },
   {
-    "id": "meta-ushers-in-a-new-era-with-llama-4-a-leap-in-multimodal-ai-innovation",
-    "title": "Meta Ushers in a New Era with LLaMA 4: A Leap in Multimodal AI Innovation",
-    "excerpt": "Meta has released LLaMA 4, introducing advanced multimodal AI models\u2014LLaMA 4 Scout, LLaMA 4 Maverick, and previewing the powerful LLaMA 4 Behemoth, aimed at revolutionizing personalized AI experiences."
+    "id": "tencents-hunyuan-t1-a-new-milestone-in-ai-reasoning-models",
+    "title": "Tencent's Hunyuan T1: A New Milestone in AI Reasoning Models",
+    "excerpt": "Tencent's latest AI model, Hunyuan T1, showcases advancements in reasoning capabilities, positioning itself as a strong contender among top-tier AI models."
+  },
+  {
+    "id": "understanding-the-difference-between-agentic-ai-and-ai-agents",
+    "title": "Understanding the Difference Between Agentic AI and AI Agents",
+    "excerpt": "AI agents and agentic AI are reshaping technology and business. This blog post explores the distinctions between these two frequently confused terms and their implications for the future."
+  },
+  {
+    "id": "deepseek-china-ai-competition",
+    "title": "South Korea's DeepSeek Faces Competition from China's AI Giants",
+    "excerpt": "South Korea's leading AI company, DeepSeek, is encountering increasing competition from China's rapidly advancing AI sector."
+  },
+  {
+    "id": "exploring-minimal-apis-vs-controllers-in-aspnet-core",
+    "title": "Exploring Minimal APIs vs. Controllers in ASP.NET Core",
+    "excerpt": "Explore the differences between Minimal APIs and Controllers in ASP.NET Core, understanding their implementations, performance aspects, and when to use each approach."
+  },
+  {
+    "id": "importance-scalable-architecture-small-projects",
+    "title": "The Importance of Scalable Architecture in Small Scale Projects: A .NET Community Discussion",
+    "excerpt": "In a recent discussion on the .NET subreddit, the community delved into the importance of scalable architecture in small-scale projects. While opinions varied, a common theme emerged: even for smaller projects, considering future scalability is crucial for long-term success."
+  },
+  {
+    "id": "openai-unveils-new-gpt-4o-transcribe-models-revolutionizing-voice-ai",
+    "title": "OpenAI Unveils New GPT-4o Transcribe Models: Revolutionizing Voice AI",
+    "excerpt": "OpenAI has announced a new suite of audio models, including GPT-4o-transcribe and GPT-4o-mini-transcribe, which promises to push the boundaries of speech recognition and transcribing technology."
   },
   {
     "id": "supercharge-your-startup-building-with-notebooklm-gemini-and-firebase",
     "title": "Supercharge Your Startup: Building with NotebookLM, Gemini, and Firebase",
     "excerpt": "Discover how the powerful combination of Google's NotebookLM, Gemini AI, and Firebase can streamline your startup journey from ideation to launch. Learn practical steps to leverage these tools for research, development, and scaling."
+  },
+  {
+    "id": "vibe-coding-the-future-of-software-engineering",
+    "title": "Vibe Coding: The Future of Software Engineering",
+    "excerpt": "Discover the revolutionary approach of vibe coding, a new system of development that merges AI capabilities with creative flow, setting the stage for the future of software engineering."
   }
 ]
