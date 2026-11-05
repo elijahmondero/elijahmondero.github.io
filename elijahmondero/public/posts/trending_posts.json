@@ -1,52 +1,52 @@
 [
   {
-    "id": "the-dawn-of-diffusion-large-language-models-introducing-mercury-by-inception-labs",
-    "title": "The Dawn of Diffusion Large Language Models: Introducing Mercury by Inception Labs",
-    "excerpt": "Inception Labs has introduced a groundbreaking approach to AI with Diffusion Large Language Models (dLLMs). Their first commercial product, Mercury, promises faster and more efficient text generation, marking a significant advancement in the field."
-  },
-  {
-    "id": "exploring-rag-techniques",
-    "title": "Exploring RAG (Retrieval-Augmented Generation) Techniques with Example Code",
-    "excerpt": "Discover the power of Retrieval-Augmented Generation (RAG) techniques in enhancing the capabilities of language models. This blog post provides a detailed guide on building a RAG application with LangChain, including example code and practical use cases."
-  },
-  {
-    "id": "tencents-hunyuan-t1-a-new-milestone-in-ai-reasoning-models",
-    "title": "Tencent's Hunyuan T1: A New Milestone in AI Reasoning Models",
-    "excerpt": "Tencent's latest AI model, Hunyuan T1, showcases advancements in reasoning capabilities, positioning itself as a strong contender among top-tier AI models."
-  },
-  {
-    "id": "understanding-the-difference-between-agentic-ai-and-ai-agents",
-    "title": "Understanding the Difference Between Agentic AI and AI Agents",
-    "excerpt": "AI agents and agentic AI are reshaping technology and business. This blog post explores the distinctions between these two frequently confused terms and their implications for the future."
-  },
-  {
-    "id": "deepseek-china-ai-competition",
-    "title": "South Korea's DeepSeek Faces Competition from China's AI Giants",
-    "excerpt": "South Korea's leading AI company, DeepSeek, is encountering increasing competition from China's rapidly advancing AI sector."
-  },
-  {
-    "id": "exploring-minimal-apis-vs-controllers-in-aspnet-core",
-    "title": "Exploring Minimal APIs vs. Controllers in ASP.NET Core",
-    "excerpt": "Explore the differences between Minimal APIs and Controllers in ASP.NET Core, understanding their implementations, performance aspects, and when to use each approach."
-  },
-  {
-    "id": "importance-scalable-architecture-small-projects",
-    "title": "The Importance of Scalable Architecture in Small Scale Projects: A .NET Community Discussion",
-    "excerpt": "In a recent discussion on the .NET subreddit, the community delved into the importance of scalable architecture in small-scale projects. While opinions varied, a common theme emerged: even for smaller projects, considering future scalability is crucial for long-term success."
-  },
-  {
-    "id": "openai-unveils-new-gpt-4o-transcribe-models-revolutionizing-voice-ai",
-    "title": "OpenAI Unveils New GPT-4o Transcribe Models: Revolutionizing Voice AI",
-    "excerpt": "OpenAI has announced a new suite of audio models, including GPT-4o-transcribe and GPT-4o-mini-transcribe, which promises to push the boundaries of speech recognition and transcribing technology."
-  },
-  {
-    "id": "supercharge-your-startup-building-with-notebooklm-gemini-and-firebase",
-    "title": "Supercharge Your Startup: Building with NotebookLM, Gemini, and Firebase",
-    "excerpt": "Discover how the powerful combination of Google's NotebookLM, Gemini AI, and Firebase can streamline your startup journey from ideation to launch. Learn practical steps to leverage these tools for research, development, and scaling."
-  },
-  {
     "id": "vibe-coding-the-future-of-software-engineering",
     "title": "Vibe Coding: The Future of Software Engineering",
     "excerpt": "Discover the revolutionary approach of vibe coding, a new system of development that merges AI capabilities with creative flow, setting the stage for the future of software engineering."
+  },
+  {
+    "id": "dotnet-9-release",
+    "title": ".NET 9 Release: What's New and Improved",
+    "excerpt": "Discover the latest features, breaking changes, and updates in the .NET 9 release, including new security measures, API changes, and improvements in C# 13."
+  },
+  {
+    "id": "meta-ushers-in-a-new-era-with-llama-4-a-leap-in-multimodal-ai-innovation",
+    "title": "Meta Ushers in a New Era with LLaMA 4: A Leap in Multimodal AI Innovation",
+    "excerpt": "Meta has released LLaMA 4, introducing advanced multimodal AI models\u2014LLaMA 4 Scout, LLaMA 4 Maverick, and previewing the powerful LLaMA 4 Behemoth, aimed at revolutionizing personalized AI experiences."
+  },
+  {
+    "id": "exploring-the-strengths-of-gpt-41-in-tool-calling-and-coding",
+    "title": "Exploring the Strengths of GPT-4.1 in Tool Calling and Coding",
+    "excerpt": "With the release of GPT-4.1, OpenAI has presented significant improvements in tool calling and coding capabilities. This blog delves into these enhancements, drawing insights from OpenAI's announcements and Reddit forums, offering a comprehensive view of its performance and potential applications."
+  },
+  {
+    "id": "llm-advancements-2024-2025",
+    "title": "The Advancements in Training Large Language Models in 2024 and 2025",
+    "excerpt": "A comprehensive review of the significant strides made in the training of large language models (LLMs) in 2024 and 2025."
+  },
+  {
+    "id": "introducing-googles-new-agent-to-agent-a2a-framework",
+    "title": "Introducing Google's New Agent-to-Agent (A2A) Framework",
+    "excerpt": "Discover Google's latest framework, Agent-to-Agent (A2A), designed to facilitate seamless communication and collaboration between various AI agents."
+  },
+  {
+    "id": "building-step-by-step-ai-workflows-with-google-adks-sequentialagent",
+    "title": "Building Step-by-Step AI Workflows with Google ADK's SequentialAgent",
+    "excerpt": "Explore how Google's Agent Development Kit (ADK) simplifies multi-agent system creation, focusing on the SequentialAgent \u2013 a powerful tool for building structured, step-by-step AI workflows by orchestrating tasks in a defined sequence."
+  },
+  {
+    "id": "envolution-maturation-llms",
+    "title": "The Evolution and Maturation of Large Language Models",
+    "excerpt": "Explore the fascinating journey of large language models (LLMs) from their historical roots to their current state of maturity, highlighting key developments along the way."
+  },
+  {
+    "id": "life-changing-ai-tools",
+    "title": "Life-Changing AI Tools: Transforming Our World",
+    "excerpt": "Explore some of the most impactful AI tools that are changing lives and solving real-world problems."
+  },
+  {
+    "id": "net-ai-template-now-available-in-preview",
+    "title": ".NET AI Template Now Available in Preview",
+    "excerpt": "Microsoft has announced a new AI Chat Web App template, now available in preview. This template is designed to simplify AI development with .NET by providing scaffolding and guidance within Visual Studio, Visual Studio Code, and the .NET CLI."
   }
 ]
