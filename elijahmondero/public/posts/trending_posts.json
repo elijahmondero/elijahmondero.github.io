@@ -10,11 +10,6 @@
     "excerpt": "AI agents and agentic AI are reshaping technology and business. This blog post explores the distinctions between these two frequently confused terms and their implications for the future."
   },
   {
-    "id": "importance-of-finops",
-    "title": "The Importance of FinOps in Managing Cloud and On-Premise Costs",
-    "excerpt": "Discover the significance of FinOps in optimizing cloud and on-premise infrastructure to minimize financial wastage and enhance operational efficiency."
-  },
-  {
     "id": "leaked-system-prompt-chatgpt-45",
     "title": "Leaked System Prompt of ChatGPT 4.5",
     "excerpt": "Discover the leaked system prompt of ChatGPT 4.5 that reveals its instruction set, tool usage guidelines, and ethical constraints."
@@ -48,5 +43,10 @@
     "id": "deepseek-china-ai-competition",
     "title": "South Korea's DeepSeek Faces Competition from China's AI Giants",
     "excerpt": "South Korea's leading AI company, DeepSeek, is encountering increasing competition from China's rapidly advancing AI sector."
+  },
+  {
+    "id": "navigating-the-ai-revolution-the-evolving-future-of-software-engineering",
+    "title": "Navigating the AI Revolution: The Evolving Future of Software Engineering",
+    "excerpt": "AI is rapidly transforming software engineering by automating tasks, but human creativity, critical thinking, and specialized skills are more vital than ever. Discover how engineers can thrive by collaborating with AI and focusing on high-value areas."
   }
 ]
