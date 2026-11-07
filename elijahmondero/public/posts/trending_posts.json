@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "id": "supercharge-your-startup-building-with-notebooklm-gemini-and-firebase",
+    "title": "Supercharge Your Startup: Building with NotebookLM, Gemini, and Firebase",
+    "excerpt": "Discover how the powerful combination of Google's NotebookLM, Gemini AI, and Firebase can streamline your startup journey from ideation to launch. Learn practical steps to leverage these tools for research, development, and scaling."
+  },
+  {
+    "id": "leaked-system-prompt-chatgpt-45",
+    "title": "Leaked System Prompt of ChatGPT 4.5",
+    "excerpt": "Discover the leaked system prompt of ChatGPT 4.5 that reveals its instruction set, tool usage guidelines, and ethical constraints."
+  },
+  {
+    "id": "envolution-maturation-llms",
+    "title": "The Evolution and Maturation of Large Language Models",
+    "excerpt": "Explore the fascinating journey of large language models (LLMs) from their historical roots to their current state of maturity, highlighting key developments along the way."
+  },
+  {
+    "id": "dotnet-9-release",
+    "title": ".NET 9 Release: What's New and Improved",
+    "excerpt": "Discover the latest features, breaking changes, and updates in the .NET 9 release, including new security measures, API changes, and improvements in C# 13."
+  },
+  {
+    "id": "container-images-for-developers",
+    "title": "Top Container Images Every .NET, ReactJS, and Generative AI Developer Must Have",
+    "excerpt": "Discover the essential container images for .NET, ReactJS, and Generative AI developers to streamline your development workflow and enhance productivity."
+  },
+  {
+    "id": "net-ai-template-now-available-in-preview",
+    "title": ".NET AI Template Now Available in Preview",
+    "excerpt": "Microsoft has announced a new AI Chat Web App template, now available in preview. This template is designed to simplify AI development with .NET by providing scaffolding and guidance within Visual Studio, Visual Studio Code, and the .NET CLI."
+  },
+  {
+    "id": "boost-your-vs-code-workflow-using-google-gemini-with-the-cline-extension",
+    "title": "Boost Your VS Code Workflow: Using Google Gemini with the 'cline' Extension",
+    "excerpt": "Bring the power of Google Gemini's AI coding assistance directly into your VS Code editor with the 'cline' extension. Streamline your development process and get context-aware help without leaving your IDE."
+  },
+  {
+    "id": "beyond-training-why-test-time-compute-is-reshaping-ai-performance",
+    "title": "Beyond Training: Why Test-Time Compute is Reshaping AI Performance",
+    "excerpt": "Explore Test-Time Compute (TTC), the crucial-yet-often-overlooked computational cost of running AI models *after* training. Discover why TTC is a bottleneck for modern AI, its impact on user experience and cost, and how techniques like 'slow thinking' and Meta Reinforcement Fine-Tuning are unlocking new levels of AI reasoning."
+  },
+  {
+    "id": "understanding-the-model-context-protocol-mcp-revolutionizing-ai-integration",
+    "title": "Understanding the Model Context Protocol (MCP): Revolutionizing AI Integration",
+    "excerpt": "Discover how the Model Context Protocol (MCP) simplifies AI integrations, breaks down data silos, and empowers developers to build smarter, scalable solutions."
+  },
+  {
+    "id": "testing-strategies",
+    "title": "Testing Strategies and Integration with BDD, TDD, ReqNRoll, Playwright, and Test Containers on a ReactJS, .NET 8, and MSSQL Setup",
+    "excerpt": "Explore the integration of BDD, TDD, ReqNRoll, Playwright, and Test Containers in your ReactJS, .NET 8, and MSSQL projects to enhance your software quality and streamline development processes."
+  }
+]
