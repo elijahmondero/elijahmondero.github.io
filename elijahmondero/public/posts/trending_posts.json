@@ -20,11 +20,6 @@
     "excerpt": "In this blog post, we explore the latest common pitfalls in .NET development and how to avoid them. We also provide practical code examples to help developers improve their coding practices."
   },
   {
-    "id": "leaked-system-prompt-chatgpt-45",
-    "title": "Leaked System Prompt of ChatGPT 4.5",
-    "excerpt": "Discover the leaked system prompt of ChatGPT 4.5 that reveals its instruction set, tool usage guidelines, and ethical constraints."
-  },
-  {
     "id": "openai-agents-sdk-adds-support-for-model-context-protocol-mcp",
     "title": "OpenAI Agents SDK Adds Support for Model Context Protocol (MCP)",
     "excerpt": "OpenAI recently announced the integration of Model Context Protocol (MCP) into their Agents SDK. This addition bridges the gap between AI models and various data sources, making AI development more efficient and versatile."
@@ -48,5 +43,10 @@
     "id": "building-step-by-step-ai-workflows-with-google-adks-sequentialagent",
     "title": "Building Step-by-Step AI Workflows with Google ADK's SequentialAgent",
     "excerpt": "Explore how Google's Agent Development Kit (ADK) simplifies multi-agent system creation, focusing on the SequentialAgent \u2013 a powerful tool for building structured, step-by-step AI workflows by orchestrating tasks in a defined sequence."
+  },
+  {
+    "id": "saas-isnt-dead-its-getting-smarter-welcome-to-the-age-of-ai-enhanced-software",
+    "title": "SaaS Isn't Dead, It's Getting Smarter: Welcome to the Age of AI-Enhanced Software",
+    "excerpt": "Forget the 'SaaS is dead' headlines. Software-as-a-Service is undergoing a massive transformation, powered by AI. Discover how intelligent agents and enhanced interfaces are reshaping the future, making SaaS more powerful and intuitive than ever."
   }
 ]
