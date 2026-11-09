@@ -10,6 +10,11 @@
     "excerpt": "AI agents and agentic AI are reshaping technology and business. This blog post explores the distinctions between these two frequently confused terms and their implications for the future."
   },
   {
+    "id": "leaked-system-prompt-chatgpt-45",
+    "title": "Leaked System Prompt of ChatGPT 4.5",
+    "excerpt": "Discover the leaked system prompt of ChatGPT 4.5 that reveals its instruction set, tool usage guidelines, and ethical constraints."
+  },
+  {
     "id": "openai-agents-sdk-adds-support-for-model-context-protocol-mcp",
     "title": "OpenAI Agents SDK Adds Support for Model Context Protocol (MCP)",
     "excerpt": "OpenAI recently announced the integration of Model Context Protocol (MCP) into their Agents SDK. This addition bridges the gap between AI models and various data sources, making AI development more efficient and versatile."
@@ -43,10 +48,5 @@
     "id": "navigating-the-ai-revolution-the-evolving-future-of-software-engineering",
     "title": "Navigating the AI Revolution: The Evolving Future of Software Engineering",
     "excerpt": "AI is rapidly transforming software engineering by automating tasks, but human creativity, critical thinking, and specialized skills are more vital than ever. Discover how engineers can thrive by collaborating with AI and focusing on high-value areas."
-  },
-  {
-    "id": "llm-advancements-2024-2025",
-    "title": "The Advancements in Training Large Language Models in 2024 and 2025",
-    "excerpt": "A comprehensive review of the significant strides made in the training of large language models (LLMs) in 2024 and 2025."
   }
 ]
