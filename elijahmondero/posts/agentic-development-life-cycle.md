@@ -38,6 +38,8 @@ In real-world software delivery, code does not materialize out of thin air. It t
 
 In an **Agentic SDLC**, the handoffs between these phases are executed by autonomous, specialized agents and guarded by deterministic evaluation checkpoints:
 
+![The Agentic SDLC & Evaluation-Driven Development (EDD) Architecture](/posts/images/agentic-sdlc-architecture.svg)
+
 #### 1. Specification & Design Gate
 * **Input Artifact:** Product Requirements Document (PRD) or User Stories.
 * **Autonomous Agent Action:** Spec agents analyze user requirements, detect ambiguities, decompose epics into modular tasks, and flag edge cases.
