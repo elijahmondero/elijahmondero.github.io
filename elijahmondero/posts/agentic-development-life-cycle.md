@@ -16,7 +16,7 @@ sources:
   - "https://www.port.io/blog/agentic-sdlc"
   - "https://www.coderabbit.ai/blog/agentic-sdlc-framework"
   - "https://arize.com/blog-course/eval-driven-development/"
-  - "https://antigravity.google/docs"
+  - "https://martinfowler.com/articles/exploring-gen-ai.html"
 image_path: "/posts/images/ac0b47a9-3180-421c-a396-de25a4395b47.png"
 ---
 
@@ -38,7 +38,7 @@ In real-world software delivery, code does not materialize out of thin air. It t
 
 In an **Agentic SDLC**, the handoffs between these phases are executed by autonomous, specialized agents and guarded by deterministic evaluation checkpoints:
 
-![The Agentic SDLC & Evaluation-Driven Development (EDD) Architecture](/posts/images/agentic-sdlc-architecture.svg)
+![The Agentic Software Development Lifecycle (Agentic SDLC) Architecture](/posts/images/agentic-sdlc-architecture.svg)
 
 #### 1. Specification & Design Gate
 * **Input Artifact:** Product Requirements Document (PRD) or User Stories.
@@ -47,7 +47,7 @@ In an **Agentic SDLC**, the handoffs between these phases are executed by autono
 * **Human Checkpoint:** Scope sign-off and architectural intent alignment.
 
 #### 2. Architecture & Contract Gate
-* **Input Artifact:** Approved PRD.
+* **Input Artifact:** Approved PRD and Context Lake from Internal Developer Portals (IDPs).
 * **Autonomous Agent Action:** Architecture agents evaluate existing service boundaries, database schemas, and architectural decision records (ADRs) to draft interface contracts.
 * **Evaluation Gate:** ADR conformance rubric and interface contract linters.
 
@@ -58,14 +58,14 @@ In an **Agentic SDLC**, the handoffs between these phases are executed by autono
 
 #### 4. Security & Compliance Gate
 * **Input Artifact:** Implemented code and passing test suites.
-* **Autonomous Agent Action:** Security agents execute static analysis, dependency vulnerability scans (CVEs), and secret leak detection.
+* **Autonomous Agent Action:** Security agents execute static analysis (SAST), dependency vulnerability scans (CVEs), and secret leak detection.
 * **Evaluation Gate:** Deterministic security pass/fail gates and automated linting.
 
-#### 5. Release & Governance Gate
-* **Input Artifact:** Verified codebase and test evidence.
-* **Autonomous Agent Action:** Pre-release packaging and automated Pull Request generation.
-* **Evaluation Gate:** Blind editorial rubric audit (scoring overall technical rigor and documentation).
-* **Human Checkpoint:** Strategic Pull Request review, architectural validation, and production merge.
+#### 5. Release & Continuous Operations Gate
+* **Input Artifact:** Verified codebase, test evidence, and passing CI builds.
+* **Autonomous Agent Action:** Automated Pull Request generation, diff impact analysis, canary deployment monitoring, and runtime telemetry triage.
+* **Evaluation Gate:** Automated E2E verification suites, regression benchmarks, and policy compliance.
+* **Human Checkpoint:** Strategic Pull Request review, architectural validation, and production release authorization.
 
 ---
 
@@ -105,12 +105,12 @@ While TDD focuses on binary unit assertions (`pass` or `fail`), **EDD treats eva
   * **TDD:** Catches syntax regressions and broken logic in existing code.
   * **EDD:** Catches behavioral drift, cognitive degradation, and architectural entropy across the multi-agent pipeline.
 
-#### How EDD Operates Across the Pipeline
+#### How EDD Operates Across the Enterprise Pipeline
 
 1. **PRD Evaluation Gate:** Before architecture work begins, an evaluator agent scores the PRD against a requirements rubric (measuring ambiguity, completeness, and non-functional requirements). A human signs off on the evaluated scope.
 2. **Architecture & LLD Evaluation Gate:** Contract linters and ADR evaluators verify that proposed designs conform to system boundaries and security standards.
 3. **Implementation & Test Gate (Where TDD Lives):** During implementation, the agent runs localized TDD loops inside isolated worktrees, generating unit tests and confirming execution evidence before claiming completion.
-4. **Pre-Release Blind Rubric Audit:** Before a Pull Request is opened, an independent, context-isolated auditor agent evaluates the entire changeset against an objective quality rubric (scoring technical rigor, security posture, documentation clarity, and test coverage).
+4. **Security & Integration Gate:** Automated security agents scan dependencies, run static analysis, and verify E2E integration against golden test suites.
 5. **Human PR Gate:** The Pull Request becomes the ultimate strategic human checkpoint. Instead of reading thousands of lines of raw diffs, human reviewers review the **Evaluation Scorecard**, the automated test proofs, and the architectural delta.
 
 ---
@@ -133,7 +133,7 @@ By replacing constant interruptions with **strategic human gates powered by rubr
 
 1. **TDD is a Subsystem, Not the Strategy:** Use TDD as an inner execution loop for agents writing code, but rely on EDD to govern the macro journey from PRD to production.
 2. **Codify Success Criteria Upfront:** If an agent cannot measure what "good" looks like through an objective rubric, it will drift into generic or brittle implementations.
-3. **Isolate Reviewers to Avoid Context Pollution:** Automated review and rubric scoring must run in clean, unpolluted contexts to prevent confirmation bias.
+3. **Leverage Context Lakes:** Give agents live access to architecture decision records (ADRs), service catalogs, and API contracts via internal developer portals (like Port) to prevent hallucinated architecture.
 4. **Make Pull Requests the True Governance Checkpoint:** Build pipelines where PRs arrive with complete evaluation audit trails, leaving humans free to focus on architecture, business value, and safety.
 
 ---
@@ -144,4 +144,4 @@ By replacing constant interruptions with **strategic human gates powered by rubr
 - **Port Engineering:** [The Agentic Software Development Lifecycle](https://www.port.io/blog/agentic-sdlc)
 - **CodeRabbit:** [Agentic SDLC Framework & Verification](https://www.coderabbit.ai/blog/agentic-sdlc-framework)
 - **Arize AI:** [Evaluation-Driven Development (EDD) for AI Agents](https://arize.com/blog-course/eval-driven-development/)
-- **Antigravity Customization Documentation:** [Google Antigravity SDK & Skill System](https://antigravity.google/docs)
+- **Martin Fowler / Thoughtworks:** [Exploring Generative AI & Software Delivery](https://martinfowler.com/articles/exploring-gen-ai.html)
