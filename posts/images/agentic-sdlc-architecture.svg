@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0d14"/>
+      <stop offset="100%" stop-color="#121824"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="humanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#ef4444"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowCyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <style>
+    .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-weight: 700; fill: #f8fafc; }
+    .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; fill: #94a3b8; }
+    .box-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-weight: 600; font-size: 14px; fill: #f1f5f9; }
+    .box-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 11px; fill: #94a3b8; }
+    .badge { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+    .flow-line { stroke: #475569; stroke-width: 2; fill: none; stroke-dasharray: 4, 4; }
+    .solid-line { stroke: #64748b; stroke-width: 2; fill: none; }
+  </style>
+
+  <!-- Outer Canvas Background -->
+  <rect width="920" height="620" rx="16" fill="url(#bgGrad)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Header Banner -->
+  <text x="40" y="42" class="title" font-size="20">The Agentic SDLC &amp; Evaluation-Driven Development (EDD)</text>
+  <text x="40" y="64" class="subtitle">Autonomous Multi-Agent Factory Floor Governed by Macro Evaluation Rubrics &amp; Strategic Human Gates</text>
+
+  <!-- PHASE 1: SPECIFICATION & DESIGN -->
+  <g filter="url(#shadow)">
+    <rect x="35" y="88" width="850" height="135" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+    <rect x="47" y="100" width="170" height="22" rx="4" fill="#0284c7" fill-opacity="0.15"/>
+    <text x="54" y="115" class="badge" fill="#38bdf8">Phase 1: Spec &amp; Design</text>
+
+    <!-- Step 1.1 -->
+    <rect x="50" y="132" width="180" height="72" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="62" y="156" class="box-title">Product Requirements</text>
+    <text x="62" y="174" class="box-desc">PRD, Epics &amp; User Stories</text>
+    <text x="62" y="190" class="box-desc" fill="#38bdf8">Spec Agent decomposition</text>
+
+    <!-- Arrow -->
+    <line x1="230" y1="168" x2="260" y2="168" class="solid-line" marker-end="url(#arrow)"/>
+
+    <!-- Step 1.2: Ambiguity Eval -->
+    <rect x="260" y="132" width="175" height="72" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="272" y="156" class="box-title">Ambiguity Eval</text>
+    <text x="272" y="174" class="box-desc">Automated Rubric Audit</text>
+    <text x="272" y="190" class="box-desc" fill="#38bdf8">Completeness &gt;= 90%</text>
+
+    <!-- Arrow -->
+    <line x1="435" y1="168" x2="465" y2="168" class="solid-line" marker-end="url(#arrow)"/>
+
+    <!-- Step 1.3: Human Gate -->
+    <rect x="465" y="132" width="180" height="72" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+    <text x="477" y="156" class="box-title" fill="#fbbf24">⚡ Human Gate 1</text>
+    <text x="477" y="174" class="box-desc">Scope Sign-off &amp; Approval</text>
+    <text x="477" y="190" class="box-desc" fill="#f59e0b">Human sets intent &amp; budget</text>
+
+    <!-- Arrow -->
+    <line x1="645" y1="168" x2="675" y2="168" class="solid-line" marker-end="url(#arrow)"/>
+
+    <!-- Step 1.4: Architecture & LLD -->
+    <rect x="675" y="132" width="195" height="72" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="687" y="156" class="box-title">Architecture &amp; LLD</text>
+    <text x="687" y="174" class="box-desc">ADR &amp; Contract Evaluation</text>
+    <text x="687" y="190" class="box-desc" fill="#818cf8">Machine-actionable tasks</text>
+  </g>
+
+  <!-- Transition Arrow 1 -> 2 -->
+  <line x1="772" y1="223" x2="772" y2="255" class="solid-line" marker-end="url(#arrowCyan)"/>
+
+  <!-- PHASE 2: THE AGENTIC FACTORY FLOOR -->
+  <g filter="url(#shadow)">
+    <rect x="35" y="258" width="850" height="175" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+    <rect x="47" y="270" width="220" height="22" rx="4" fill="#9333ea" fill-opacity="0.15"/>
+    <text x="54" y="285" class="badge" fill="#c084fc">Phase 2: The Factory Floor (Build)</text>
+
+    <!-- Step 2.1: Swarm -->
+    <rect x="50" y="302" width="220" height="110" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1"/>
+    <text x="62" y="328" class="box-title">Autonomous Swarm</text>
+    <text x="62" y="348" class="box-desc">• Task Execution Subagents</text>
+    <text x="62" y="366" class="box-desc">• Isolated Worktree Isolation</text>
+    <text x="62" y="384" class="box-desc">• Context Management (MCP)</text>
+
+    <!-- Arrow -->
+    <line x1="270" y1="357" x2="310" y2="357" class="solid-line" marker-end="url(#arrow)"/>
+
+    <!-- Step 2.2: The Micro TDD/BDD Loop -->
+    <rect x="310" y="302" width="260" height="110" rx="8" fill="#182234" stroke="#6366f1" stroke-width="1.5"/>
+    <rect x="322" y="312" width="130" height="18" rx="3" fill="#4f46e5" fill-opacity="0.3"/>
+    <text x="327" y="325" class="badge" fill="#818cf8">Micro-Verification Loop</text>
+    <text x="322" y="350" class="box-title">TDD &amp; BDD Assertions</text>
+    <text x="322" y="370" class="box-desc">1. Generate failing unit/behavior test</text>
+    <text x="322" y="388" class="box-desc">2. Implement minimal satisfying code</text>
+    <text x="322" y="404" class="box-desc" fill="#34d399">✓ Self-corrects on test failure</text>
+
+    <!-- Arrow -->
+    <line x1="570" y1="357" x2="610" y2="357" class="solid-line" marker-end="url(#arrow)"/>
+
+    <!-- Step 2.3: Security & Static Analysis -->
+    <rect x="610" y="302" width="260" height="110" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="622" y="328" class="box-title">Security &amp; Deterministic Eval</text>
+    <text x="622" y="348" class="box-desc">• Static Analysis &amp; Linters</text>
+    <text x="622" y="366" class="box-desc">• CVE &amp; Dependency Scanning</text>
+    <text x="622" y="384" class="box-desc">• Secret &amp; Taint Detection</text>
+    <text x="622" y="402" class="box-desc" fill="#38bdf8">Pass criteria must be 100%</text>
+  </g>
+
+  <!-- Transition Arrow 2 -> 3 -->
+  <line x1="475" y1="433" x2="475" y2="465" class="solid-line" marker-end="url(#arrowGreen)"/>
+
+  <!-- PHASE 3: RELEASE & GOVERNANCE -->
+  <g filter="url(#shadow)">
+    <rect x="35" y="468" width="850" height="135" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+    <rect x="47" y="480" width="190" height="22" rx="4" fill="#059669" fill-opacity="0.15"/>
+    <text x="54" y="495" class="badge" fill="#34d399">Phase 3: Release &amp; Governance</text>
+
+    <!-- Step 3.1: Blind Rubric -->
+    <rect x="50" y="512" width="230" height="72" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="62" y="536" class="box-title">Blind Rubric Audit</text>
+    <text x="62" y="554" class="box-desc">Context-Isolated Auditor Subagent</text>
+    <text x="62" y="570" class="box-desc" fill="#34d399">Score &gt;= 85 to generate PR</text>
+
+    <!-- Arrow -->
+    <line x1="280" y1="548" x2="320" y2="548" class="solid-line" marker-end="url(#arrow)"/>
+
+    <!-- Step 3.2: Automated PR -->
+    <rect x="320" y="512" width="240" height="72" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="332" y="536" class="box-title">Automated Pull Request</text>
+    <text x="332" y="554" class="box-desc">Summary + Full Content Preview</text>
+    <text x="332" y="570" class="box-desc" fill="#38bdf8">Auditor Scorecard attached</text>
+
+    <!-- Arrow -->
+    <line x1="560" y1="548" x2="600" y2="548" class="solid-line" marker-end="url(#arrow)"/>
+
+    <!-- Step 3.3: Human Gate 2 -->
+    <rect x="600" y="512" width="270" height="72" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+    <text x="612" y="536" class="box-title" fill="#fbbf24">⚡ Human Gate 2: PR Review</text>
+    <text x="612" y="554" class="box-desc">Review Scorecard &amp; Architecture</text>
+    <text x="612" y="570" class="box-desc" fill="#10b981">Merge &amp; Deploy to Production</text>
+  </g>
+</svg>
