@@ -55,11 +55,15 @@ Use this skill whenever you need to publish a high-quality, technically rigorous
 - Push: `git push -u origin blog/<slug>`
 - Create PR:
   ```bash
-  gh pr create --title "feat: <title>" --body "<PR Body with Summary, Content, and Rubric Scorecard>"
+  PR_URL=$(gh pr create --title "feat: <title>" --body "<PR Body with Summary, Content, and Rubric Scorecard>")
   ```
 - Post detailed rubric audit comment:
   ```bash
   gh pr comment <pr-number> --body "<Detailed Rubric Breakdown & Qualitative Commentary>"
+  ```
+- Automatically open the created PR in the default browser:
+  ```bash
+  python3 .agents/skills/blog-publisher/scripts/publish_helpers.py open-browser "$PR_URL"
   ```
 
 ---

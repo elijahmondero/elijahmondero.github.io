@@ -129,6 +129,50 @@ def validate_post(post_id: str, repo_root: str = None) -> bool:
     print(f"Post {post_id}.md validated successfully.")
     return True
 
+def open_in_browser(url: str) -> bool:
+    """Opens a URL in the user's default browser cross-platform (Termux, Linux, macOS, Windows)."""
+    import shutil
+    import subprocess
+    import webbrowser
+
+    # 1. Android Termux support
+    if shutil.which("termux-open-url"):
+        try:
+            subprocess.run(["termux-open-url", url], check=True)
+            print(f"Opened {url} via termux-open-url")
+            return True
+        except Exception:
+            pass
+
+    # 2. Linux xdg-open support
+    if shutil.which("xdg-open"):
+        try:
+            subprocess.run(["xdg-open", url], check=True)
+            print(f"Opened {url} via xdg-open")
+            return True
+        except Exception:
+            pass
+
+    # 3. macOS open support
+    if sys.platform == "darwin" and shutil.which("open"):
+        try:
+            subprocess.run(["open", url], check=True)
+            print(f"Opened {url} via open")
+            return True
+        except Exception:
+            pass
+
+    # 4. Standard Python webbrowser fallback
+    try:
+        opened = webbrowser.open(url)
+        if opened:
+            print(f"Opened {url} in default browser")
+            return True
+    except Exception as e:
+        print(f"Could not open browser automatically: {e}")
+
+    return False
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage:")
@@ -136,6 +180,7 @@ if __name__ == "__main__":
         print("  python publish_helpers.py index <post_id> '<title>' '<excerpt>'")
         print("  python publish_helpers.py sitemap <post_id> [iso_date]")
         print("  python publish_helpers.py validate <post_id>")
+        print("  python publish_helpers.py open-browser '<url>'")
         sys.exit(1)
         
     cmd = sys.argv[1].lower()
@@ -149,6 +194,8 @@ if __name__ == "__main__":
     elif cmd == "validate" and len(sys.argv) >= 3:
         if not validate_post(sys.argv[2]):
             sys.exit(1)
+    elif cmd in ("open-browser", "open-url") and len(sys.argv) >= 3:
+        open_in_browser(sys.argv[2])
     else:
         print(f"Unknown or incomplete command: {cmd}")
         sys.exit(1)
