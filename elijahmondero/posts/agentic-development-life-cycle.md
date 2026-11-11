@@ -132,3 +132,13 @@ By replacing constant interruptions with **strategic human gates powered by rubr
 2. **Codify Success Criteria Upfront:** If an agent cannot measure what "good" looks like through an objective rubric, it will drift into generic or brittle implementations.
 3. **Isolate Reviewers to Avoid Context Pollution:** Automated review and rubric scoring must run in clean, unpolluted contexts to prevent confirmation bias.
 4. **Make Pull Requests the True Governance Checkpoint:** Build pipelines where PRs arrive with complete evaluation audit trails, leaving humans free to focus on architecture, business value, and safety.
+
+---
+
+### References & Sources
+
+- **Port's Video Breakdown:** [Agentic SDLC Explained for Developers! (YouTube 21tuT-e4NVo)](https://www.youtube.com/watch?v=21tuT-e4NVo)
+- **Port Engineering:** [The Agentic Software Development Lifecycle](https://www.port.io/blog/agentic-sdlc)
+- **CodeRabbit:** [Agentic SDLC Framework & Verification](https://www.coderabbit.ai/blog/agentic-sdlc-framework)
+- **Arize AI:** [Evaluation-Driven Development (EDD) for AI Agents](https://arize.com/blog-course/eval-driven-development/)
+- **Antigravity Customization Documentation:** [Google Antigravity SDK & Skill System](https://antigravity.google/docs)
