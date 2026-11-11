@@ -53,9 +53,13 @@ Use this skill whenever you need to publish a high-quality, technically rigorous
 - Stage files: `git add elijahmondero/posts/<slug>.md elijahmondero/public/posts/images/ elijahmondero/public/posts/index.json elijahmondero/public/sitemap.xml`
 - Commit: `git commit -m "feat(blog): publish <title>"`
 - Push: `git push -u origin blog/<slug>`
-- Create PR:
+- Assemble full PR description (Summary + Scorecard + Full Article Markdown + Sources):
   ```bash
-  PR_URL=$(gh pr create --title "feat: <title>" --body "<PR Body with Summary, Content, and Rubric Scorecard>")
+  python3 .agents/skills/blog-publisher/scripts/publish_helpers.py pr-body "<slug>" ".agents/scratch/scorecard.md" ".agents/scratch/pr_body.md"
+  ```
+- Create PR using `--body-file`:
+  ```bash
+  PR_URL=$(gh pr create --title "feat(blog): <title>" --body-file ".agents/scratch/pr_body.md")
   ```
 - Post detailed rubric audit comment:
   ```bash
