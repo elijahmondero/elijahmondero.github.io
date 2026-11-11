@@ -162,7 +162,16 @@ def open_in_browser(url: str) -> bool:
         except Exception:
             pass
 
-    # 4. Standard Python webbrowser fallback
+    # 4. Windows native shell support
+    if sys.platform == "win32":
+        try:
+            os.startfile(url)
+            print(f"Opened {url} via os.startfile")
+            return True
+        except Exception:
+            pass
+
+    # 5. Standard Python webbrowser fallback
     try:
         opened = webbrowser.open(url)
         if opened:
