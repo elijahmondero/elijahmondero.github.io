@@ -34,7 +34,7 @@ Yet as autonomous agents begin generating code across whole repositories, a crit
 
 In real-world software delivery, code does not materialize out of thin air. It traverses a structured, multi-stage funnel:
 
-$$\text{PRD} \longrightarrow \text{System Design} \longrightarrow \text{Architecture} \longrightarrow \text{LLD} \longrightarrow \text{Implementation} \longrightarrow \text{Tests} \longrightarrow \text{Security} \longrightarrow \text{Release}$$
+> **PRD** &rarr; **System Design** &rarr; **Architecture** &rarr; **Low-Level Design (LLD)** &rarr; **Implementation** &rarr; **Tests** &rarr; **Security** &rarr; **Release**
 
 In a traditional engineering organization, each handoff between these phases is fraught with human latency, miscommunication, and verification bottlenecks. In an **Agentic SDLC**, autonomous specialized agents execute the heavy lifting at each stage:
 
@@ -45,33 +45,36 @@ In a traditional engineering organization, each handoff between these phases is 
 5. **Security & Compliance:** Static analysis agents scan for CVEs, taint vectors, and secret leaks.
 6. **Release & Operations:** SRE agents monitor canary metrics, observe runtime logs, and manage deployments.
 
-```mermaid
-flowchart TD
-    subgraph SpecPhase ["1. Specification & Design"]
-        PRD["Product Requirements (PRD)"] --> E1["Eval: Ambiguity & Completeness Rubric"]
-        E1 --> H1{"Human Gate: Scope Sign-Off"}
-        H1 --> ARCH["High-Level Architecture & Design"]
-        ARCH --> E2["Eval: Contract & ADR Conformance"]
-        E2 --> LLD["Low-Level Design (LLD)"]
-    end
-
-    subgraph BuildPhase ["2. Build & Verification"]
-        LLD --> IMPL["Agent Implementation Swarm"]
-        subgraph TDDLoop ["Micro-Verification"]
-            IMPL --> TDD["TDD / BDD Unit & Behavior Tests"]
-            TDD -- "Fail" --> IMPL
-        end
-        TDD -- "Pass" --> SEC["Security & Static Analysis"]
-        SEC --> E3["Eval: Deterministic Evals & Linting"]
-    end
-
-    subgraph GatePhase ["3. Release & Governance"]
-        E3 --> RUBRIC["Blind Rubric Scoring (Editorial Audit)"]
-        RUBRIC --> PR["Automated Pull Request (PR)"]
-        PR --> H2{"Human Gate: PR Review & Merge"}
-        H2 --> REL["Production Release"]
-    end
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│ 1. SPECIFICATION & DESIGN                                              │
+│    PRD ──▶ Ambiguity & Completeness Eval ──▶ [Human Gate: Scope Sign-Off]
+│                                                        │               │
+│    Low-Level Design (LLD) ◀── Contract & ADR Eval ◀── Architecture     │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ 2. BUILD & MICRO-VERIFICATION (THE FACTORY FLOOR)                      │
+│    Implementation Swarm ──▶ [TDD / BDD Micro-Loop] (Inner Test Loop)   │
+│                                    │                                   │
+│    Deterministic Evals & Linting ◀── Security & Static Analysis        │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ 3. RELEASE & GOVERNANCE                                                │
+│    Blind Rubric Scoring (Score >= 85) ──▶ Automated Pull Request       │
+│                                                   │                    │
+│    Production Release ◀── [Human Gate: PR Review & Architectural Merge]│
+└────────────────────────────────────────────────────────────────────────┘
 ```
+
+| Lifecycle Phase | Focus | Autonomous Agent Action | Governance Gate |
+| :--- | :--- | :--- | :--- |
+| **1. PRD & Design** | Scope & Requirements | Ambiguity detection, user story breakdown | **Human Gate:** Scope sign-off |
+| **2. Architecture & LLD** | Boundaries & Contracts | Interface contracts, dependency graph analysis | **Eval Gate:** ADR conformance rubric |
+| **3. Implementation** | Code & Micro-Tests | TDD test generation & satisfying code | **Micro-Loop:** TDD/BDD assertion pass |
+| **4. Security & QA** | Reliability & Safety | Static analysis, CVE scans, secret leak checks | **Eval Gate:** Deterministic checks |
+| **5. Release** | Integration & Deploy | Pre-release packaging, PR generation | **Human Gate:** PR review & merge |
 
 ---
 
