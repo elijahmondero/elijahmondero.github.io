@@ -1,13 +1,8 @@
 [
   {
-    "id": "saas-isnt-dead-its-getting-smarter-welcome-to-the-age-of-ai-enhanced-software",
-    "title": "SaaS Isn't Dead, It's Getting Smarter: Welcome to the Age of AI-Enhanced Software",
-    "excerpt": "Forget the 'SaaS is dead' headlines. Software-as-a-Service is undergoing a massive transformation, powered by AI. Discover how intelligent agents and enhanced interfaces are reshaping the future, making SaaS more powerful and intuitive than ever."
-  },
-  {
-    "id": "leaked-system-prompt-chatgpt-45",
-    "title": "Leaked System Prompt of ChatGPT 4.5",
-    "excerpt": "Discover the leaked system prompt of ChatGPT 4.5 that reveals its instruction set, tool usage guidelines, and ethical constraints."
+    "id": "supercharge-your-startup-building-with-notebooklm-gemini-and-firebase",
+    "title": "Supercharge Your Startup: Building with NotebookLM, Gemini, and Firebase",
+    "excerpt": "Discover how the powerful combination of Google's NotebookLM, Gemini AI, and Firebase can streamline your startup journey from ideation to launch. Learn practical steps to leverage these tools for research, development, and scaling."
   },
   {
     "id": "understanding-the-difference-between-agentic-ai-and-ai-agents",
@@ -15,38 +10,43 @@
     "excerpt": "AI agents and agentic AI are reshaping technology and business. This blog post explores the distinctions between these two frequently confused terms and their implications for the future."
   },
   {
-    "id": "hosting-services-in-net-examples-best-practices-and-gotchas",
-    "title": "Hosting Services in .NET: Examples, Best Practices, and Gotchas",
-    "excerpt": "Learn about hosting services in .NET, how to implement them, examples of real-world use cases, best practices, and common pitfalls. This guide provides actionable insights for developers."
+    "id": "leaked-system-prompt-chatgpt-45",
+    "title": "Leaked System Prompt of ChatGPT 4.5",
+    "excerpt": "Discover the leaked system prompt of ChatGPT 4.5 that reveals its instruction set, tool usage guidelines, and ethical constraints."
   },
   {
-    "id": "openai-unveils-new-gpt-4o-transcribe-models-revolutionizing-voice-ai",
-    "title": "OpenAI Unveils New GPT-4o Transcribe Models: Revolutionizing Voice AI",
-    "excerpt": "OpenAI has announced a new suite of audio models, including GPT-4o-transcribe and GPT-4o-mini-transcribe, which promises to push the boundaries of speech recognition and transcribing technology."
+    "id": "openai-agents-sdk-adds-support-for-model-context-protocol-mcp",
+    "title": "OpenAI Agents SDK Adds Support for Model Context Protocol (MCP)",
+    "excerpt": "OpenAI recently announced the integration of Model Context Protocol (MCP) into their Agents SDK. This addition bridges the gap between AI models and various data sources, making AI development more efficient and versatile."
   },
   {
-    "id": "vibe-coding-the-future-of-software-engineering",
-    "title": "Vibe Coding: The Future of Software Engineering",
-    "excerpt": "Discover the revolutionary approach of vibe coding, a new system of development that merges AI capabilities with creative flow, setting the stage for the future of software engineering."
+    "id": "introducing-googles-new-agent-to-agent-a2a-framework",
+    "title": "Introducing Google's New Agent-to-Agent (A2A) Framework",
+    "excerpt": "Discover Google's latest framework, Agent-to-Agent (A2A), designed to facilitate seamless communication and collaboration between various AI agents."
   },
   {
-    "id": "tencents-hunyuan-t1-a-new-milestone-in-ai-reasoning-models",
-    "title": "Tencent's Hunyuan T1: A New Milestone in AI Reasoning Models",
-    "excerpt": "Tencent's latest AI model, Hunyuan T1, showcases advancements in reasoning capabilities, positioning itself as a strong contender among top-tier AI models."
+    "id": "envolution-maturation-llms",
+    "title": "The Evolution and Maturation of Large Language Models",
+    "excerpt": "Explore the fascinating journey of large language models (LLMs) from their historical roots to their current state of maturity, highlighting key developments along the way."
   },
   {
-    "id": "life-changing-ai-tools",
-    "title": "Life-Changing AI Tools: Transforming Our World",
-    "excerpt": "Explore some of the most impactful AI tools that are changing lives and solving real-world problems."
+    "id": "building-step-by-step-ai-workflows-with-google-adks-sequentialagent",
+    "title": "Building Step-by-Step AI Workflows with Google ADK's SequentialAgent",
+    "excerpt": "Explore how Google's Agent Development Kit (ADK) simplifies multi-agent system creation, focusing on the SequentialAgent \u2013 a powerful tool for building structured, step-by-step AI workflows by orchestrating tasks in a defined sequence."
   },
   {
-    "id": "understanding-vertical-slice-architecture-in-net-core",
-    "title": "Understanding Vertical Slice Architecture in .NET Core",
-    "excerpt": "In this post, we explore the concept of vertical slice architecture, its benefits, and how to implement it in .NET Core."
+    "id": "saas-isnt-dead-its-getting-smarter-welcome-to-the-age-of-ai-enhanced-software",
+    "title": "SaaS Isn't Dead, It's Getting Smarter: Welcome to the Age of AI-Enhanced Software",
+    "excerpt": "Forget the 'SaaS is dead' headlines. Software-as-a-Service is undergoing a massive transformation, powered by AI. Discover how intelligent agents and enhanced interfaces are reshaping the future, making SaaS more powerful and intuitive than ever."
   },
   {
-    "id": "dotnet-common-pitfalls",
-    "title": "Top Common Pitfalls in .NET Development and How to Avoid Them",
-    "excerpt": "In this blog post, we explore the latest common pitfalls in .NET development and how to avoid them. We also provide practical code examples to help developers improve their coding practices."
+    "id": "deepseek-china-ai-competition",
+    "title": "South Korea's DeepSeek Faces Competition from China's AI Giants",
+    "excerpt": "South Korea's leading AI company, DeepSeek, is encountering increasing competition from China's rapidly advancing AI sector."
+  },
+  {
+    "id": "navigating-the-ai-revolution-the-evolving-future-of-software-engineering",
+    "title": "Navigating the AI Revolution: The Evolving Future of Software Engineering",
+    "excerpt": "AI is rapidly transforming software engineering by automating tasks, but human creativity, critical thinking, and specialized skills are more vital than ever. Discover how engineers can thrive by collaborating with AI and focusing on high-value areas."
   }
 ]
