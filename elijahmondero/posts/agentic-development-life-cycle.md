@@ -36,45 +36,34 @@ In real-world software delivery, code does not materialize out of thin air. It t
 
 > **PRD** &rarr; **System Design** &rarr; **Architecture** &rarr; **Low-Level Design (LLD)** &rarr; **Implementation** &rarr; **Tests** &rarr; **Security** &rarr; **Release**
 
-In a traditional engineering organization, each handoff between these phases is fraught with human latency, miscommunication, and verification bottlenecks. In an **Agentic SDLC**, autonomous specialized agents execute the heavy lifting at each stage:
+In an **Agentic SDLC**, the handoffs between these phases are executed by autonomous, specialized agents and guarded by deterministic evaluation checkpoints:
 
-1. **Product Requirements Document (PRD):** Spec agents ingest user feedback, decompose epics, and flag ambiguous edge cases.
-2. **System Design & High-Level Architecture:** Architecture agents evaluate existing service boundaries, database schemas, and architectural decision records (ADRs).
-3. **Low-Level Design (LLD):** Planning agents break architectural choices into interfaces, data contracts, and task plans.
-4. **Implementation & Tests:** Coding swarms produce minimal implementations and automated test suites.
-5. **Security & Compliance:** Static analysis agents scan for CVEs, taint vectors, and secret leaks.
-6. **Release & Operations:** SRE agents monitor canary metrics, observe runtime logs, and manage deployments.
+#### 1. Specification & Design Gate
+* **Input Artifact:** Product Requirements Document (PRD) or User Stories.
+* **Autonomous Agent Action:** Spec agents analyze user requirements, detect ambiguities, decompose epics into modular tasks, and flag edge cases.
+* **Evaluation Gate:** Automated requirements completeness rubric (scoring clarity, testability, and scope).
+* **Human Checkpoint:** Scope sign-off and architectural intent alignment.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│ 1. SPECIFICATION & DESIGN                                              │
-│    PRD ──▶ Ambiguity & Completeness Eval ──▶ [Human Gate: Scope Sign-Off]
-│                                                        │               │
-│    Low-Level Design (LLD) ◀── Contract & ADR Eval ◀── Architecture     │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│ 2. BUILD & MICRO-VERIFICATION (THE FACTORY FLOOR)                      │
-│    Implementation Swarm ──▶ [TDD / BDD Micro-Loop] (Inner Test Loop)   │
-│                                    │                                   │
-│    Deterministic Evals & Linting ◀── Security & Static Analysis        │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│ 3. RELEASE & GOVERNANCE                                                │
-│    Blind Rubric Scoring (Score >= 85) ──▶ Automated Pull Request       │
-│                                                   │                    │
-│    Production Release ◀── [Human Gate: PR Review & Architectural Merge]│
-└────────────────────────────────────────────────────────────────────────┘
-```
+#### 2. Architecture & Contract Gate
+* **Input Artifact:** Approved PRD.
+* **Autonomous Agent Action:** Architecture agents evaluate existing service boundaries, database schemas, and architectural decision records (ADRs) to draft interface contracts.
+* **Evaluation Gate:** ADR conformance rubric and interface contract linters.
 
-| Lifecycle Phase | Focus | Autonomous Agent Action | Governance Gate |
-| :--- | :--- | :--- | :--- |
-| **1. PRD & Design** | Scope & Requirements | Ambiguity detection, user story breakdown | **Human Gate:** Scope sign-off |
-| **2. Architecture & LLD** | Boundaries & Contracts | Interface contracts, dependency graph analysis | **Eval Gate:** ADR conformance rubric |
-| **3. Implementation** | Code & Micro-Tests | TDD test generation & satisfying code | **Micro-Loop:** TDD/BDD assertion pass |
-| **4. Security & QA** | Reliability & Safety | Static analysis, CVE scans, secret leak checks | **Eval Gate:** Deterministic checks |
-| **5. Release** | Integration & Deploy | Pre-release packaging, PR generation | **Human Gate:** PR review & merge |
+#### 3. Build & Micro-Verification (The Factory Floor)
+* **Input Artifact:** Low-Level Design (LLD) and task breakdown.
+* **Autonomous Agent Action:** Subagent swarm implements code within isolated worktrees.
+* **Micro-Verification Loop (Where TDD/BDD Lives):** Inner red-green-refactor loop generating unit tests and confirming execution evidence before committing.
+
+#### 4. Security & Compliance Gate
+* **Input Artifact:** Implemented code and passing test suites.
+* **Autonomous Agent Action:** Security agents execute static analysis, dependency vulnerability scans (CVEs), and secret leak detection.
+* **Evaluation Gate:** Deterministic security pass/fail gates and automated linting.
+
+#### 5. Release & Governance Gate
+* **Input Artifact:** Verified codebase and test evidence.
+* **Autonomous Agent Action:** Pre-release packaging and automated Pull Request generation.
+* **Evaluation Gate:** Blind editorial rubric audit (scoring overall technical rigor and documentation).
+* **Human Checkpoint:** Strategic Pull Request review, architectural validation, and production merge.
 
 ---
 
@@ -84,9 +73,9 @@ When engineers first transition to AI coding agents, their instinctive reaction 
 
 TDD and BDD remain vital, but they are **micro-loop mechanisms**, not macro lifecycle governance frameworks:
 
-- **TDD/BDD Assumes Deterministic Code Written by Humans:** TDD was designed for deterministic systems where a human reasons about an edge case, writes a failing assertion (`assert add(2, 2) == 4`), and writes the minimal code to satisfy it. 
-- **The "Passing Test" Hallucination:** In an agentic environment, an agent can effortlessly satisfy a local unit test while introducing catastrophic macro regressions. It might hardcode edge cases, violate global interface contracts, use deprecated APIs, or introduce quadratic performance loops that a unit test never catches.
-- **Micro vs. Macro Scope:** BDD verifies whether a specific feature satisfies a given behavioral scenario (*"Given a user is logged in, when they click..."*). But BDD cannot answer: *Is this PRD aligned with our platform architecture? Does this Low-Level Design introduce state fragmentation? Is this PR architecturally sound?*
+* **TDD/BDD Assumes Deterministic Code Written by Humans:** TDD was designed for deterministic systems where a human reasons about an edge case, writes a failing assertion (`assert add(2, 2) == 4`), and writes the minimal code to satisfy it. 
+* **The "Passing Test" Hallucination:** In an agentic environment, an agent can effortlessly satisfy a local unit test while introducing catastrophic macro regressions. It might hardcode edge cases, violate global interface contracts, use deprecated APIs, or introduce quadratic performance loops that a unit test never catches.
+* **Micro vs. Macro Scope:** BDD verifies whether a specific feature satisfies a given behavioral scenario (*"Given a user is logged in, when they click..."*). But BDD cannot answer: *Is this PRD aligned with our platform architecture? Does this Low-Level Design introduce state fragmentation? Is this PR architecturally sound?*
 
 In short: **TDD and BDD prevent syntax bugs at the micro level, but they cannot prevent architectural drift across the macro pipeline.**
 
@@ -98,12 +87,21 @@ To govern autonomous agents navigating the entire path from PRD to Release, the 
 
 While TDD focuses on binary unit assertions (`pass` or `fail`), **EDD treats evaluation, rubric measurement, and golden benchmarks as the primary steering system** across every phase of the development lifecycle:
 
-| Dimension | Test-Driven Development (TDD) | Evaluation-Driven Development (EDD) |
-| :--- | :--- | :--- |
-| **Operating Level** | Micro (Functions, classes, single modules) | Macro (PRD, Architecture, LLD, Code, PRs, System) |
-| **Verification Logic** | Binary deterministic assertions (`assert x == y`) | Multi-tier: Deterministic tests + LLM Judges + Rubric Scoring |
-| **Timing** | Written right before code implementation | Established upfront as acceptance rubrics before every phase |
-| **Handling of Drift** | Catches syntax and logic regression | Catches behavioral drift, cognitive degradation, and architectural entropy |
+* **Operating Level:**
+  * **TDD:** Micro-level focus (individual functions, classes, and isolated modules).
+  * **EDD:** Macro-level governance (PRD clarity, architectural boundaries, LLD state management, and full-system release gates).
+
+* **Verification Logic:**
+  * **TDD:** Binary assertions (`assert x == y`).
+  * **EDD:** Multi-tiered evaluation combining deterministic assertions, static analysis, LLM judges, and objective rubric scoring.
+
+* **Execution Timing:**
+  * **TDD:** Executed locally right before writing implementation code.
+  * **EDD:** Codified upfront as acceptance rubrics before every phase transition (from spec to release).
+
+* **Handling of Drift:**
+  * **TDD:** Catches syntax regressions and broken logic in existing code.
+  * **EDD:** Catches behavioral drift, cognitive degradation, and architectural entropy across the multi-agent pipeline.
 
 #### How EDD Operates Across the Pipeline
 
