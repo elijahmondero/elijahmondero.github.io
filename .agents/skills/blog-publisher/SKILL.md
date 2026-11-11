@@ -41,8 +41,12 @@ Use this skill whenever you need to publish a high-quality, technically rigorous
 
 ### Stage 5: Save & Index
 - Save post to `elijahmondero/posts/<slug>.md`.
-- Prepend `{ "id": "<slug>", "title": "<title>", "excerpt": "<summary>" }` to `elijahmondero/public/posts/index.json`.
-- Add `<url><loc>https://elijah.mondero.nz/post/<slug></loc><lastmod>YYYY-MM-DD</lastmod></url>` to `elijahmondero/public/sitemap.xml`.
+- Deterministic helpers (works across Linux/Termux, macOS, and Windows with zero pip dependencies):
+  ```bash
+  python3 .agents/skills/blog-publisher/scripts/publish_helpers.py index "<slug>" "<title>" "<excerpt>"
+  python3 .agents/skills/blog-publisher/scripts/publish_helpers.py sitemap "<slug>" "<iso_date>"
+  python3 .agents/skills/blog-publisher/scripts/publish_helpers.py validate "<slug>"
+  ```
 
 ### Stage 6: Git Branch & Pull Request Automation
 - Create branch: `git checkout -b blog/<slug>`
@@ -57,3 +61,11 @@ Use this skill whenever you need to publish a high-quality, technically rigorous
   ```bash
   gh pr comment <pr-number> --body "<Detailed Rubric Breakdown & Qualitative Commentary>"
   ```
+
+---
+
+## Cross-Platform & Android Termux Compatibility
+This skill is built to run natively in Linux environments, including **Android Termux**:
+- **Zero Third-Party Pip Packages**: All scripts rely solely on Python 3 standard library (`os`, `sys`, `json`, `re`, `datetime`). In Termux, only `pkg install python git gh` is needed.
+- **POSIX & UTF-8 Compliant**: Line endings are strictly LF (`\n`), shebangs use `#!/usr/bin/env python3`, and paths use POSIX forward slashes.
+- **Tool Independence**: Uses Antigravity's internal tools (`search_web`, `image-generator`, file tools) without external scraping scripts.
