@@ -11,10 +11,10 @@ To prevent evaluative bias and context pollution, this rubric is evaluated by an
 - **< 10 - Unacceptable:** Shallow summary, superficial or inaccurate technical claims.
 
 ### 2. Architecture & Visual Communication (Weight: 20 Points)
-- **20 - Exceptional:** Contains a strictly valid, compilable Mermaid flowchart, sequence diagram, or architecture graph that clearly illuminates the core technical concepts. Labels with special characters are safely escaped with quotes.
-- **14 - 19 - Good:** Diagram is present, syntactically valid, and helpful, with minor styling or structural improvements possible.
-- **8 - 13 - Average:** Diagram is either overly simplistic or has minor parsing friction.
-- **< 8 - Unacceptable:** Missing diagram or broken Mermaid syntax.
+- **20 - Exceptional:** Contains a clean, universal architectural diagram (using Unicode box drawing or structured flow matrix) and a detailed lifecycle table that clearly illuminates the core technical concepts and renders reliably without external script dependencies.
+- **14 - 19 - Good:** Diagram and table are present, clear, and helpful, with minor styling improvements possible.
+- **8 - 13 - Average:** Diagram is either overly simplistic or poorly formatted.
+- **< 8 - Unacceptable:** Missing architectural diagram or unformatted raw script blocks.
 
 ### 3. Readability & Engineering Voice (Weight: 20 Points)
 - **20 - Exceptional:** Natural, authoritative engineering voice characteristic of a senior software engineer. No clichés (e.g. "In today's fast-paced digital world"). Strong section transitions, clear callouts, and actionable takeaways.
