@@ -10,9 +10,9 @@
     "excerpt": "AI agents and agentic AI are reshaping technology and business. This blog post explores the distinctions between these two frequently confused terms and their implications for the future."
   },
   {
-    "id": "leaked-system-prompt-chatgpt-45",
-    "title": "Leaked System Prompt of ChatGPT 4.5",
-    "excerpt": "Discover the leaked system prompt of ChatGPT 4.5 that reveals its instruction set, tool usage guidelines, and ethical constraints."
+    "id": "dotnet-common-pitfalls",
+    "title": "Top Common Pitfalls in .NET Development and How to Avoid Them",
+    "excerpt": "In this blog post, we explore the latest common pitfalls in .NET development and how to avoid them. We also provide practical code examples to help developers improve their coding practices."
   },
   {
     "id": "openai-agents-sdk-adds-support-for-model-context-protocol-mcp",
@@ -23,6 +23,11 @@
     "id": "introducing-googles-new-agent-to-agent-a2a-framework",
     "title": "Introducing Google's New Agent-to-Agent (A2A) Framework",
     "excerpt": "Discover Google's latest framework, Agent-to-Agent (A2A), designed to facilitate seamless communication and collaboration between various AI agents."
+  },
+  {
+    "id": "hosting-services-in-net-examples-best-practices-and-gotchas",
+    "title": "Hosting Services in .NET: Examples, Best Practices, and Gotchas",
+    "excerpt": "Learn about hosting services in .NET, how to implement them, examples of real-world use cases, best practices, and common pitfalls. This guide provides actionable insights for developers."
   },
   {
     "id": "envolution-maturation-llms",
@@ -40,13 +45,8 @@
     "excerpt": "Forget the 'SaaS is dead' headlines. Software-as-a-Service is undergoing a massive transformation, powered by AI. Discover how intelligent agents and enhanced interfaces are reshaping the future, making SaaS more powerful and intuitive than ever."
   },
   {
-    "id": "deepseek-china-ai-competition",
-    "title": "South Korea's DeepSeek Faces Competition from China's AI Giants",
-    "excerpt": "South Korea's leading AI company, DeepSeek, is encountering increasing competition from China's rapidly advancing AI sector."
-  },
-  {
-    "id": "navigating-the-ai-revolution-the-evolving-future-of-software-engineering",
-    "title": "Navigating the AI Revolution: The Evolving Future of Software Engineering",
-    "excerpt": "AI is rapidly transforming software engineering by automating tasks, but human creativity, critical thinking, and specialized skills are more vital than ever. Discover how engineers can thrive by collaborating with AI and focusing on high-value areas."
+    "id": "dotnet-10-preview",
+    "title": "Microsoft\u2019s .NET 10 Arrives in First Preview",
+    "excerpt": ".NET 10 introduces C# 14 and adds major enhancements to the .NET runtime, SDK, libraries, ASP.NET Core, Blazor, and .NET MAUI, aiming for a production release in November."
   }
 ]

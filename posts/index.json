@@ -1,5 +1,10 @@
 [
   {
+    "id": "eval-driven-development-adlc-industry-practices",
+    "title": "Eval-Driven Development in the AI Lifecycle: Beyond Vibe Checks to Production Rigor",
+    "excerpt": "In non-deterministic AI agents and LLM applications, standard unit tests break down. Eval-Driven Development (EDD) establishes objective, reproducible evaluation suites that replace 'vibe checks' with multi-tiered assertions, agentic trajectory metrics, and a continuous telemetry flywheel across the AI Development Life Cycle (ADLC)."
+  },
+  {
     "id": "agentic-development-life-cycle",
     "title": "The Agentic Development Life Cycle: Beyond TDD to Evaluation-Driven Development (EDD)",
     "excerpt": "Writing code is only 20% of software engineering. As autonomous multi-agent pipelines take over the journey from PRD to production, traditional TDD and BDD are no longer sufficient to govern the macro lifecycle. Enter Evaluation-Driven Development (EDD)—where rubric scoring, automated evals, and strategic human gates tame the chaos of probabilistic software systems."
