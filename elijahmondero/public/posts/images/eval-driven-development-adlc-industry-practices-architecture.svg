@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowCyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowEmerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <style>
+    .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-weight: 700; fill: #f8fafc; }
+    .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #94a3b8; }
+    .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-weight: 600; font-size: 13.5px; fill: #f1f5f9; }
+    .card-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #94a3b8; line-height: 1.4; }
+    .badge { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+    .connector { stroke: #475569; stroke-width: 2; fill: none; }
+    .flywheel-line { stroke: #38bdf8; stroke-width: 2; fill: none; stroke-dasharray: 6, 6; }
+  </style>
+
+  <!-- Canvas Outer Background -->
+  <rect width="960" height="640" rx="16" fill="url(#bgGrad)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <text x="40" y="44" class="title" font-size="21">Eval-Driven Development (EDD) Closed-Loop Lifecycle</text>
+  <text x="40" y="66" class="subtitle">Architectural orchestration: Golden datasets, 3-tier eval harness, and production flywheel</text>
+
+  <!-- Flywheel Feedback Arc (Bottom to Top) -->
+  <path d="M 830 520 C 890 520, 915 280, 915 140 C 915 95, 300 95, 230 115" class="flywheel-line" marker-end="url(#arrowCyan)"/>
+  <rect x="740" y="240" width="165" height="42" rx="6" fill="#0369a1" fill-opacity="0.2" stroke="#0284c7" stroke-dasharray="3,3"/>
+  <text x="822" y="258" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#38bdf8">EVALUATION FLYWHEEL</text>
+  <text x="822" y="273" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#94a3b8">Failure Traces → Golden Set</text>
+
+  <!-- ==================== COLUMN 1: UPSTREAM SPEC & DATASET CURATION ==================== -->
+  <g transform="translate(40, 105)">
+    <rect width="260" height="475" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    
+    <!-- Stage Header -->
+    <rect x="14" y="14" width="75" height="20" rx="4" fill="#3b82f6" fill-opacity="0.2"/>
+    <text x="51" y="28" text-anchor="middle" fill="#60a5fa" class="badge">STAGE 1</text>
+    <text x="14" y="54" class="card-title" font-size="14.5">Specification &amp; Goldens</text>
+    <text x="14" y="72" class="card-text">Defining verifiable boundaries</text>
+
+    <!-- Card 1.1: Behavioral PRDs -->
+    <g transform="translate(14, 90)">
+      <rect width="232" height="100" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+      <circle cx="18" cy="20" r="4" fill="#38bdf8"/>
+      <text x="30" y="24" class="card-title" font-size="12">Behavioral Specifications</text>
+      <text x="14" y="44" class="card-text">• Invariant definitions &amp; guardrails</text>
+      <text x="14" y="60" class="card-text">• Allowed vs Forbidden tool calls</text>
+      <text x="14" y="76" class="card-text">• Expected state transitions</text>
+      <text x="14" y="92" class="card-text">• Latency &amp; token budget limits</text>
+    </g>
+
+    <!-- Card 1.2: Curated Test Datasets -->
+    <g transform="translate(14, 204)">
+      <rect width="232" height="110" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+      <circle cx="18" cy="20" r="4" fill="#818cf8"/>
+      <text x="30" y="24" class="card-title" font-size="12">Golden Dataset (50–200)</text>
+      <text x="14" y="44" class="card-text">• Representative user prompts</text>
+      <text x="14" y="60" class="card-text">• Canonical gold trajectories</text>
+      <text x="14" y="76" class="card-text">• Synthetic adversarial edge cases</text>
+      <text x="14" y="92" class="card-text">• Human-verified ground truth</text>
+      <text x="14" y="106" class="card-text">• Held-out evaluation split (80/20)</text>
+    </g>
+
+    <!-- Card 1.3: Alignment & Baseline Calibration -->
+    <g transform="translate(14, 328)">
+      <rect width="232" height="90" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+      <circle cx="18" cy="20" r="4" fill="#c084fc"/>
+      <text x="30" y="24" class="card-title" font-size="12">Judge Calibration</text>
+      <text x="14" y="44" class="card-text">• Cohen’s Kappa / F1 vs humans</text>
+      <text x="14" y="60" class="card-text">• Minimize false positive passes</text>
+      <text x="14" y="76" class="card-text">• Single-dimension rubrics</text>
+    </g>
+  </g>
+
+  <!-- Arrow: Col 1 -> Col 2 -->
+  <path d="M 300 340 L 345 340" class="connector" stroke="#38bdf8" marker-end="url(#arrowCyan)"/>
+
+  <!-- ==================== COLUMN 2: 3-TIER EVALUATION HARNESS ==================== -->
+  <g transform="translate(350, 105)">
+    <rect width="290" height="475" rx="12" fill="url(#cardGrad)" stroke="#38bdf8" stroke-width="1.8" filter="url(#cardShadow)"/>
+    
+    <!-- Stage Header -->
+    <rect x="16" y="14" width="75" height="20" rx="4" fill="#0284c7" fill-opacity="0.25"/>
+    <text x="53" y="28" text-anchor="middle" fill="#38bdf8" class="badge">STAGE 2</text>
+    <text x="16" y="54" class="card-title" font-size="14.5">Multi-Tier Eval Engine</text>
+    <text x="16" y="72" class="card-text">Deterministic, Agentic &amp; Model Judges</text>
+
+    <!-- Tier 1: Deterministic Assertions -->
+    <g transform="translate(16, 88)">
+      <rect width="258" height="106" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.2"/>
+      <rect x="10" y="8" width="55" height="16" rx="3" fill="#10b981" fill-opacity="0.2"/>
+      <text x="37" y="19" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9" font-weight="700">TIER 1</text>
+      <text x="75" y="21" class="card-title" font-size="12">Code-Based Assertions</text>
+      <text x="12" y="42" class="card-text">• JSON schema &amp; pydantic typing</text>
+      <text x="12" y="58" class="card-text">• AST parsing &amp; regex exact match</text>
+      <text x="12" y="74" class="card-text">• Unit test execution pass/fail</text>
+      <text x="12" y="90" class="card-text">• Hard latency &amp; cost token limits</text>
+    </g>
+
+    <!-- Tier 2: Agentic Trajectory Evals -->
+    <g transform="translate(16, 206)">
+      <rect width="258" height="114" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2"/>
+      <rect x="10" y="8" width="55" height="16" rx="3" fill="#0284c7" fill-opacity="0.2"/>
+      <text x="37" y="19" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="9" font-weight="700">TIER 2</text>
+      <text x="75" y="21" class="card-title" font-size="12">Trajectory &amp; State Invariants</text>
+      <text x="12" y="42" class="card-text">• Tool-call sequence graph validation</text>
+      <text x="12" y="58" class="card-text">• Hallucinated tool argument check</text>
+      <text x="12" y="74" class="card-text">• Infinite loop &amp; retry-storm tripwire</text>
+      <text x="12" y="90" class="card-text">• Environment state diff inspection</text>
+      <text x="12" y="104" class="card-text">• pass@k &amp; pass^k stability metrics</text>
+    </g>
+
+    <!-- Tier 3: Model-Graded Judges -->
+    <g transform="translate(16, 332)">
+      <rect width="258" height="106" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1.2"/>
+      <rect x="10" y="8" width="55" height="16" rx="3" fill="#a855f7" fill-opacity="0.2"/>
+      <text x="37" y="19" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="9" font-weight="700">TIER 3</text>
+      <text x="75" y="21" class="card-title" font-size="12">Model-Graded Evaluation</text>
+      <text x="12" y="42" class="card-text">• Faithfulness &amp; Groundedness</text>
+      <text x="12" y="58" class="card-text">• Tone, safety &amp; policy adherence</text>
+      <text x="12" y="74" class="card-text">• Pairwise A/B blind comparative</text>
+      <text x="12" y="90" class="card-text">• Single-dimension G-Eval rubrics</text>
+    </g>
+  </g>
+
+  <!-- Arrow: Col 2 -> Col 3 -->
+  <path d="M 640 340 L 685 340" class="connector" stroke="#34d399" marker-end="url(#arrowEmerald)"/>
+
+  <!-- ==================== COLUMN 3: CI/CD & TELEMETRY FLYWHEEL ==================== -->
+  <g transform="translate(690, 105)">
+    <rect width="230" height="475" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    
+    <!-- Stage Header -->
+    <rect x="14" y="14" width="75" height="20" rx="4" fill="#10b981" fill-opacity="0.2"/>
+    <text x="51" y="28" text-anchor="middle" fill="#34d399" class="badge">STAGE 3</text>
+    <text x="14" y="54" class="card-title" font-size="14.5">CI/CD &amp; Flywheel</text>
+    <text x="14" y="72" class="card-text">Gated deployment &amp; telemetry</text>
+
+    <!-- Card 3.1: CI/CD Build Gate -->
+    <g transform="translate(14, 90)">
+      <rect width="202" height="106" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+      <circle cx="16" cy="18" r="4" fill="#34d399"/>
+      <text x="28" y="22" class="card-title" font-size="12">PR Quality Gate</text>
+      <text x="12" y="42" class="card-text">• Regression eval pass rate</text>
+      <text x="12" y="58" class="card-text">• Score &gt;= 85% threshold</text>
+      <text x="12" y="74" class="card-text">• Zero safety violations</text>
+      <text x="12" y="90" class="card-text">• Cost diff &lt; 5% delta</text>
+    </g>
+
+    <!-- Card 3.2: Production Tracing & Observability -->
+    <g transform="translate(14, 210)">
+      <rect width="202" height="110" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+      <circle cx="16" cy="18" r="4" fill="#f59e0b"/>
+      <text x="28" y="22" class="card-title" font-size="12">Live Observability</text>
+      <text x="12" y="42" class="card-text">• OpenTelemetry &amp; traces</text>
+      <text x="12" y="58" class="card-text">• User thumbs down &amp; edits</text>
+      <text x="12" y="74" class="card-text">• Agent tool exception alerts</text>
+      <text x="12" y="90" class="card-text">• Latency &amp; token telemetry</text>
+      <text x="12" y="104" class="card-text">• Shadow evals on live traffic</text>
+    </g>
+
+    <!-- Card 3.3: Automatic Regression Ingestion -->
+    <g transform="translate(14, 334)">
+      <rect width="202" height="100" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+      <circle cx="16" cy="18" r="4" fill="#38bdf8"/>
+      <text x="28" y="22" class="card-title" font-size="12">Auto-Backpropagation</text>
+      <text x="12" y="42" class="card-text">• Cluster production errors</text>
+      <text x="12" y="58" class="card-text">• Convert trace to test case</text>
+      <text x="12" y="74" class="card-text">• Add to Golden Dataset</text>
+      <text x="12" y="90" class="card-text">• Permanent regression immunity</text>
+    </g>
+  </g>
+</svg>
