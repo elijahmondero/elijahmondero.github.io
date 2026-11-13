@@ -1,13 +1,13 @@
 [
   {
+    "id": "understanding-vertical-slice-architecture-in-net-core",
+    "title": "Understanding Vertical Slice Architecture in .NET Core",
+    "excerpt": "In this post, we explore the concept of vertical slice architecture, its benefits, and how to implement it in .NET Core."
+  },
+  {
     "id": "supercharge-your-startup-building-with-notebooklm-gemini-and-firebase",
     "title": "Supercharge Your Startup: Building with NotebookLM, Gemini, and Firebase",
     "excerpt": "Discover how the powerful combination of Google's NotebookLM, Gemini AI, and Firebase can streamline your startup journey from ideation to launch. Learn practical steps to leverage these tools for research, development, and scaling."
-  },
-  {
-    "id": "beyond-the-hype-understanding-quantum-computing-and-grovers-algorithm",
-    "title": "Beyond the Hype: Understanding Quantum Computing and Grover's Algorithm",
-    "excerpt": "Quantum computing is often misunderstood. It's not about trying every solution at once, but cleverly manipulating probabilities using qubits and state vectors. Discover how Grover's algorithm offers a significant speedup for search problems without brute force."
   },
   {
     "id": "understanding-the-difference-between-agentic-ai-and-ai-agents",
