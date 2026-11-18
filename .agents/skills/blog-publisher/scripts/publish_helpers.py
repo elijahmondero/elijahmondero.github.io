@@ -116,8 +116,12 @@ def _load_markdown_posts(repo_root: str = None) -> list:
     return posts
 
 
-def _absolutize_site_url(url: str) -> str:
+def _absolutize_site_url(url: str, for_image: bool = False) -> str:
     url = url.strip()
+    if for_image and url.lower().endswith(".svg") and (
+        url.startswith("/posts/images/") or url.startswith("https://elijah.mondero.nz/posts/images/")
+    ):
+        url = url[:-4] + ".png"
     if url.startswith("/"):
         return f"https://elijah.mondero.nz{url}"
     return url
@@ -131,12 +135,17 @@ def _format_inline_markdown(text: str) -> str:
         return f"\x00CODE{len(code_spans) - 1}\x00"
 
     text = re.sub(r'`([^`]+)`', _stash_code, text)
+    text = re.sub(
+        r'(?<!\\)\$(?!\s)([^$\n]{1,40}?)(?<!\s)\$',
+        lambda m: m.group(1).replace(r'\%', '%'),
+        text,
+    )
     escaped = html_escape(text, quote=True)
 
     # Images before links
     escaped = re.sub(
         r'!\[([^\]]*)\]\(([^)\s]+)\)',
-        lambda m: f'<img src="{html_escape(_absolutize_site_url(m.group(2)), quote=True)}" alt="{m.group(1)}" />',
+        lambda m: f'<img src="{html_escape(_absolutize_site_url(m.group(2), for_image=True), quote=True)}" alt="{m.group(1)}" />',
         escaped,
     )
     escaped = re.sub(
@@ -156,16 +165,14 @@ def _markdown_to_rss_html(md_text: str, image_path: str = "", title: str = "") -
     """Converts article Markdown to clean HTML with absolute site URLs for RSS readers and Dev.to."""
     blocks = []
     if image_path:
-        abs_hero = html_escape(_absolutize_site_url(image_path), quote=True)
+        abs_hero = html_escape(_absolutize_site_url(image_path, for_image=True), quote=True)
         blocks.append(f'<p><img src="{abs_hero}" alt="{html_escape(title, quote=True)}" /></p>')
 
     code_blocks = []
 
     def _stash_fenced(match):
-        lang = match.group(1).strip()
         code_body = html_escape(match.group(2))
-        cls = f' class="language-{html_escape(lang, quote=True)}"' if lang else ""
-        code_blocks.append(f"<pre><code{cls}>{code_body}</code></pre>")
+        code_blocks.append(f"<pre>{code_body}</pre>")
         return f"\n\x00CODEBLOCK{len(code_blocks) - 1}\x00\n"
 
     normalized = md_text.replace("\r\n", "\n")
@@ -204,7 +211,13 @@ def _markdown_to_rss_html(md_text: str, image_path: str = "", title: str = "") -
             while i < len(lines) and lines[i].strip().startswith(">"):
                 quote_lines.append(re.sub(r'^>\s?', '', lines[i].strip()))
                 i += 1
-            blocks.append(f"<blockquote><p>{_format_inline_markdown(' '.join(quote_lines))}</p></blockquote>")
+            quote_text = " ".join(quote_lines).strip()
+            quote_text = re.sub(
+                r'^\[!(IMPORTANT|NOTE|TIP|WARNING|CAUTION)\]\s*',
+                lambda m: f"**{m.group(1).title()}:** ",
+                quote_text,
+            )
+            blocks.append(f"<blockquote><p>{_format_inline_markdown(quote_text)}</p></blockquote>")
             continue
 
         if re.match(r'^[-*]\s+', stripped):
