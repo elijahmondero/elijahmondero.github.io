@@ -24,12 +24,12 @@
 <hr />
 <h3>The Anatomy of the Problem: Why Traditional TDD Fails for Agents</h3>
 <p>In classical Test-Driven Development (TDD), tests are binary, deterministic, and isolated:</p>
-<pre><code>assert calculate_tax(100.0, 0.15) == 115.0
-</code></pre>
-<p>Given input $A$, state $S$, the function executes along predictable control-flow branches and produces exact output $B$. If it returns $114.99$, the test fails with $100\%$ certainty.</p>
+<pre>assert calculate_tax(100.0, 0.15) == 115.0
+</pre>
+<p>Given input A, state S, the function executes along predictable control-flow branches and produces exact output B. If it returns 114.99, the test fails with 100% certainty.</p>
 <p>Autonomous agents and LLM applications demolish these fundamental assumptions:</p>
 <ol>
-<li><strong>Probabilistic Outputs:</strong> Foundation models sample from probability distributions over token vocabularies. Even with temperature set to $0.0$, subtle differences in GPU kernels, quantization, or floating-point rounding can yield semantically equivalent but syntactically divergent responses.</li>
+<li><strong>Probabilistic Outputs:</strong> Foundation models sample from probability distributions over token vocabularies. Even with temperature set to 0.0, subtle differences in GPU kernels, quantization, or floating-point rounding can yield semantically equivalent but syntactically divergent responses.</li>
 <li><strong>Multi-Turn Trajectory Dynamics:</strong> An agent does not merely produce text; it observes its environment, reasons, selects a tool, parses the tool&#x27;s execution result, and iteratively plans its next step. The final outcome might be correct even if the trajectory took an unconventional path, or vice versa.</li>
 <li><strong>Open-Ended Solution Spaces:</strong> There are often dozens of valid ways to answer an ambiguous query or write a piece of code. Exact string matching (<code>assert output == expected</code>) is completely unviable.</li>
 <li><strong>Cascading Failure Modes:</strong> A slight prompt edit intended to improve reasoning in one domain can trigger sudden regressions in tool-calling precision elsewhere—a phenomenon known as the <em>alignment tax</em> or <em>prompt regression</em>.</li>
@@ -39,11 +39,11 @@
 <h3>What is Eval-Driven Development (EDD)?</h3>
 <p><strong>Eval-Driven Development (EDD)</strong> is the systematic discipline of defining quantifiable success criteria, failure modes, and benchmark test suites (<em>evals</em>) <strong>before or concurrently with</strong> engineering agent prompts, tool interfaces, retrieval pipelines, or fine-tuning runs.</p>
 <p>In EDD, evals serve as executable Product Requirements Documents (PRDs). Rather than guessing whether a new model checkpoint (e.g., migrating from Claude 3.5 Sonnet to Gemini 2.5 Flash) or an updated RAG chunking strategy improves your system, you run your eval harness and receive an objective scorecard across critical operational dimensions.</p>
-<p><img src="https://elijah.mondero.nz/posts/images/eval-driven-development-adlc-industry-practices-architecture.svg" alt="Eval-Driven Development Closed-Loop Lifecycle Architecture" /></p>
+<p><img src="https://elijah.mondero.nz/posts/images/eval-driven-development-adlc-industry-practices-architecture.png" alt="Eval-Driven Development Closed-Loop Lifecycle Architecture" /></p>
 <hr />
 <h3>The Three-Tier Evaluation Harness</h3>
 <p>Frontier engineering teams at Anthropic, OpenAI, and leading AI platforms do not rely on a single catch-all metric. Instead, they structure their evaluation harness across three distinct tiers, moving from fast, deterministic checks to nuanced qualitative assessments:</p>
-<pre><code>+-------------------------------------------------------------------------+
+<pre>+-------------------------------------------------------------------------+
 |                        TIER 3: MODEL-GRADED JUDGES                      |
 |      (LLM-as-a-Judge, Pairwise Comparisons, G-Eval Single-Dimension)    |
 +-------------------------------------------------------------------------+
@@ -57,14 +57,14 @@
 |                   TIER 1: DETERMINISTIC CODE ASSERTIONS                 |
 |       (JSON Schema, Regex/AST Match, Latency, Token Cost, Unit Tests)   |
 +-------------------------------------------------------------------------+
-</code></pre>
+</pre>
 <h4>Tier 1: Deterministic Code-Based Assertions</h4>
 <p>The foundation of your eval suite must be code-based, fast, and free of LLM non-determinism:</p>
 <ul>
 <li><strong>Structural &amp; Schema Validation:</strong> Does the agent return valid JSON adhering to the specified Pydantic schema?</li>
 <li><strong>Syntax &amp; Compilability:</strong> Does the generated Python, TypeScript, or SQL parse and execute without syntax errors?</li>
 <li><strong>Negative Assertions:</strong> Did the model refrain from emitting forbidden tokens, leaked system prompts, or hallucinated internal URLs?</li>
-<li><strong>Resource Budgets:</strong> Did the invocation complete within a strict latency threshold (e.g., $&lt; 2.5$ seconds) and token ceiling (e.g., $&lt; 1,500$ tokens)?</li>
+<li><strong>Resource Budgets:</strong> Did the invocation complete within a strict latency threshold (e.g., &lt; 2.5 seconds) and token ceiling (e.g., &lt; 1,500 tokens)?</li>
 </ul>
 <p>Tier 1 assertions run in milliseconds and filter out obvious execution failures before expensive model-graded judges are invoked.</p>
 <h4>Tier 2: Agentic Trajectory &amp; State Evaluation</h4>
@@ -74,7 +74,7 @@
 <li><strong>Argument Validity:</strong> Were the function arguments structurally valid and grounded in the user&#x27;s request, rather than hallucinated?</li>
 <li><strong>State Machine Invariants:</strong> Did the agent respect lifecycle transitions (e.g., never calling <code>execute_payment</code> prior to <code>verify_kyc</code>)?</li>
 <li><strong>Loop Detection &amp; Recovery:</strong> Did the agent detect when an environment tool returned an error code, or did it repeat the exact failing invocation until hitting max recursion limits?</li>
-<li><strong>Statistical Reliability (<code>pass@k</code> vs. <code>pass^k</code>):</strong> Because agents exhibit variance across repeated runs, single-pass evaluations give a false sense of security. Evaluating with <code>pass@k</code> measures whether the agent can find a solution in $k$ attempts, while <code>pass^k</code> measures whether the agent succeeds reliably across all $k$ consecutive runs. Production agents require high <code>pass^k</code> consistency.</li>
+<li><strong>Statistical Reliability (<code>pass@k</code> vs. <code>pass^k</code>):</strong> Because agents exhibit variance across repeated runs, single-pass evaluations give a false sense of security. Evaluating with <code>pass@k</code> measures whether the agent can find a solution in k attempts, while <code>pass^k</code> measures whether the agent succeeds reliably across all k consecutive runs. Production agents require high <code>pass^k</code> consistency.</li>
 </ul>
 <h4>Tier 3: Model-Graded Judges (LLM-as-a-Judge)</h4>
 <p>For subjective qualities like answer tone, helpfulness, coherence, and RAG faithfulness, human annotation is too slow to run on every commit. Here, a stronger foundation model acts as a calibrated judge:</p>
@@ -83,11 +83,11 @@
 <li><strong>Reference-Guided Evaluation:</strong> Supply the judge model with a curated &quot;golden reference&quot; and clear scoring guidelines, asking it to produce step-by-step reasoning (<em>chain-of-thought</em>) before outputting its final verdict.</li>
 <li><strong>Pairwise A/B Scoring:</strong> When comparing two prompt variations or model versions, pass both responses to the judge in randomized order to eliminate ordering bias.</li>
 </ul>
-<blockquote><p>[!IMPORTANT] <strong>Calibrating Your Judges:</strong> An automated judge is only as reliable as its alignment with human engineering consensus. Before trusting an LLM judge in your CI/CD pipeline, calibrate its decisions against a human-annotated baseline. Measure its Precision, Recall, and Cohen&#x27;s Kappa score on held-out test splits. Prioritize high recall on the &quot;fail&quot; class—it is far better for a judge to falsely flag an edge case for human review than to let regressions slip into production.</p></blockquote>
+<blockquote><p><strong>Important:</strong> <strong>Calibrating Your Judges:</strong> An automated judge is only as reliable as its alignment with human engineering consensus. Before trusting an LLM judge in your CI/CD pipeline, calibrate its decisions against a human-annotated baseline. Measure its Precision, Recall, and Cohen&#x27;s Kappa score on held-out test splits. Prioritize high recall on the &quot;fail&quot; class—it is far better for a judge to falsely flag an edge case for human review than to let regressions slip into production.</p></blockquote>
 <hr />
 <h3>EDD Across the AI Development Life Cycle (ADLC)</h3>
 <p>The traditional Software Development Life Cycle (SDLC) assumes requirements are fixed and code behaves deterministically. The <strong>AI Development Life Cycle (ADLC)</strong> accommodates the experimental, empirical nature of intelligent systems. Integrating EDD into the ADLC establishes a continuous, self-reinforcing flywheel:</p>
-<pre><code>  +-----------------------------------------------------------------------+
+<pre>  +-----------------------------------------------------------------------+
   |                        1. BEHAVIORAL SPECIFICATION                    |
   |             Define user intents, failure modes, and boundaries       |
   +-----------------------------------------------------------------------+
@@ -123,8 +123,8 @@
   +-----------------------------------------------------------------------+
                                       │
                                       └──────── (Closes the Loop) ───────┘
-</code></pre>
-<p>| ADLC Phase | Focus &amp; Objective | Primary Evaluation Mechanism | Gate Criteria for Promotion | | :--- | :--- | :--- | :--- | | <strong>1. Requirements</strong> | Transform vague product ideas into verifiable contracts | Edge-case brainstorming &amp; ambiguity detection | Behavioral rubric passes; edge cases enumerated | | <strong>2. Curation</strong> | Establish baseline ground truth | Golden dataset assembly (50–200 representative cases) | Ground truth calibrated against human consensus | | <strong>3. Iteration</strong> | Rapidly prototype prompts, tools, and architectures | Local eval runners &amp; trajectory debuggers | Eval pass rate improvement without regressing baselines | | <strong>4. Build &amp; Merge</strong> | Prevent regressions in shared branches | Automated CI/CD regression suites | $\ge 85\%$ aggregate score; 0 safety failures; token budget $\le +5\%$ | | <strong>5. Deployment</strong> | Monitor live behavior in production | OpenTelemetry distributed tracing &amp; shadow evals | Real-time drift detection; user sentiment monitoring | | <strong>6. Continuous Ops</strong> | Turn production friction into permanent resilience | Error clustering &amp; automatic regression generation | New test case ingested into golden suite within 24 hours |</p>
+</pre>
+<p>| ADLC Phase | Focus &amp; Objective | Primary Evaluation Mechanism | Gate Criteria for Promotion | | :--- | :--- | :--- | :--- | | <strong>1. Requirements</strong> | Transform vague product ideas into verifiable contracts | Edge-case brainstorming &amp; ambiguity detection | Behavioral rubric passes; edge cases enumerated | | <strong>2. Curation</strong> | Establish baseline ground truth | Golden dataset assembly (50–200 representative cases) | Ground truth calibrated against human consensus | | <strong>3. Iteration</strong> | Rapidly prototype prompts, tools, and architectures | Local eval runners &amp; trajectory debuggers | Eval pass rate improvement without regressing baselines | | <strong>4. Build &amp; Merge</strong> | Prevent regressions in shared branches | Automated CI/CD regression suites | \ge 85% aggregate score; 0 safety failures; token budget \le +5% | | <strong>5. Deployment</strong> | Monitor live behavior in production | OpenTelemetry distributed tracing &amp; shadow evals | Real-time drift detection; user sentiment monitoring | | <strong>6. Continuous Ops</strong> | Turn production friction into permanent resilience | Error clustering &amp; automatic regression generation | New test case ingested into golden suite within 24 hours |</p>
 <hr />
 <h3>Industry Practices: How Leading Engineering Teams Run Evals</h3>
 <p>As shared by practitioners across Anthropic, Eugene Yan&#x27;s system patterns, and platforms like Arize, DeepEval, and LangSmith, world-class AI engineering teams adhere to four foundational practices:</p>
@@ -132,29 +132,29 @@
 <p>A common antipattern is spending three months building an elaborate evaluation framework before understanding where the model actually fails.</p>
 <p>Instead, start by manually reading <strong>50 to 100 actual user interaction traces</strong>. As Hamel Husain emphasizes, you cannot write effective evaluation rubrics in a vacuum. Group real failures into concrete taxonomy buckets:</p>
 <ul>
-<li><em>Failure Category A:</em> Misunderstood domain-specific jargon ($35\%$).</li>
-<li><em>Failure Category B:</em> Called tool with missing required query parameters ($25\%$).</li>
-<li><em>Failure Category C:</em> Hallucinated answer when document had no relevant context ($20\%$).</li>
-<li><em>Failure Category D:</em> Overly verbose conversational preamble ($20\%$).</li>
+<li><em>Failure Category A:</em> Misunderstood domain-specific jargon (35%).</li>
+<li><em>Failure Category B:</em> Called tool with missing required query parameters (25%).</li>
+<li><em>Failure Category C:</em> Hallucinated answer when document had no relevant context (20%).</li>
+<li><em>Failure Category D:</em> Overly verbose conversational preamble (20%).</li>
 </ul>
 <p>Once your error taxonomy is quantified, write targeted eval assertions specifically aimed at your top two failure modes. This guarantees immediate, high-leverage ROI.</p>
 <h4>2. Decouple Prompting from Model Vendor APIs</h4>
 <p>Tying your core agent logic directly to a single provider SDK creates architectural lock-in and blinds you to cost-performance optimizations.</p>
-<p>By wrapping your agent around a standardized evaluation suite, swapping the underlying model—e.g., testing whether an open-weights model or a smaller reasoning model can handle the task at a $70\%$ cost reduction—becomes a routine, low-risk experiment:</p>
-<pre><code class="language-bash"># Evaluate baseline Claude 3.5 Sonnet
+<p>By wrapping your agent around a standardized evaluation suite, swapping the underlying model—e.g., testing whether an open-weights model or a smaller reasoning model can handle the task at a 70% cost reduction—becomes a routine, low-risk experiment:</p>
+<pre># Evaluate baseline Claude 3.5 Sonnet
 python run_evals.py --model claude-3-5-sonnet --suite enterprise-goldens
 
 # Evaluate challenger Gemini 2.5 Flash
 python run_evals.py --model gemini-2-5-flash --suite enterprise-goldens
-</code></pre>
+</pre>
 <p>If the challenger maintains equivalent trajectory accuracy and pass rates across the eval suite, the migration can be merged with complete confidence.</p>
 <h4>3. Enforce Evals as Pull Request Build Gates</h4>
 <p>In production agent repositories, eval suites should run automatically in GitHub Actions on every Pull Request.</p>
 <p>Just like code coverage gates in standard software engineering, the CI pipeline enforces strict thresholds:</p>
 <ul>
 <li><strong>No Regression Rule:</strong> Zero regressions permitted on core golden test cases.</li>
-<li><strong>Safety &amp; Guardrails Floor:</strong> $100\%$ pass rate on prompt-injection and sensitive data protection evals.</li>
-<li><strong>Economic Governance:</strong> Proposed changes that increase average token consumption by more than $5\%$ require explicit architectural sign-off.</li>
+<li><strong>Safety &amp; Guardrails Floor:</strong> 100% pass rate on prompt-injection and sensitive data protection evals.</li>
+<li><strong>Economic Governance:</strong> Proposed changes that increase average token consumption by more than 5% require explicit architectural sign-off.</li>
 </ul>
 <h4>4. The Telemetry Flywheel: Transforming Traces into Goldens</h4>
 <p>The ultimate competitive moat in AI engineering is not the base foundation model—it is the <strong>proprietary evaluation flywheel</strong>.</p>
@@ -201,7 +201,7 @@ python run_evals.py --model gemini-2-5-flash --suite enterprise-goldens
 <p>In real-world software delivery, code does not materialize out of thin air. It traverses a structured, multi-stage funnel:</p>
 <blockquote><p><strong>PRD</strong> &amp;rarr; <strong>System Design</strong> &amp;rarr; <strong>Architecture</strong> &amp;rarr; <strong>Low-Level Design (LLD)</strong> &amp;rarr; <strong>Implementation</strong> &amp;rarr; <strong>Tests</strong> &amp;rarr; <strong>Security</strong> &amp;rarr; <strong>Release</strong></p></blockquote>
 <p>In an <strong>Agentic SDLC</strong>, the handoffs between these phases are executed by autonomous, specialized agents and guarded by deterministic evaluation checkpoints:</p>
-<p><img src="https://elijah.mondero.nz/posts/images/agentic-sdlc-architecture.svg" alt="The Agentic Software Development Lifecycle (Agentic SDLC) Architecture" /></p>
+<p><img src="https://elijah.mondero.nz/posts/images/agentic-sdlc-architecture.png" alt="The Agentic Software Development Lifecycle (Agentic SDLC) Architecture" /></p>
 <h4>1. Specification &amp; Design Gate</h4>
 <ul>
 <li><strong>Input Artifact:</strong> Product Requirements Document (PRD) or User Stories.</li>
@@ -1327,7 +1327,7 @@ python run_evals.py --model gemini-2-5-flash --suite enterprise-goldens
 <h2>Getting Started: SequentialAgent and Code Structure</h2>
 <p>The ADK is designed with Pythonic simplicity in mind, making it accessible to developers familiar with Python. While full, runnable examples for <code>SequentialAgent</code> are best found in the official Google ADK documentation and quickstart guides, the structure begins with importing the necessary class.</p>
 <p>Here&#x27;s a basic glimpse of how you might import and reference a <code>SequentialAgent</code>:</p>
-<pre><code class="language-python">from google.adk.agents import SequentialAgent
+<pre>from google.adk.agents import SequentialAgent
 
 # Example initialization (structure may vary based on specific ADK version/use case)
 # agent_teaching_assistant = SequentialAgent(
@@ -1335,7 +1335,7 @@ python run_evals.py --model gemini-2-5-flash --suite enterprise-goldens
 #     description=&quot;This agent acts as a friendly teaching assistant, checking ...&quot;,
 #     # ... other configuration like defining the sequence of sub-agents
 # )
-</code></pre>
+</pre>
 <p>This snippet shows the fundamental step: importing the <code>SequentialAgent</code> class from the <code>google.adk.agents</code> module. The subsequent steps in building a workflow involve defining the sub-agents that the <code>SequentialAgent</code> will orchestrate and specifying their order of execution.</p>
 <p>For comprehensive, runnable code examples and tutorials on how to define sub-agents, configure their inputs/outputs, and integrate them within a <code>SequentialAgent</code> workflow, the official Google ADK resources are the definitive source.</p>
 <h2>Conclusion</h2>
@@ -1518,12 +1518,12 @@ python run_evals.py --model gemini-2-5-flash --suite enterprise-goldens
 <p>Developers can use the <code>MCPServerStdio</code> and <code>MCPServerSse</code> classes to connect to these servers and incorporate their tools into AI agents.</p>
 <h3>Using MCP Servers</h3>
 <p>MCP servers can be seamlessly added to agents in the SDK. Each time the agent runs, it queries the MCP server for a list of available tools, ensuring the LLM is aware of all the functionalities provided by the server. Here’s an example of integrating an MCP server:</p>
-<pre><code class="language-python">agent = Agent(
+<pre>agent = Agent(
     name=&quot;Assistant&quot;,
     instructions=&quot;Use the tools to achieve the task&quot;,
     mcp_servers=[mcp_server_1, mcp_server_2]
 )
-</code></pre>
+</pre>
 <h3>Caching and Performance Optimization</h3>
 <p>To reduce latency, especially when using remote servers, the SDK allows for caching the list of tools provided by an MCP server. By passing <code>cache_tools_list=True</code> to <code>MCPServerStdio</code> and <code>MCPServerSse</code>, developers can ensure the agent retrieves the tool list quickly without repeated calls to the server.</p>
 <h2>Benefits of MCP Integration</h2>
@@ -1559,7 +1559,7 @@ python run_evals.py --model gemini-2-5-flash --suite enterprise-goldens
 <p>The hosted service is managed by the .NET host, which handles the startup and shutdown of the service.</p>
 <h2>Implementing a Hosted Service</h2>
 <p>To implement a hosted service in .NET, you can use the Worker Service template provided by ASP.NET Core. Here’s a simple example:</p>
-<pre><code class="language-csharp">using Microsoft.Extensions.Hosting;
+<pre>using Microsoft.Extensions.Hosting;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -1589,13 +1589,13 @@ public class MyBackgroundService : IHostedService, IDisposable
         _timer?.Dispose();
     }
 }
-</code></pre>
+</pre>
 <p>This example creates a hosted service with a background task that runs on a timer every minute.</p>
 <h2>Best Practices for Hosted Services</h2>
 <ol>
 <li><strong>Proper Dependency Injection</strong>: Use DI to inject dependencies into your hosted services. This ensures the service is testable and easier to manage.</li>
 </ol>
-<pre><code class="language-csharp">public class MyBackgroundService : BackgroundService
+<pre>public class MyBackgroundService : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -1604,18 +1604,18 @@ public class MyBackgroundService : IHostedService, IDisposable
         _serviceProvider = serviceProvider;
     }
 }
-</code></pre>
+</pre>
 <ol>
 <li><strong>Graceful Shutdown</strong>: Implement <code>StopAsync</code> to handle graceful shutdowns and resource cleanup.</li>
 </ol>
 <ol>
 <li><strong>Avoid Blocking Calls</strong>: Use asynchronous methods to prevent blocking the main thread and ensure efficient execution.</li>
 </ol>
-<pre><code class="language-csharp">public async Task DoWorkAsync(CancellationToken cancellationToken)
+<pre>public async Task DoWorkAsync(CancellationToken cancellationToken)
 {
     // Async background task logic here
 }
-</code></pre>
+</pre>
 <ol>
 <li><strong>Handle Errors and Exceptions</strong>: Ensure that your background tasks handle exceptions and have proper error logging to diagnose issues easily.</li>
 </ol>
@@ -1633,7 +1633,7 @@ public class MyBackgroundService : IHostedService, IDisposable
 <ul>
 <li><strong>BackgroundService Base Class</strong>: Instead of implementing <code>IHostedService</code> directly, you can inherit from <code>BackgroundService</code>, which provides a more convenient way to run long-running tasks.</li>
 </ul>
-<pre><code class="language-csharp">public class MyBackgroundService : BackgroundService
+<pre>public class MyBackgroundService : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -1644,7 +1644,7 @@ public class MyBackgroundService : IHostedService, IDisposable
         }
     }
 }
-</code></pre>
+</pre>
 <ul>
 <li><strong>Queued Background Tasks</strong>: For tasks that need to run sequentially, you can use a queue-based approach to manage task execution.</li>
 </ul>
@@ -1738,11 +1738,11 @@ public class MyBackgroundService : IHostedService, IDisposable
 <h2>Getting Started</h2>
 <h3>Installation</h3>
 <p>To install the first preview of the template, run the following terminal command:</p>
-<pre><code class="language-sh"> dotnet new install Microsoft.Extensions.AI.Templates
-</code></pre>
+<pre> dotnet new install Microsoft.Extensions.AI.Templates
+</pre>
 <p>Once installed, the template can be accessed in Visual Studio, Visual Studio Code (with the C# Dev Kit), or via the command line using:</p>
-<pre><code class="language-sh"> dotnet new aichatweb
-</code></pre>
+<pre> dotnet new aichatweb
+</pre>
 <h3>Using Visual Studio</h3>
 <p>After installing the template, developers can start a new project by navigating to <code>File &gt; New Project…</code> and searching for AI Chat or selecting the AI project type to find the template. Upon selecting a project name and location, they can choose an AI model provider and vector store.</p>
 <h3>Using Visual Studio Code</h3>
@@ -1812,7 +1812,7 @@ public class MyBackgroundService : IHostedService, IDisposable
 <h3>Controllers</h3>
 <p>Controllers in ASP.NET Core are classes that derive from <code>ControllerBase</code>. They follow a conventional MVC pattern where each controller is responsible for handling HTTP requests, and actions within these controllers map to the application&#x27;s endpoints.</p>
 <p>Here&#x27;s an example of a basic controller-based API:</p>
-<pre><code class="language-csharp">namespace APIWithControllers
+<pre>namespace APIWithControllers
 {
     public class Program
     {
@@ -1863,11 +1863,11 @@ public class MyBackgroundService : IHostedService, IDisposable
         }
     }
 }
-</code></pre>
+</pre>
 <h3>Minimal APIs</h3>
 <p>Minimal APIs, introduced in .NET 6, offer a more straightforward way to build APIs using lightweight Lambda expressions. They allow you to define endpoints with logical handlers in-line, within the <code>Main</code> method.</p>
 <p>Here&#x27;s an example using Minimal APIs:</p>
-<pre><code class="language-csharp">namespace MinimalAPI
+<pre>namespace MinimalAPI
 {
     public class Program
     {
@@ -1900,7 +1900,7 @@ public class MyBackgroundService : IHostedService, IDisposable
         }
     }
 }
-</code></pre>
+</pre>
 <h3>Performance Comparison</h3>
 <p>A detailed performance comparison by Steven Giesel highlighted several benchmark tests between Minimal APIs and Controllers. The study included tests for simple GET requests, requests with injected services, POST requests, middleware handling, and parallel requests.</p>
 <p>Results indicated that Minimal APIs generally had a performance edge over Controller-based APIs in certain scenarios. However, the performance differences might be negligible depending on the context and specifics of the project requirements.</p>
@@ -1947,7 +1947,7 @@ public class MyBackgroundService : IHostedService, IDisposable
       <content:encoded><![CDATA[<p><img src="https://elijah.mondero.nz/posts/images/284d09f1-ae64-465d-b22d-8047c5e0cf7d.png" alt="Leaked System Prompt of ChatGPT 4.5" /></p>
 <p>Recently, a member of the Reddit community <code>r/PromptEngineering</code> claimed to have coaxed ChatGPT 4.5 into revealing its system prompt. Below is the verbatim content of the prompt, detailing the AI&#x27;s instruction set and operational guidelines.</p>
 <h3>System Prompt of ChatGPT 4.5</h3>
-<pre><code>You are ChatGPT, a large language model trained by OpenAI. Knowledge cutoff: 2023-10 Current date: 2025-03-07
+<pre>You are ChatGPT, a large language model trained by OpenAI. Knowledge cutoff: 2023-10 Current date: 2025-03-07
 
 Personality: v2
 
@@ -2037,7 +2037,7 @@ IMPORTANT: Do not attempt to use the old web tool or generate responses from it 
 The  web tool has the following commands:
 - search: Issues a new query to a search engine and outputs the response.
 - scrape: Opens the given URL and displays it.
-</code></pre>
+</pre>
 <h3>Analysis</h3>
 <p>This system prompt reveals the rigorous protocols that ChatGPT 4.5 follows to ensure accuracy, user safety, and compliance with ethical standards. It includes detailed guidelines for various tools like bio, canmore, dalle, python, and web. It explicitly mandates when and how these tools should be used, along with strict limitations to maintain users&#x27; trust and data integrity.</p>]]></content:encoded>
       <category>ChatGPT 4.5</category>
@@ -2194,39 +2194,39 @@ The  web tool has the following commands:
 <ol>
 <li><strong>ReactJS</strong>: Initialize a ReactJS project using <code>create-react-app</code>.</li>
 </ol>
-<pre><code class="language-bash">   npx create-react-app my-app
+<pre>   npx create-react-app my-app
    cd my-app
    npm start
-   </code></pre>
+   </pre>
 <ol>
 <li><strong>.NET 8</strong>: Create a new .NET 8 project.</li>
 </ol>
-<pre><code class="language-bash">   dotnet new webapi -n MyApp
+<pre>   dotnet new webapi -n MyApp
    cd MyApp
    dotnet run
-   </code></pre>
+   </pre>
 <ol>
 <li><strong>MSSQL</strong>: Set up MSSQL Server using Docker.</li>
 </ol>
-<pre><code class="language-bash">   docker run -e &#x27;ACCEPT_EULA=Y&#x27; -e &#x27;SA_PASSWORD=Your_password123&#x27; \
+<pre>   docker run -e &#x27;ACCEPT_EULA=Y&#x27; -e &#x27;SA_PASSWORD=Your_password123&#x27; \
    -p 1433:1433 --name sql1 -h sql1 \
    -d mcr.microsoft.com/mssql/server:2019-latest
-   </code></pre>
+   </pre>
 <h3>Installing and Configuring ReqNRoll</h3>
 <p>Install ReqNRoll by adding the necessary NuGet packages to your .NET project.</p>
-<pre><code class="language-bash">   dotnet add package Reqnroll
-   </code></pre>
+<pre>   dotnet add package Reqnroll
+   </pre>
 <p>Configure ReqNRoll in your test project to enable BDD-style scenarios.</p>
 <h3>Playwright Setup</h3>
 <p>Install Playwright in your ReactJS project.</p>
-<pre><code class="language-bash">   npm install @playwright/test
+<pre>   npm install @playwright/test
    npx playwright install
-   </code></pre>
+   </pre>
 <p>Create Playwright test scripts to automate your end-to-end scenarios.</p>
 <h3>Utilizing Test Containers</h3>
 <p>In your .NET project, install the Testcontainers NuGet package.</p>
-<pre><code class="language-bash">   dotnet add package Testcontainers
-   </code></pre>
+<pre>   dotnet add package Testcontainers
+   </pre>
 <p>Create integration tests that spin up real instances of MSSQL for testing.</p>
 <h3>Best Practices</h3>
 <ol>
@@ -2286,20 +2286,20 @@ The  web tool has the following commands:
 <p>Retrieval-Augmented Generation (RAG) is a powerful technique that combines retrieval-based methods with generative models to improve the accuracy and relevance of generated content. By leveraging large datasets, RAG can answer questions more effectively by retrieving pertinent information and generating contextually appropriate responses. In this blog post, we will explore the steps to build a RAG application using LangChain and provide example code to demonstrate its capabilities.</p>
 <h3>Prerequisites</h3>
 <p>Before diving into the implementation, ensure you have the required libraries installed. Execute the following command to install the necessary packages:</p>
-<pre><code class="language-bash">!pip install langchain langchain_community langchainhub langchain-openai tiktoken chromadb
-</code></pre>
+<pre>!pip install langchain langchain_community langchainhub langchain-openai tiktoken chromadb
+</pre>
 <h3>Setting Up Environment Variables</h3>
 <p>LangChain integrates with various APIs to enable tracing and embedding generation. Set up the required environment variables for LangChain and OpenAI:</p>
-<pre><code class="language-python">import os
+<pre>import os
 os.environ[&#x27;LANGSMITH_TRACING&#x27;] = &#x27;true&#x27;
 os.environ[&#x27;LANGSMITH_API_KEY&#x27;] = &#x27;&lt;langsmith-api-key&gt;&#x27;
 os.environ[&#x27;OPENAI_API_KEY&#x27;] = &#x27;&lt;openai-api-key&gt;&#x27;
-</code></pre>
+</pre>
 <h3>Step 1: Indexing Content</h3>
 <p>Indexing is the process of preparing your dataset for retrieval. In this example, we load and process a blog post for indexing.</p>
 <h4>Loading the Blog Content</h4>
 <p>We use <code>WebBaseLoader</code> to scrape the content from a blog URL. In this case, the content is restricted to certain HTML classes using BeautifulSoup:</p>
-<pre><code class="language-python">import bs4
+<pre>import bs4
 from langchain_community.document_loaders import WebBaseLoader
 
 loader = WebBaseLoader(
@@ -2311,30 +2311,30 @@ loader = WebBaseLoader(
     ),
 )
 blog_docs = loader.load()
-</code></pre>
+</pre>
 <h4>Splitting the Content</h4>
 <p>Large documents need to be divided into manageable chunks for efficient retrieval. This process ensures that the system can handle queries effectively by focusing on smaller, relevant sections of data:</p>
-<pre><code class="language-python">from langchain.text_splitter import RecursiveCharacterTextSplitter
+<pre>from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
     chunk_size=300,
     chunk_overlap=50
 )
 splits = text_splitter.split_documents(blog_docs)
-</code></pre>
+</pre>
 <h4>Indexing with Embeddings</h4>
 <p>The document chunks are converted into vector embeddings using OpenAI’s embedding model and stored in a vector database (Chroma):</p>
-<pre><code class="language-python">from langchain_openai import OpenAIEmbeddings
+<pre>from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 
 embedding = OpenAIEmbeddings(model=&quot;text-embedding-3-large&quot;)
 vectorstore = Chroma.from_documents(documents=splits, embedding=embedding)
 retriever = vectorstore.as_retriever()
-</code></pre>
+</pre>
 <h3>Step 2: Retrieval</h3>
 <p>The retriever enables the search functionality for fetching the most relevant chunks of content based on a query:</p>
-<pre><code class="language-python">retriever = vectorstore.as_retriever(search_kwargs={&quot;k&quot;: 1})
-</code></pre>
+<pre>retriever = vectorstore.as_retriever(search_kwargs={&quot;k&quot;: 1})
+</pre>
 <h3>Step 3: Generating Responses</h3>
 <p>With the retriever in place, we now configure a language model to generate responses based on the retrieved content.</p>
 <h3>Conclusion</h3>
@@ -2412,41 +2412,41 @@ retriever = vectorstore.as_retriever()
 <p>The async/await paradigm is essential for efficient asynchronous programming in .NET. However, improper usage can lead to deadlocks or unresponsive applications.</p>
 <h3>Mistake:</h3>
 <p>Blocking an asynchronous operation with <code>.Result</code> or <code>.Wait()</code>.</p>
-<pre><code class="language-csharp">var result = SomeAsyncMethod().Result; // Potential deadlock
-</code></pre>
+<pre>var result = SomeAsyncMethod().Result; // Potential deadlock
+</pre>
 <h3>Solution:</h3>
 <p>Always <code>await</code> asynchronous methods to avoid blocking.</p>
-<pre><code class="language-csharp">var result = await SomeAsyncMethod();
-</code></pre>
+<pre>var result = await SomeAsyncMethod();
+</pre>
 <h2>2. Neglecting to Dispose of Resources</h2>
 <p>Failing to release unmanaged resources like database connections or file streams can cause memory leaks.</p>
 <h3>Mistake:</h3>
 <p>Forgetting to call <code>Dispose()</code> or not using <code>using</code> statements.</p>
-<pre><code class="language-csharp">var stream = new FileStream(&quot;file.txt&quot;, FileMode.Open);
+<pre>var stream = new FileStream(&quot;file.txt&quot;, FileMode.Open);
 // Forgetting to dispose of the stream
-</code></pre>
+</pre>
 <h3>Solution:</h3>
 <p>Use <code>using</code> blocks or <code>IAsyncDisposable</code> in modern C#.</p>
-<pre><code class="language-csharp">using (var stream = new FileStream(&quot;file.txt&quot;, FileMode.Open))
+<pre>using (var stream = new FileStream(&quot;file.txt&quot;, FileMode.Open))
 {
     // Use the stream
 }
-</code></pre>
+</pre>
 <h2>3. Inefficient Database Interactions</h2>
 <p>Optimizing database interactions is crucial for application performance. Common issues include the N+1 query problem and inefficient queries.</p>
 <h3>Mistake:</h3>
 <p>Using multiple queries to fetch related data.</p>
 <h3>Solution:</h3>
 <p>Use JOINs or eager loading to fetch all necessary data in a single query.</p>
-<pre><code class="language-sql">SELECT c.CustomerName, o.OrderID
+<pre>SELECT c.CustomerName, o.OrderID
 FROM Customers c
 JOIN Orders o ON c.CustomerID = o.CustomerID;
-</code></pre>
+</pre>
 <h2>4. Poor Exception Handling in Async/Await</h2>
 <p>Effective exception handling in asynchronous methods is key for application stability.</p>
 <h3>Mistake:</h3>
 <p>Not enclosing async calls in try-catch blocks.</p>
-<pre><code class="language-csharp">try
+<pre>try
 {
     await SomeAsyncMethod();
 }
@@ -2454,18 +2454,18 @@ catch (Exception ex)
 {
     // Handle the exception
 }
-</code></pre>
+</pre>
 <h2>5. Ignoring Cancellation Tokens</h2>
 <p>Implementing cancellation tokens provides a mechanism to cancel long-running operations, enhancing application responsiveness.</p>
 <h3>Solution:</h3>
 <p>Use cancellation tokens in asynchronous methods.</p>
-<pre><code class="language-csharp">public async Task SomeAsyncMethod(CancellationToken cancellationToken)
+<pre>public async Task SomeAsyncMethod(CancellationToken cancellationToken)
 {
     // Check for cancellation
     cancellationToken.ThrowIfCancellationRequested();
     await Task.Delay(1000, cancellationToken);
 }
-</code></pre>
+</pre>
 <p>By being aware of these common pitfalls and following the recommended practices, developers can create more responsive, efficient, and maintainable .NET applications.</p>]]></content:encoded>
       <category>dotnet</category>
       <category>development</category>
