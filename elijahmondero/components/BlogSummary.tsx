@@ -33,8 +33,7 @@ const BlogSummary: React.FC<BlogSummaryProps> = ({ post, isDarkTheme }) => {
               src={image_path}
               alt={title}
               className="card-image"
-              layout="fill"
-              objectFit="cover"
+              fill
             />
           </div>
         )}

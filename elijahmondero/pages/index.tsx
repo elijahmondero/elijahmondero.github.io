@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import BlogSummary from '../components/BlogSummary';
@@ -20,15 +20,55 @@ export async function getStaticProps() {
 
 const Home = ({ posts }: HomeProps) => {
   const { isDarkTheme, toggleTheme } = useTheme();
-  const [displayedPosts, setDisplayedPosts] = useState<PostData[]>([]);
   const postsPerPage = 10; // Number of posts to load per scroll
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTag, setSelectedTag] = useState<string>('All');
+  const [displayedPosts, setDisplayedPosts] = useState<PostData[]>(() => posts.slice(0, postsPerPage));
   const [nextPostIndex, setNextPostIndex] = useState(postsPerPage); // Index of the next post to load
 
   const [trendingPosts, setTrendingPosts] = useState<PostData[]>([]);
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(1); // Speed in ms
+
+  const topTags = useMemo(() => {
+    const counts = new Map<string, { label: string; count: number }>();
+    posts.forEach(post => {
+      (post.tags || []).forEach(tag => {
+        const key = tag.toLowerCase().trim();
+        if (!key) return;
+        const existing = counts.get(key);
+        if (existing) {
+          existing.count += 1;
+        } else {
+          counts.set(key, { label: tag.trim(), count: 1 });
+        }
+      });
+    });
+    return Array.from(counts.values())
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 8)
+      .map(item => item.label);
+  }, [posts]);
+
+  const filteredPosts = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    const tagLower = selectedTag.toLowerCase();
+
+    return posts.filter(post => {
+      const matchesTag =
+        selectedTag === 'All' ||
+        (post.tags || []).some(t => t.toLowerCase().trim() === tagLower);
+      if (!matchesTag) return false;
+      if (!query) return true;
+
+      return (
+        post.title.toLowerCase().includes(query) ||
+        post.excerpt.toLowerCase().includes(query) ||
+        (post.tags || []).some(t => t.toLowerCase().includes(query))
+      );
+    });
+  }, [posts, searchQuery, selectedTag]);
 
   useEffect(() => {
     // Dynamic import of @microsoft/clarity to ensure it runs only on the client side
@@ -39,13 +79,20 @@ const Home = ({ posts }: HomeProps) => {
 
     // Fetch trending posts
     fetch('/posts/trending_posts.json')
-      .then(response => response.json())
-      .then(data => setTrendingPosts(data));
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => setTrendingPosts(data))
+      .catch(err => console.error('Failed to load trending posts:', err));
+  }, []);
 
-    // Initialize displayed posts with the first batch
-    setDisplayedPosts(posts.slice(0, postsPerPage));
-
-  }, [posts]); // Add posts as a dependency
+  useEffect(() => {
+    setDisplayedPosts(filteredPosts.slice(0, postsPerPage));
+    setNextPostIndex(postsPerPage);
+  }, [filteredPosts, postsPerPage]);
 
   useEffect(() => {
     if (!trendingPosts || trendingPosts.length === 0) return;
@@ -86,29 +133,28 @@ const Home = ({ posts }: HomeProps) => {
     return () => clearTimeout(timer);
   }, [displayText, isDeleting, currentPostIndex, trendingPosts]);
 
+  const loadMorePosts = useCallback(() => {
+    const endIndex = nextPostIndex + postsPerPage;
+    const nextPosts = filteredPosts.slice(nextPostIndex, endIndex);
+
+    if (nextPosts.length > 0) {
+      setDisplayedPosts(prevPosts => [...prevPosts, ...nextPosts]);
+      setNextPostIndex(endIndex);
+    }
+  }, [nextPostIndex, postsPerPage, filteredPosts]);
 
   useEffect(() => {
     const handleScroll = () => {
       // Check if the user has scrolled to the bottom and there are more posts to load
       if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100 &&
-          nextPostIndex < posts.length) {
+          nextPostIndex < filteredPosts.length) {
         loadMorePosts();
       }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [nextPostIndex, posts]); // Add dependencies
-
-  const loadMorePosts = () => {
-    const endIndex = nextPostIndex + postsPerPage;
-    const nextPosts = posts.slice(nextPostIndex, endIndex);
-
-    if (nextPosts.length > 0) {
-      setDisplayedPosts(prevPosts => [...prevPosts, ...nextPosts]);
-      setNextPostIndex(endIndex);
-    }
-  };
+  }, [nextPostIndex, filteredPosts.length, loadMorePosts]);
 
 
   return (
@@ -116,10 +162,16 @@ const Home = ({ posts }: HomeProps) => {
       <Head>
         <title>Monderings: Beyond the Prompt by Elijah Mondero</title>
         <meta name="description" content="Monderings: Beyond the Prompt - A blog about the latest in AI and technology by Elijah Mondero" />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content="Monderings: Beyond the Prompt by Elijah Mondero" />
         <meta property="og:description" content="Monderings: Beyond the Prompt - A blog about the latest in AI and technology by Elijah Mondero" />
         <meta property="og:url" content="https://elijah.mondero.nz/" />
+        <meta property="og:image" content="https://elijah.mondero.nz/logo512.png" />
         <meta property="og:site_name" content="Monderings: Beyond the Prompt" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Monderings: Beyond the Prompt by Elijah Mondero" />
+        <meta name="twitter:description" content="Monderings: Beyond the Prompt - A blog about the latest in AI and technology by Elijah Mondero" />
+        <meta name="twitter:image" content="https://elijah.mondero.nz/logo512.png" />
         <link rel="canonical" href="https://elijah.mondero.nz/" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -133,10 +185,17 @@ const Home = ({ posts }: HomeProps) => {
         </header>
         <div className="trending-animation-container">
           <span className="trending-label">Trending: </span>
-          <Link href={`/post/${trendingPosts[currentPostIndex]?.id}`} className="trending-link">
-            <span className="typing-text">{displayText}</span>
-            <span className="cursor"></span>
-          </Link>
+          {trendingPosts[currentPostIndex]?.id ? (
+            <Link href={`/post/${trendingPosts[currentPostIndex].id}`} className="trending-link">
+              <span className="typing-text">{displayText}</span>
+              <span className="cursor"></span>
+            </Link>
+          ) : (
+            <span className="trending-link">
+              <span className="typing-text">{displayText}</span>
+              <span className="cursor"></span>
+            </span>
+          )}
         </div>
         
         {/* Career Overview Section */}
@@ -151,21 +210,69 @@ const Home = ({ posts }: HomeProps) => {
                 <Link href="/career-story" className={`read-more-inline ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
                   View full career story →
                 </Link>
+                {' · '}
+                <a href="/rss.xml" className={`read-more-inline ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
+                  RSS Feed
+                </a>
+                {' · '}
+                <a
+                  href="https://www.linkedin.com/in/elijahmondero/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`read-more-inline ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}
+                >
+                  LinkedIn
+                </a>
               </p>
             </div>
           </div>
         </div>
 
+        {/* Search & Tag Filter Bar */}
+        <section className={`filter-bar ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search articles by title, topic, or tag..."
+            aria-label="Search articles"
+            className="search-input"
+          />
+          <div className="tag-filter-pills">
+            <button
+              type="button"
+              onClick={() => setSelectedTag('All')}
+              className={`tag-pill ${selectedTag === 'All' ? 'active' : ''}`}
+            >
+              All ({posts.length})
+            </button>
+            {topTags.map(tag => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => setSelectedTag(tag)}
+                className={`tag-pill ${selectedTag.toLowerCase() === tag.toLowerCase() ? 'active' : ''}`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        </section>
+
         <main className="blog-grid">
-          {displayedPosts.map(post => (
-            <BlogSummary
-              key={post.id}
-              post={post}
-              isDarkTheme={isDarkTheme}
-            />
-          ))}
+          {displayedPosts.length > 0 ? (
+            displayedPosts.map(post => (
+              <BlogSummary
+                key={post.id}
+                post={post}
+                isDarkTheme={isDarkTheme}
+              />
+            ))
+          ) : (
+            <p className="no-results">No matching articles found. Try clearing your search or tag filter.</p>
+          )}
         </main>
-        {nextPostIndex < posts.length && (
+        {nextPostIndex < filteredPosts.length && (
           <div className="load-more-container">
             <button onClick={loadMorePosts} className="load-more-button">
               Load More Posts

@@ -1219,3 +1219,227 @@ body.dark-theme .back-to-top:hover {
     font-size: 16px;
   }
 }
+
+/* Search & Tag Filter Bar */
+.filter-bar {
+  max-width: 1200px;
+  margin: 0 auto 10px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  font-size: 0.95em;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #333;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+.filter-bar.dark-theme .search-input,
+body.dark-theme .search-input {
+  background: #1f1f1f;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+.filter-bar.dark-theme .search-input:focus,
+body.dark-theme .search-input:focus {
+  border-color: #bb86fc;
+  box-shadow: 0 0 0 3px rgba(187, 134, 252, 0.2);
+}
+
+.tag-filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-pill {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #d0d7de;
+  background: #f8f9fa;
+  color: #495057;
+  font-size: 0.85em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tag-pill:hover {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.tag-pill.active {
+  background: #007bff;
+  border-color: #007bff;
+  color: #ffffff;
+}
+
+.filter-bar.dark-theme .tag-pill,
+body.dark-theme .tag-pill {
+  background: #1f1f1f;
+  border-color: #444;
+  color: #ccc;
+}
+
+.filter-bar.dark-theme .tag-pill:hover,
+body.dark-theme .tag-pill:hover {
+  border-color: #bb86fc;
+  color: #bb86fc;
+}
+
+.filter-bar.dark-theme .tag-pill.active,
+body.dark-theme .tag-pill.active {
+  background: #bb86fc;
+  border-color: #bb86fc;
+  color: #121212;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #666;
+  padding: 40px 20px;
+}
+
+body.dark-theme .no-results {
+  color: #aaa;
+}
+
+/* Author CTA Links */
+.author-cta-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.author-cta-link {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-decoration: none;
+  background: #e3f2fd;
+  color: #0056b3;
+  transition: opacity 0.2s ease;
+}
+
+.author-cta-link:hover {
+  opacity: 0.85;
+}
+
+.author-cta-link.dark-theme,
+body.dark-theme .author-cta-link {
+  background: #2d2240;
+  color: #bb86fc;
+}
+
+/* Related Articles Section */
+.related-posts-section {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #e0e0e0;
+}
+
+body.dark-theme .related-posts-section {
+  border-top-color: #444;
+}
+
+.related-posts-section h3 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.4em;
+  margin: 0 0 20px 0;
+  color: #333;
+}
+
+body.dark-theme .related-posts-section h3 {
+  color: #e0e0e0;
+}
+
+.related-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.related-post-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f8f9fa;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.related-post-card:hover {
+  transform: translateY(-2px);
+  border-color: #007bff;
+}
+
+.related-post-card h4 {
+  margin: 0;
+  font-family: 'Merriweather', serif;
+  font-size: 1em;
+  line-height: 1.4;
+  color: #222;
+}
+
+.related-post-date {
+  font-size: 0.8em;
+  color: #666;
+}
+
+.related-post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.related-post-card.dark-theme,
+body.dark-theme .related-post-card {
+  background: #252525;
+  border-color: #444;
+}
+
+.related-post-card.dark-theme:hover,
+body.dark-theme .related-post-card:hover {
+  border-color: #bb86fc;
+}
+
+.related-post-card.dark-theme h4,
+body.dark-theme .related-post-card h4 {
+  color: #e0e0e0;
+}
+
+.related-post-card.dark-theme .related-post-date,
+body.dark-theme .related-post-card .related-post-date {
+  color: #aaa;
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    padding: 0 15px;
+  }
+}

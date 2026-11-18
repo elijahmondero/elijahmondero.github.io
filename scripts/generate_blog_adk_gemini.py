@@ -105,14 +105,15 @@ def generate_image(prompt: str) -> str:
             if response.generated_images:
                 image_data = response.generated_images[0].image.image_bytes
                 image_filename = f"{uuid.uuid4()}.png"
-                image_path = os.path.join("elijahmondero/public/posts/images", image_filename)
+                repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+                image_path = os.path.join(repo_root, "elijahmondero", "public", "posts", "images", image_filename)
                 os.makedirs(os.path.dirname(image_path), exist_ok=True)
                 
                 with open(image_path, "wb") as f:
                     f.write(image_data)
                 
                 print(f"Image generated and saved to {image_path}")
-                return os.path.join("/posts/images", image_filename).replace('\\', '/')
+                return f"/posts/images/{image_filename}"
             else:
                 print(f"No image generated. RAI reason: {response.generated_images[0].rai_filter_reason if response.generated_images else 'Unknown'}")
                 if attempt < retries - 1:
@@ -261,7 +262,7 @@ def update_sitemap(post_id: str, post_date: str):
     sitemap_file = os.path.join(repo_root, "elijahmondero/public/sitemap.xml")
     print("Sitemap file:", sitemap_file)
 
-    new_url = f"https://elijah.mondero.nz/post/{post_id}"
+    new_url = f"https://elijah.mondero.nz/post/{post_id}/"
     # Ensure date is in YYYY-MM-DD format
     try:
         # Parse ISO format and reformat
@@ -282,7 +283,7 @@ def update_sitemap(post_id: str, post_date: str):
             sitemap_data = f.read()
 
         # Check if the URL already exists and replace it
-        url_pattern = re.compile(rf"<loc>{re.escape(new_url)}</loc>.*?<\/url>", re.DOTALL)
+        url_pattern = re.compile(rf"<url>\s*<loc>https://elijah\.mondero\.nz/post/{re.escape(post_id)}/?<\/loc>.*?<\/url>", re.DOTALL)
         if url_pattern.search(sitemap_data):
              print(f"URL {new_url} already exists in sitemap. Replacing entry.")
              sitemap_data = url_pattern.sub(new_entry, sitemap_data)

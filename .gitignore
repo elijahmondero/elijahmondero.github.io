@@ -62,3 +62,19 @@ __pycache__/
 
 # VS Code
 .vscode/
+
+# Next.js build and static export outputs
+.next/
+out/
+
+# Crash dumps & agent local scratch/config directories
+*.stackdump
+.agents/scratch/
+.claude/
+
+# Local personal CV / job application documents
+CMS PD Awards Cert_ElijahMondero.pdf
+GDT - Position Description - Team Lead - Auction Platform.pdf
+GDT_Team_Lead_CV.md
+GDT_Team_Lead_Cover_Letter.md
+elijahm.cv.2024 (2).doc

@@ -17,14 +17,14 @@ export interface PostData {
   excerpt: string; // Mapped from summary
   postedBy: string; // Mapped from authors
   tags: string[];
-  image_path?: string; // Optional property
+  image_path?: string | null; // Optional property (nullable for Next.js static serialization)
 }
 
 const postsDirectory = path.join(__dirname, '..', 'posts');
 
 export function getSortedPostsData(): PostData[] {
-  // Get file names under /posts
-  const fileNames = fs.readdirSync(postsDirectory);
+  // Get markdown file names under /posts
+  const fileNames = fs.readdirSync(postsDirectory).filter((fileName) => fileName.endsWith('.md'));
   const allPostsData = fileNames.map((fileName) => {
     // Remove ".md" from file name to get id
     const id = fileName.replace(/\.md$/, '');
@@ -70,8 +70,30 @@ export function getSortedPostsData(): PostData[] {
   });
 }
 
+export function getRelatedPosts(currentPostId: string, tags: string[], limit = 3): PostData[] {
+  const normalizedTags = new Set((tags || []).map((t) => t.toLowerCase().trim()).filter(Boolean));
+  const candidates = getSortedPostsData().filter((post) => post.id !== currentPostId);
+
+  const scored = candidates.map((post) => {
+    const score = (post.tags || []).reduce(
+      (acc, tag) => (normalizedTags.has(tag.toLowerCase().trim()) ? acc + 1 : acc),
+      0
+    );
+    return { post, score };
+  });
+
+  scored.sort((a, b) => {
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+    return a.post.date < b.post.date ? 1 : -1;
+  });
+
+  return scored.slice(0, limit).map((item) => item.post);
+}
+
 export function getAllPostIds() {
-  const fileNames = fs.readdirSync(postsDirectory);
+  const fileNames = fs.readdirSync(postsDirectory).filter((fileName) => fileName.endsWith('.md'));
 
   // Returns an array that looks like this:
   // [

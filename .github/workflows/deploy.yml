@@ -11,23 +11,17 @@ jobs:
 
     steps:
     - name: Checkout the repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '20'
-
-    - name: Cache Node.js modules
-      uses: actions/cache@v3
-      with:
-        path: elijahmondero/node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+        cache: 'npm'
+        cache-dependency-path: elijahmondero/package-lock.json
 
     - name: Install dependencies
-      run: npm install
+      run: npm ci
       working-directory: elijahmondero
 
     - name: Build the project
@@ -46,8 +40,4 @@ jobs:
       run: |
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         npm run deploy
-      working-directory: elijahmondero
-
-    - name: Clean up the cache (optional)
-      run: rm -rf node_modules
       working-directory: elijahmondero

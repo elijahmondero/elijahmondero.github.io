@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "target": "esnext", // Change this to esnext for better compatibility with Vite
+    "target": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "jsx": "preserve" // Change to react-jsx if using React 17+
-    ,
+    "jsx": "preserve",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -24,7 +23,8 @@
     "./*.tsx",
     "./components/*.tsx",
     "./pages/**/*.tsx",
-    "./context/*.tsx"
+    "./context/*.tsx",
+    "./lib/**/*.ts"
   ],
   "exclude": [
     "node_modules"

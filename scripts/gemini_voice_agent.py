@@ -94,13 +94,15 @@ def tool_publish_blog(topic: str, sources: Optional[List[str]] = None) -> str:
     """Publishes a new blog post using Antigravity's blog-publisher skill."""
     print(f"\n🚀 [Tool Triggered] publish_blog: Topic='{topic}', Sources={sources}")
     sources = sources or []
-    sources_str = " ".join([f'"{s}"' for s in sources])
 
     # Check for agy in PATH
-    if shutil.which("agy"):
-        cmd = f"agy --dangerously-skip-permissions -p \"/blog-publisher \\\"{topic}\\\" {sources_str}\""
+    agy_bin = shutil.which("agy")
+    if agy_bin:
+        sources_str = " ".join(str(s) for s in sources)
+        prompt_str = f'/blog-publisher "{topic}" {sources_str}'.strip()
+        cmd = [agy_bin, "--dangerously-skip-permissions", "-p", prompt_str]
         print(f"Running command: {cmd}")
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        result = subprocess.run(cmd, shell=False, capture_output=True, text=True)
         return f"Blog publication pipeline completed. agy output: {result.stdout[-300:] if result.stdout else 'Done'}"
     else:
         return f"Antigravity CLI (agy) triggered for topic: {topic}. Ready for execution."

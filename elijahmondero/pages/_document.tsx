@@ -5,6 +5,12 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="Monderings: Beyond the Prompt RSS Feed"
+            href="https://elijah.mondero.nz/rss.xml"
+          />
           {/* Google Analytics */}
           <script
             async

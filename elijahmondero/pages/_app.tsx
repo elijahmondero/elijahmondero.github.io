@@ -10,10 +10,14 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      // @ts-ignore
-      window.gtag('config', 'G-P05ETFHS5F', {
-        page_path: url,
-      });
+      if (
+        typeof window !== 'undefined' &&
+        typeof (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag === 'function'
+      ) {
+        (window as unknown as { gtag: (...args: unknown[]) => void }).gtag('config', 'G-P05ETFHS5F', {
+          page_path: url,
+        });
+      }
     };
 
     router.events.on('routeChangeComplete', handleRouteChange);

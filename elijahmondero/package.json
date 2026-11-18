@@ -7,29 +7,14 @@
   "dependencies": {
     "@giscus/react": "^3.1.0",
     "@microsoft/clarity": "^1.0.0",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.6.1",
-    "@testing-library/jest-dom": "^6.5.0",
-    "@testing-library/react": "^16.0.1",
-    "@testing-library/user-event": "^14.5.2",
-    "@types/jest": "^29.5.13",
-    "@types/node": "^22.15.18",
-    "@types/react": "^19.1.4",
-    "@types/react-dom": "^19.1.5",
     "date-fns": "^4.1.0",
     "gray-matter": "^4.0.3",
     "js-cookie": "^3.0.5",
     "next": "^15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-helmet": "^6.1.0",
-    "react-markdown": "^9.0.3",
-    "react-router-dom": "^7.6.0",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
-    "three": "^0.169.0",
-    "three-stdlib": "^2.33.0",
-    "typescript": "^5.8.3",
     "web-vitals": "^4.2.3"
   },
   "scripts": {
@@ -41,7 +26,11 @@
   "eslintConfig": {
     "extends": [
       "next/core-web-vitals"
-    ]
+    ],
+    "rules": {
+      "react/no-unescaped-entities": "off",
+      "@next/next/no-img-element": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -56,8 +45,13 @@
     ]
   },
   "devDependencies": {
-    "@types/three": "^0.169.0",
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^22.15.18",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
     "eslint": "^8.0.0",
-    "gh-pages": "^6.1.1"
+    "eslint-config-next": "15.3.3",
+    "gh-pages": "^6.1.1",
+    "typescript": "^5.8.3"
   }
 }

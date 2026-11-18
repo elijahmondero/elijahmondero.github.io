@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import Giscus from '@giscus/react';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -9,12 +8,19 @@ import { PostData } from '../lib/posts';
 
 interface BlogPostProps {
   post: PostData;
+  relatedPosts?: PostData[];
   isDarkTheme: boolean;
 }
 
-const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
+const BlogPost: React.FC<BlogPostProps> = ({ post, relatedPosts = [] }) => {
   const { isDarkTheme, toggleTheme } = useTheme();
-  const [url, setUrl] = useState('');
+  const canonicalUrl = `https://elijah.mondero.nz/post/${post.id}/`;
+  const ogImageUrl = post.image_path
+    ? post.image_path.startsWith('http')
+      ? post.image_path
+      : `https://elijah.mondero.nz${post.image_path}`
+    : 'https://elijah.mondero.nz/logo512.png';
+  const [url, setUrl] = useState(canonicalUrl);
   const [readingProgress, setReadingProgress] = useState(0);
   const [tableOfContents, setTableOfContents] = useState<Array<{id: string, title: string, level: number}>>([]);
 
@@ -30,43 +36,36 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
     }
   }, [isDarkTheme]);
 
-  // Extract table of contents from content
+  // Extract table of contents from rendered article headings and assign IDs
   useEffect(() => {
-    if (post?.contentHtml && typeof window !== 'undefined') {
-      try {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(post.contentHtml, 'text/html');
-        const headings = doc.querySelectorAll('h1, h2, h3, h4');
-        const toc = Array.from(headings).map((heading, index) => {
-          const id = `heading-${index}`;
-          if (heading) {
-            heading.id = id;
-          }
-          return {
-            id,
-            title: heading?.textContent || '',
-            level: parseInt(heading?.tagName?.charAt(1) || '2')
-          };
-        });
-        setTableOfContents(toc);
-      } catch (error) {
-        console.warn('Error parsing table of contents:', error);
+    if (typeof window === 'undefined' || !post?.contentHtml) {
+      setTableOfContents([]);
+      return;
+    }
+
+    try {
+      const container = document.querySelector('.article-content');
+      if (!container) {
         setTableOfContents([]);
+        return;
       }
+
+      const headings = container.querySelectorAll('h1, h2, h3, h4');
+      const toc = Array.from(headings).map((heading, index) => {
+        const id = heading.id || `heading-${index}`;
+        heading.id = id;
+        return {
+          id,
+          title: heading.textContent || '',
+          level: parseInt(heading.tagName.charAt(1) || '2', 10),
+        };
+      });
+      setTableOfContents(toc);
+    } catch (error) {
+      console.warn('Error parsing table of contents:', error);
+      setTableOfContents([]);
     }
   }, [post?.contentHtml]);
-
-  // Update actual DOM headings with IDs after render
-  useEffect(() => {
-    if (typeof window !== 'undefined' && tableOfContents.length > 0) {
-      tableOfContents.forEach((item, index) => {
-        const heading = document.querySelector(`h${item.level}:nth-of-type(${index + 1})`);
-        if (heading && !heading.id) {
-          heading.id = item.id;
-        }
-      });
-    }
-  }, [tableOfContents]);
 
   // Reading progress tracking
   useEffect(() => {
@@ -103,26 +102,6 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
 
   return (
     <div className="App">
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "http://schema.org",
-            "@type": "BlogPosting",
-            "headline": post.title,
-            "description": post.excerpt,
-            "author": post.postedBy,
-            "datePublished": post.date,
-            "url": url,
-            "articleBody": post.contentHtml,
-            "keywords": post.tags.join(', '),
-            "mainEntityOfPage": {
-              "@type": "WebPage",
-              "@id": url
-            }
-          })}
-        </script>
-      </Helmet>
-
       {/* Reading Progress Bar */}
       <div className="reading-progress">
         <div 
@@ -140,14 +119,42 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
       </header>
 
       <Head>
-        <title>{post.title} - Monderings: Beyond the Prompt by Elijah Mondero</title>
+        <title>{`${post.title} - Monderings: Beyond the Prompt by Elijah Mondero`}</title>
         <meta name="description" content={post.excerpt} />
         <meta name="keywords" content={post.tags.join(', ')} />
+        <meta property="og:type" content="article" />
         <meta property="og:title" content={`${post.title} - Monderings: Beyond the Prompt`} />
         <meta property="og:description" content={post.excerpt} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={ogImageUrl} />
         <meta property="og:site_name" content="Monderings: Beyond the Prompt" />
-        <link rel="canonical" href={`https://elijah.mondero.nz/post/${post.id}/`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${post.title} - Monderings: Beyond the Prompt`} />
+        <meta name="twitter:description" content={post.excerpt} />
+        <meta name="twitter:image" content={ogImageUrl} />
+        <link rel="canonical" href={canonicalUrl} />
         <link rel="icon" href="/favicon.ico" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "http://schema.org",
+              "@type": "BlogPosting",
+              "headline": post.title,
+              "description": post.excerpt,
+              "image": ogImageUrl,
+              "author": post.postedBy,
+              "datePublished": post.date,
+              "url": url,
+              "articleBody": post.contentHtml,
+              "keywords": post.tags.join(', '),
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": url
+              }
+            })
+          }}
+        />
       </Head>
 
       {/* Breadcrumb Navigation */}
@@ -256,9 +263,55 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
                     View full career story →
                   </Link>
                 </p>
+                <div className="author-cta-links">
+                  <a
+                    href="https://www.linkedin.com/in/elijahmondero/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`author-cta-link ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}
+                  >
+                    Follow on LinkedIn
+                  </a>
+                  <a
+                    href="/rss.xml"
+                    className={`author-cta-link ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}
+                  >
+                    Subscribe via RSS
+                  </a>
+                </div>
               </div>
             </div>
           </footer>
+
+          {/* Related Articles Section */}
+          {relatedPosts.length > 0 && (
+            <section className="related-posts-section">
+              <h3>Related Articles</h3>
+              <div className="related-posts-grid">
+                {relatedPosts.map((related) => (
+                  <Link
+                    key={related.id}
+                    href={`/post/${related.id}`}
+                    className={`related-post-card ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}
+                  >
+                    <h4>{related.title}</h4>
+                    {related.date && (
+                      <span className="related-post-date">{formatDate(related.date)}</span>
+                    )}
+                    {related.tags && related.tags.length > 0 && (
+                      <div className="related-post-tags">
+                        {related.tags.slice(0, 2).map((tag, idx) => (
+                          <span key={idx} className="tag">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Comments Section */}
           <section className="comments-section">

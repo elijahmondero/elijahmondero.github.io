@@ -28,8 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install uv
-          uv pip install --system langchain-community azure-identity openai requests beautifulsoup4 PyYAML ddgs google-adk google-genai PyGithub
-          sudo apt-get update && sudo apt-get install -y jq
+          uv pip install --system python-dotenv requests beautifulsoup4 PyYAML ddgs google-adk google-genai PyGithub
 
       - name: Run blog post script
         env:

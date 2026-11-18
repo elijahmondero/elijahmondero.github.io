@@ -1,5 +1,6 @@
 import os
 import json
+import re
 import sys
 import time
 import asyncio
@@ -9,7 +10,11 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from ddgs import DDGS
 from typing import List, Dict, Any
-from google.genai import Client
+
+try:
+    import yaml
+except ImportError:
+    yaml = None
 from google.adk.agents import Agent, SequentialAgent 
 from google.adk.sessions import InMemorySessionService
 from google.adk.runners import Runner
@@ -20,14 +25,6 @@ load_dotenv()
 # LLM Provider configuration
 GOOGLE_GEMINI_API_KEY = os.getenv("GOOGLE_GEMINI_API_KEY")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash") # Uplifted to 2.5-flash
-
-# Initialize Google Gemini client (new SDK)
-if not GOOGLE_GEMINI_API_KEY:
-    print("Error: GOOGLE_GEMINI_API_KEY not found in environment variables.")
-    sys.exit(1)
-
-gemini_client = Client(api_key=GOOGLE_GEMINI_API_KEY)
-
 
 # Configure ADK to use API keys directly
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
@@ -96,86 +93,141 @@ def scrape_link(link: str) -> str:
     
     return f"Failed to scrape {link} after {max_retries} attempts."
 
-# Tool to load blog post metadata
-def load_blog_posts_metadata_tool(posts_dir_path: str) -> str: 
-    """Loads blog post metadata from individual JSON files."""
-    print(f"Loading blog post metadata from {posts_dir_path}...")
-    posts_metadata = []
-    if not os.path.exists(posts_dir_path):
-        print(f"Error: Posts directory not found at {posts_dir_path}")
-        return json.dumps([]) 
+def _get_repo_root() -> str:
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-    for filename in os.listdir(posts_dir_path):
-        if filename.endswith(".json") and filename != "index.json" and filename != "trending_posts.json":
-            file_path = os.path.join(posts_dir_path, filename)
+
+def _resolve_repo_path(target_path: str) -> str:
+    if os.path.isabs(target_path):
+        return target_path
+    return os.path.join(_get_repo_root(), target_path)
+
+
+def _parse_markdown_frontmatter(raw_content: str) -> Dict[str, Any]:
+    """Parse YAML frontmatter from a markdown post, with a regex fallback if PyYAML is unavailable."""
+    if not raw_content.startswith("---"):
+        return {}
+    parts = raw_content.split("---", 2)
+    if len(parts) < 3:
+        return {}
+    frontmatter_str = parts[1]
+
+    if yaml is not None:
+        try:
+            parsed = yaml.safe_load(frontmatter_str)
+            if isinstance(parsed, dict):
+                return parsed
+        except Exception as e:
+            print(f"Warning: PyYAML parse failed, using fallback parser: {e}")
+
+    data: Dict[str, Any] = {}
+    for key in ("title", "summary", "excerpt"):
+        match = re.search(rf'^{key}:\s*["\']?(.*?)["\']?\s*$', frontmatter_str, re.MULTILINE)
+        if match:
+            data[key] = match.group(1).strip()
+
+    tags_match = re.search(r'^tags:\s*\n((?:\s*-\s*.*\n?)+)', frontmatter_str, re.MULTILINE)
+    if tags_match:
+        tags = []
+        for line in tags_match.group(1).splitlines():
+            item = re.sub(r'^\s*-\s*', '', line).strip().strip('"\'')
+            if item:
+                tags.append(item)
+        data["tags"] = tags
+    return data
+
+
+# Tool to load blog post metadata
+def load_blog_posts_metadata_tool(posts_dir_path: str = "elijahmondero/posts") -> str:
+    """Loads blog post metadata from markdown posts and any legacy JSON files."""
+    repo_root = _get_repo_root()
+    md_dir = os.path.join(repo_root, "elijahmondero", "posts")
+    json_dir = _resolve_repo_path(posts_dir_path)
+
+    print(f"Loading blog post metadata from {md_dir} (and legacy JSON in {json_dir})...")
+    posts_metadata: List[Dict[str, Any]] = []
+    seen_ids = set()
+
+    if os.path.exists(md_dir):
+        for filename in sorted(os.listdir(md_dir)):
+            if not filename.endswith(".md"):
+                continue
+            post_id = filename[:-3]
+            file_path = os.path.join(md_dir, filename)
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
-                    post_data = json.load(f)
-                    if "id" in post_data and "title" in post_data and "excerpt" in post_data:
+                    fm = _parse_markdown_frontmatter(f.read())
+                title = fm.get("title")
+                excerpt = fm.get("summary") or fm.get("excerpt")
+                if title and excerpt:
+                    posts_metadata.append({
+                        "id": post_id,
+                        "title": title,
+                        "excerpt": excerpt,
+                        "tags": fm.get("tags", []) or []
+                    })
+                    seen_ids.add(post_id)
+            except Exception as e:
+                print(f"Error reading markdown file {filename}: {e}")
+
+    if os.path.exists(json_dir):
+        for filename in sorted(os.listdir(json_dir)):
+            if filename.endswith(".json") and filename not in ("index.json", "trending_posts.json"):
+                file_path = os.path.join(json_dir, filename)
+                try:
+                    with open(file_path, "r", encoding="utf-8") as f:
+                        post_data = json.load(f)
+                    post_id = post_data.get("id")
+                    if post_id and post_id not in seen_ids and "title" in post_data and "excerpt" in post_data:
                         posts_metadata.append({
-                            "id": post_data["id"],
+                            "id": post_id,
                             "title": post_data["title"],
                             "excerpt": post_data["excerpt"],
                             "tags": post_data.get("tags", [])
                         })
-            except Exception as e:
-                print(f"Error reading file {filename}: {e}")
+                        seen_ids.add(post_id)
+                except Exception as e:
+                    print(f"Error reading file {filename}: {e}")
 
     print(f"Loaded {len(posts_metadata)} blog posts metadata.")
     return json.dumps(posts_metadata)
 
 
-# Tool to save trending posts list
-def save_trending_posts_list_tool(trending_posts_data_json: str, output_file_path: str) -> str: 
-    """Saves the list of trending post data to a JSON file."""
+# Tool to save trending posts list atomically
+def save_trending_posts_list_tool(trending_posts_data_json: str, output_file_path: str = "elijahmondero/public/posts/trending_posts.json") -> str:
+    """Validates and atomically saves the list of trending post data to a JSON file."""
     try:
-        trending_posts_data = json.loads(trending_posts_data_json)
-        os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
-        with open(output_file_path, "w", encoding="utf-8") as f:
-            json.dump(trending_posts_data, f, indent=2)
-        return f"Successfully saved trending post data to {output_file_path}"
+        cleaned_json = trending_posts_data_json.strip()
+        if cleaned_json.startswith("```"):
+            cleaned_json = re.sub(r'^```(?:json)?\s*|\s*```$', '', cleaned_json, flags=re.DOTALL).strip()
+
+        trending_posts_data = json.loads(cleaned_json)
+        if not isinstance(trending_posts_data, list):
+            return "Error: trending_posts_data_json must decode to a JSON list."
+
+        validated_posts = []
+        for item in trending_posts_data:
+            if isinstance(item, dict) and item.get("id") and item.get("title") and item.get("excerpt"):
+                validated_posts.append({
+                    "id": str(item["id"]),
+                    "title": str(item["title"]),
+                    "excerpt": str(item["excerpt"]),
+                })
+
+        if not validated_posts:
+            return "Error: No valid trending post entries found; leaving existing file unchanged."
+
+        resolved_output = _resolve_repo_path(output_file_path)
+        output_dir = os.path.dirname(resolved_output)
+        os.makedirs(output_dir, exist_ok=True)
+        tmp_path = f"{resolved_output}.tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(validated_posts, f, indent=2)
+        os.replace(tmp_path, resolved_output)
+
+        return f"Successfully saved {len(validated_posts)} trending posts to {resolved_output}"
     except Exception as e:
         return f"Error saving trending posts data to {output_file_path}: {e}"
-
-# Tool to clear the trending posts file
-def clear_trending_posts_file_tool(output_file_path: str) -> str:
-    """Clears the content of the trending posts JSON file."""
-    try:
-        os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
-        with open(output_file_path, "w", encoding="utf-8") as f:
-            json.dump([], f) 
-        return f"Successfully cleared {output_file_path}"
-    except Exception as e:
-        return f"Error clearing {output_file_path}: {e}"
-
-# Tool to save a single trending post entry
-def save_trending_post_entry_tool(post_id: str, post_title: str, post_excerpt: str, output_file_path: str) -> str:
-    """Appends a single trending post entry to the JSON file."""
-    try:
-        trending_posts_list = []
-        if os.path.exists(output_file_path):
-            with open(output_file_path, "r", encoding="utf-8") as f:
-                try:
-                    trending_posts_list = json.load(f)
-                    if not isinstance(trending_posts_list, list):
-                        trending_posts_list = []
-                except json.JSONDecodeError:
-                    trending_posts_list = []
-
-        new_entry = {
-            "id": post_id,
-            "title": post_title,
-            "excerpt": post_excerpt
-        }
-        trending_posts_list.append(new_entry)
-
-        os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
-        with open(output_file_path, "w", encoding="utf-8") as f:
-            json.dump(trending_posts_list, f, indent=2)
-
-        return f"Successfully appended trending post '{post_title}' to {output_file_path}"
-    except Exception as e:
-        return f"Error appending trending post data to {output_file_path}: {e}"
 
 
 # --- ADK Agents ---
@@ -219,26 +271,15 @@ post_matcher_agent = Agent(
     output_key="trending_posts_data_json" # Change output key to reflect full data
 )
 
-file_clearer_agent = Agent(
-    name="file_clearer",
-    model=GEMINI_MODEL, # This agent doesn't need complex reasoning, but needs a model
-    description="Clears the trending posts JSON file before writing.",
-    instruction="Clear the `elijahmondero/public/posts/trending_posts.json` file using the `clear_trending_posts_file_tool`. "
-                "Call the tool with the file path `elijahmondero/public/posts/trending_posts.json`. "
-                "Indicate completion after the tool call.",
-    tools=[clear_trending_posts_file_tool],
-    output_key="clear_status"
-)
-
 output_writer_agent = Agent(
     name="output_writer",
     model=GEMINI_MODEL,
-    description="Saves the list of trending post data to a JSON file by appending each entry.",
+    description="Saves the list of trending post data atomically to a JSON file.",
     instruction="You will receive a JSON array of trending blog post data (id, title, excerpt): {trending_posts_data_json}. "
-                "Iterate through this JSON array. For each item in the array, call the `save_trending_post_entry_tool` with the post's `id`, `title`, `excerpt`, and the output file path `elijahmondero/public/posts/trending_posts.json`. "
-                "Ensure you call the tool for every item in the list. "
-                "Indicate completion after processing all items.",
-    tools=[save_trending_post_entry_tool], # Use the new tool
+                "Call `save_trending_posts_list_tool` once with `trending_posts_data_json` set to the full JSON array string "
+                "and `output_file_path` set to `elijahmondero/public/posts/trending_posts.json`. "
+                "Indicate completion after the tool call succeeds.",
+    tools=[save_trending_posts_list_tool],
     output_key="save_status"
 )
 
@@ -250,24 +291,30 @@ pipeline = SequentialAgent(
         trending_researcher_agent,
         trending_analyzer_agent,
         post_matcher_agent,
-        file_clearer_agent, # Add the clearer agent
-        output_writer_agent # Use the modified writer agent
+        output_writer_agent
     ]
 )
 
-# Runner setup
+# Runner configuration
 APP_NAME = "trending_update_app"
 USER_ID = "github_actions_user"
 SESSION_ID = "daily_run"
 
-session_service = InMemorySessionService()
-asyncio.run(session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID))
-runner = Runner(agent=pipeline, app_name=APP_NAME, session_service=session_service)
 
 # Run the pipeline
 def run_trending_update_pipeline():
+    if not GOOGLE_GEMINI_API_KEY:
+        print("Error: GOOGLE_GEMINI_API_KEY not found in environment variables.")
+        sys.exit(1)
+
     print("Gemini ADK Sequential Pipeline: Starting trending posts update process...")
     print("--- ADK Runner Events ---")
+
+    session_service = InMemorySessionService()
+    result = session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID)
+    if asyncio.iscoroutine(result):
+        asyncio.run(result)
+    runner = Runner(agent=pipeline, app_name=APP_NAME, session_service=session_service)
 
     # Initial prompt for the researcher agent
     initial_prompt = "Find current trending tech topics relevant to LLM/AI/GenAI, Machine Learning, .NET, ReactJS, Docker, and containers."

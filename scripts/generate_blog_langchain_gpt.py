@@ -101,11 +101,12 @@ def generate_image(prompt: str) -> str:
     image_response = requests.get(image_url)
     if image_response.status_code == 200:
         image_filename = f"{uuid.uuid4()}.png"
-        image_path = os.path.join("elijahmondero/public/posts/images", image_filename)
+        repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        image_path = os.path.join(repo_root, "elijahmondero", "public", "posts", "images", image_filename)
         os.makedirs(os.path.dirname(image_path), exist_ok=True)
         with open(image_path, "wb") as f:
             f.write(image_response.content)
-        return os.path.join("/posts/images", image_filename)  # Return relative path
+        return f"/posts/images/{image_filename}"  # Return relative web path
     else:
         print(f"Error downloading image: {image_response.status_code}")
         return None
@@ -260,7 +261,7 @@ def update_sitemap(post_id, post_date):
     sitemap_file = os.path.join(repo_root, "elijahmondero/public/sitemap.xml")
     print("Sitemap file:", sitemap_file)
 
-    new_url = f"https://elijah.mondero.nz/post/{post_id}"
+    new_url = f"https://elijah.mondero.nz/post/{post_id}/"
     post_date = post_date.split("T")[0]  # Extract the date in YYYY-MM-DD format
     new_entry = f"""
   <sitemap>
