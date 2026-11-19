@@ -11,7 +11,7 @@ Use this skill whenever you need to publish a high-quality, technically rigorous
 
 ```
    1. Researcher Subagent     --> Deep web search & source gathering (Dossier)
-   2. Writer Subagent         --> Technical drafting & Mermaid diagrams (Draft)
+   2. Writer Subagent         --> Technical drafting & optional SVG diagram (Draft)
    3. Blind Auditor Subagent  --> Evaluates against 100-point Rubric (Score >= 85)
    4. Image Generator         --> Creates 16:9 modern cover artwork
    5. Site Indexing           --> Updates posts/<slug>.md, index.json, sitemap.xml
@@ -24,13 +24,13 @@ Use this skill whenever you need to publish a high-quality, technically rigorous
 
 ### Stage 2: Technical Drafting
 - Write the post following [post-template.md](./references/post-template.md).
-- Emphasize deep architectural principles, real workflows, and valid Mermaid diagrams.
+- Emphasize deep architectural principles, real workflows, and include an optional vector SVG diagram only when the topic genuinely benefits from visual illustration.
 - Ensure the frontmatter contains complete metadata and verified source URLs.
 
 ### Stage 3: Blind Rubric Audit (Context-Isolated Review)
 - Launch an independent subagent with a fresh context.
 - Supply ONLY the draft Markdown and [rubric.md](./references/rubric.md).
-- Score the post across the 5 dimensions (Technical Rigor 25, Architecture & Diagrams 20, Readability & Voice 20, Schema 15, Sources 20).
+- Score the post across the 5 dimensions (Technical Rigor 25, Structure & Visual Clarity 20, Readability & Voice 20, Schema 15, Sources 20).
 - If total score < 85, loop back to the Writer subagent with specific revision requests.
 - Retain the final Rubric Scorecard for the PR report.
 

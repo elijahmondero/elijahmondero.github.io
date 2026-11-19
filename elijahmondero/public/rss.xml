@@ -26,10 +26,10 @@
 <p>In classical Test-Driven Development (TDD), tests are binary, deterministic, and isolated:</p>
 <pre>assert calculate_tax(100.0, 0.15) == 115.0
 </pre>
-<p>Given input A, state S, the function executes along predictable control-flow branches and produces exact output B. If it returns 114.99, the test fails with 100% certainty.</p>
+<p>Given input <em>A</em> and state <em>S</em>, the function executes along predictable control-flow branches and produces exact output <em>B</em>. If it returns <code>114.99</code>, the test fails with 100% certainty.</p>
 <p>Autonomous agents and LLM applications demolish these fundamental assumptions:</p>
 <ol>
-<li><strong>Probabilistic Outputs:</strong> Foundation models sample from probability distributions over token vocabularies. Even with temperature set to 0.0, subtle differences in GPU kernels, quantization, or floating-point rounding can yield semantically equivalent but syntactically divergent responses.</li>
+<li><strong>Probabilistic Outputs:</strong> Foundation models sample from probability distributions over token vocabularies. Even with temperature set to <code>0.0</code>, subtle differences in GPU kernels, quantization, or floating-point rounding can yield semantically equivalent but syntactically divergent responses.</li>
 <li><strong>Multi-Turn Trajectory Dynamics:</strong> An agent does not merely produce text; it observes its environment, reasons, selects a tool, parses the tool&#x27;s execution result, and iteratively plans its next step. The final outcome might be correct even if the trajectory took an unconventional path, or vice versa.</li>
 <li><strong>Open-Ended Solution Spaces:</strong> There are often dozens of valid ways to answer an ambiguous query or write a piece of code. Exact string matching (<code>assert output == expected</code>) is completely unviable.</li>
 <li><strong>Cascading Failure Modes:</strong> A slight prompt edit intended to improve reasoning in one domain can trigger sudden regressions in tool-calling precision elsewhere—a phenomenon known as the <em>alignment tax</em> or <em>prompt regression</em>.</li>
@@ -43,28 +43,14 @@
 <hr />
 <h3>The Three-Tier Evaluation Harness</h3>
 <p>Frontier engineering teams at Anthropic, OpenAI, and leading AI platforms do not rely on a single catch-all metric. Instead, they structure their evaluation harness across three distinct tiers, moving from fast, deterministic checks to nuanced qualitative assessments:</p>
-<pre>+-------------------------------------------------------------------------+
-|                        TIER 3: MODEL-GRADED JUDGES                      |
-|      (LLM-as-a-Judge, Pairwise Comparisons, G-Eval Single-Dimension)    |
-+-------------------------------------------------------------------------+
-                                    ▲
-+-------------------------------------------------------------------------+
-|                  TIER 2: AGENTIC TRAJECTORY EVALUATION                  |
-|    (Tool Precision/Recall, State Invariants, Loop Detection, pass@k)     |
-+-------------------------------------------------------------------------+
-                                    ▲
-+-------------------------------------------------------------------------+
-|                   TIER 1: DETERMINISTIC CODE ASSERTIONS                 |
-|       (JSON Schema, Regex/AST Match, Latency, Token Cost, Unit Tests)   |
-+-------------------------------------------------------------------------+
-</pre>
+<blockquote><p><strong>Tier 1: Deterministic Code Assertions</strong> &amp;rarr; <strong>Tier 2: Agentic Trajectory Evaluation</strong> &amp;rarr; <strong>Tier 3: Model-Graded Judges</strong></p></blockquote>
 <h4>Tier 1: Deterministic Code-Based Assertions</h4>
 <p>The foundation of your eval suite must be code-based, fast, and free of LLM non-determinism:</p>
 <ul>
 <li><strong>Structural &amp; Schema Validation:</strong> Does the agent return valid JSON adhering to the specified Pydantic schema?</li>
 <li><strong>Syntax &amp; Compilability:</strong> Does the generated Python, TypeScript, or SQL parse and execute without syntax errors?</li>
 <li><strong>Negative Assertions:</strong> Did the model refrain from emitting forbidden tokens, leaked system prompts, or hallucinated internal URLs?</li>
-<li><strong>Resource Budgets:</strong> Did the invocation complete within a strict latency threshold (e.g., &lt; 2.5 seconds) and token ceiling (e.g., &lt; 1,500 tokens)?</li>
+<li><strong>Resource Budgets:</strong> Did the invocation complete within a strict latency threshold (e.g., <code>&lt; 2.5s</code>) and token ceiling (e.g., <code>&lt; 1,500</code> tokens)?</li>
 </ul>
 <p>Tier 1 assertions run in milliseconds and filter out obvious execution failures before expensive model-graded judges are invoked.</p>
 <h4>Tier 2: Agentic Trajectory &amp; State Evaluation</h4>
@@ -74,7 +60,7 @@
 <li><strong>Argument Validity:</strong> Were the function arguments structurally valid and grounded in the user&#x27;s request, rather than hallucinated?</li>
 <li><strong>State Machine Invariants:</strong> Did the agent respect lifecycle transitions (e.g., never calling <code>execute_payment</code> prior to <code>verify_kyc</code>)?</li>
 <li><strong>Loop Detection &amp; Recovery:</strong> Did the agent detect when an environment tool returned an error code, or did it repeat the exact failing invocation until hitting max recursion limits?</li>
-<li><strong>Statistical Reliability (<code>pass@k</code> vs. <code>pass^k</code>):</strong> Because agents exhibit variance across repeated runs, single-pass evaluations give a false sense of security. Evaluating with <code>pass@k</code> measures whether the agent can find a solution in k attempts, while <code>pass^k</code> measures whether the agent succeeds reliably across all k consecutive runs. Production agents require high <code>pass^k</code> consistency.</li>
+<li><strong>Statistical Reliability (<code>pass@k</code> vs. <code>pass^k</code>):</strong> Because agents exhibit variance across repeated runs, single-pass evaluations give a false sense of security. Evaluating with <code>pass@k</code> measures whether the agent can find a solution in <em>k</em> attempts, while <code>pass^k</code> measures whether the agent succeeds reliably across all <em>k</em> consecutive runs. Production agents require high <code>pass^k</code> consistency.</li>
 </ul>
 <h4>Tier 3: Model-Graded Judges (LLM-as-a-Judge)</h4>
 <p>For subjective qualities like answer tone, helpfulness, coherence, and RAG faithfulness, human annotation is too slow to run on every commit. Here, a stronger foundation model acts as a calibrated judge:</p>
@@ -83,48 +69,19 @@
 <li><strong>Reference-Guided Evaluation:</strong> Supply the judge model with a curated &quot;golden reference&quot; and clear scoring guidelines, asking it to produce step-by-step reasoning (<em>chain-of-thought</em>) before outputting its final verdict.</li>
 <li><strong>Pairwise A/B Scoring:</strong> When comparing two prompt variations or model versions, pass both responses to the judge in randomized order to eliminate ordering bias.</li>
 </ul>
-<blockquote><p><strong>Important:</strong> <strong>Calibrating Your Judges:</strong> An automated judge is only as reliable as its alignment with human engineering consensus. Before trusting an LLM judge in your CI/CD pipeline, calibrate its decisions against a human-annotated baseline. Measure its Precision, Recall, and Cohen&#x27;s Kappa score on held-out test splits. Prioritize high recall on the &quot;fail&quot; class—it is far better for a judge to falsely flag an edge case for human review than to let regressions slip into production.</p></blockquote>
+<blockquote><p><strong>Important — Calibrating Your Judges:</strong> An automated judge is only as reliable as its alignment with human engineering consensus. Before trusting an LLM judge in your CI/CD pipeline, calibrate its decisions against a human-annotated baseline. Measure its Precision, Recall, and Cohen&#x27;s Kappa score on held-out test splits. Prioritize high recall on the &quot;fail&quot; class—it is far better for a judge to falsely flag an edge case for human review than to let regressions slip into production.</p></blockquote>
 <hr />
 <h3>EDD Across the AI Development Life Cycle (ADLC)</h3>
 <p>The traditional Software Development Life Cycle (SDLC) assumes requirements are fixed and code behaves deterministically. The <strong>AI Development Life Cycle (ADLC)</strong> accommodates the experimental, empirical nature of intelligent systems. Integrating EDD into the ADLC establishes a continuous, self-reinforcing flywheel:</p>
-<pre>  +-----------------------------------------------------------------------+
-  |                        1. BEHAVIORAL SPECIFICATION                    |
-  |             Define user intents, failure modes, and boundaries       |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      ▼
-  +-----------------------------------------------------------------------+
-  |                        2. GOLDEN DATASET CURATION                     |
-  |         Synthesize 50-200 representative prompts &amp; expected paths     |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      ▼
-  +-----------------------------------------------------------------------+
-  |                     3. IMPLEMENTATION &amp; EXPERIMENTATION                |
-  |             Tune prompts, tool schemas, routing, and models           |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      ▼
-  +-----------------------------------------------------------------------+
-  |                     4. CI/CD BUILD GATES (OFFLINE EVALS)              |
-  |           Automated regression suite gates Pull Request merges        |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      ▼
-  +-----------------------------------------------------------------------+
-  |                   5. PRODUCTION TELEMETRY &amp; SHADOW EVALS              |
-  |           Trace live executions, monitor drift, flag user edits       |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      ▼
-  +-----------------------------------------------------------------------+
-  |                      6. CLOSED-LOOP AUTO-INGESTION                    |
-  |         Cluster production failures -&gt; Backpropagate into Goldens    |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      └──────── (Closes the Loop) ───────┘
-</pre>
-<p>| ADLC Phase | Focus &amp; Objective | Primary Evaluation Mechanism | Gate Criteria for Promotion | | :--- | :--- | :--- | :--- | | <strong>1. Requirements</strong> | Transform vague product ideas into verifiable contracts | Edge-case brainstorming &amp; ambiguity detection | Behavioral rubric passes; edge cases enumerated | | <strong>2. Curation</strong> | Establish baseline ground truth | Golden dataset assembly (50–200 representative cases) | Ground truth calibrated against human consensus | | <strong>3. Iteration</strong> | Rapidly prototype prompts, tools, and architectures | Local eval runners &amp; trajectory debuggers | Eval pass rate improvement without regressing baselines | | <strong>4. Build &amp; Merge</strong> | Prevent regressions in shared branches | Automated CI/CD regression suites | \ge 85% aggregate score; 0 safety failures; token budget \le +5% | | <strong>5. Deployment</strong> | Monitor live behavior in production | OpenTelemetry distributed tracing &amp; shadow evals | Real-time drift detection; user sentiment monitoring | | <strong>6. Continuous Ops</strong> | Turn production friction into permanent resilience | Error clustering &amp; automatic regression generation | New test case ingested into golden suite within 24 hours |</p>
+<blockquote><p><strong>1. Behavioral Specification</strong> &amp;rarr; <strong>2. Golden Dataset Curation</strong> &amp;rarr; <strong>3. Implementation &amp; Experimentation</strong> &amp;rarr; <strong>4. CI/CD Eval Gates</strong> &amp;rarr; <strong>5. Production Telemetry</strong> &amp;rarr; <strong>6. Closed-Loop Auto-Ingestion</strong></p></blockquote>
+<ul>
+<li><strong>1. Requirements (Behavioral Specification):</strong> Transform vague product ideas into verifiable contracts through edge-case brainstorming and ambiguity detection. <em>Gate:</em> Behavioral rubric passes and edge cases are enumerated.</li>
+<li><strong>2. Curation (Golden Dataset Assembly):</strong> Establish baseline ground truth with 50–200 representative prompts and expected trajectories. <em>Gate:</em> Ground truth is calibrated against human consensus.</li>
+<li><strong>3. Iteration (Implementation &amp; Experimentation):</strong> Rapidly prototype prompts, tool schemas, routing, and model choices using local eval runners and trajectory debuggers. <em>Gate:</em> Eval pass rate improves without regressing existing baselines.</li>
+<li><strong>4. Build &amp; Merge (CI/CD Eval Gates):</strong> Prevent regressions in shared branches via automated CI/CD regression suites. <em>Gate:</em> &gt;= 85% aggregate score, 0 safety failures, and &lt;= +5% token budget delta.</li>
+<li><strong>5. Deployment (Production Telemetry &amp; Shadow Evals):</strong> Monitor live behavior with OpenTelemetry distributed tracing and shadow evals. <em>Gate:</em> Real-time drift detection and user sentiment monitoring remain healthy.</li>
+<li><strong>6. Continuous Ops (Closed-Loop Auto-Ingestion):</strong> Turn production friction into permanent resilience via failure clustering and automated regression case generation. <em>Gate:</em> New failure trace ingested into the golden suite within 24 hours.</li>
+</ul>
 <hr />
 <h3>Industry Practices: How Leading Engineering Teams Run Evals</h3>
 <p>As shared by practitioners across Anthropic, Eugene Yan&#x27;s system patterns, and platforms like Arize, DeepEval, and LangSmith, world-class AI engineering teams adhere to four foundational practices:</p>

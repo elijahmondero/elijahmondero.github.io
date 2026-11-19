@@ -460,12 +460,24 @@ def validate_post(post_id: str, repo_root: str = None) -> bool:
         return False
         
     frontmatter = parts[1]
+    body = parts[2]
     required_keys = ["title:", "authors:", "date:", "summary:", "tags:", "sources:"]
     for key in required_keys:
         if key not in frontmatter:
             print(f"Error: Missing required frontmatter key '{key}'")
             return False
-            
+
+    body_checks = [
+        (r'\+-{5,}|┌─{5,}|╔═{5,}', "wide ASCII/Unicode box-drawing diagram (use an SVG diagram when needed instead)"),
+        (r'```mermaid', "raw mermaid block (not rendered by remark-html; use an SVG diagram when needed)"),
+        (r'^\s*\|(?:\s*:?-+:?\s*\|)+', "GFM pipe table (not rendered without remark-gfm; use structured bullets)"),
+        (r'^\s*>\s*\[!(?:IMPORTANT|NOTE|TIP|WARNING|CAUTION)\]', "GitHub alert marker (not rendered by remark-html; use bold text in blockquote)"),
+    ]
+    for pattern, label in body_checks:
+        if re.search(pattern, body, re.MULTILINE):
+            print(f"Error: Post {post_id}.md contains unsupported {label}.")
+            return False
+
     print(f"Post {post_id}.md validated successfully.")
     return True
 

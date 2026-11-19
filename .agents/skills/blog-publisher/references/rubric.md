@@ -10,11 +10,11 @@ To prevent evaluative bias and context pollution, this rubric is evaluated by an
 - **10 - 17 - Average:** Uses buzzwords without thoroughly explaining underlying mechanics; feels somewhat generic.
 - **< 10 - Unacceptable:** Shallow summary, superficial or inaccurate technical claims.
 
-### 2. Architecture & Visual Communication (Weight: 20 Points)
-- **20 - Exceptional:** Contains a clean, universal architectural diagram (using Unicode box drawing or structured flow matrix) and a detailed lifecycle table that clearly illuminates the core technical concepts and renders reliably without external script dependencies.
-- **14 - 19 - Good:** Diagram and table are present, clear, and helpful, with minor styling improvements possible.
-- **8 - 13 - Average:** Diagram is either overly simplistic or poorly formatted.
-- **< 8 - Unacceptable:** Missing architectural diagram or unformatted raw script blocks.
+### 2. Structure, Formatting & Visual Clarity (Weight: 20 Points)
+- **20 - Exceptional:** Clean, mobile-responsive formatting throughout. If the topic warrants an architectural or workflow diagram, it uses a crisp vector SVG (`![Alt](/posts/images/<slug>-architecture.svg)`). If no diagram is needed, full points (`20/20`) are awarded for clear structural hierarchy (subheadings, bulleted breakdowns, blockquote flows using `&rarr;`, and concise code snippets).
+- **14 - 19 - Good:** Well-structured and readable on both desktop and mobile with minor formatting improvements possible.
+- **8 - 13 - Average:** Wall-of-text sections or awkward formatting that hurts scanability.
+- **< 8 - Unacceptable:** Uses mobile-breaking ASCII/Unicode box-drawing diagrams (`+---+`), raw unrendered `mermaid` blocks, broken GFM pipe tables (`| :--- |`), raw LaTeX `$...$`, or unparsed `[!IMPORTANT]` markers.
 
 ### 3. Readability & Engineering Voice (Weight: 20 Points)
 - **20 - Exceptional:** Natural, authoritative engineering voice characteristic of a senior software engineer. No clichés (e.g. "In today's fast-paced digital world"). Strong section transitions, clear callouts, and actionable takeaways.

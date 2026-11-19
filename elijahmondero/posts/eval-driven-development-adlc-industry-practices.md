@@ -44,11 +44,11 @@ In classical Test-Driven Development (TDD), tests are binary, deterministic, and
 assert calculate_tax(100.0, 0.15) == 115.0
 ```
 
-Given input $A$, state $S$, the function executes along predictable control-flow branches and produces exact output $B$. If it returns $114.99$, the test fails with $100\%$ certainty.
+Given input *A* and state *S*, the function executes along predictable control-flow branches and produces exact output *B*. If it returns `114.99`, the test fails with 100% certainty.
 
 Autonomous agents and LLM applications demolish these fundamental assumptions:
 
-1. **Probabilistic Outputs:** Foundation models sample from probability distributions over token vocabularies. Even with temperature set to $0.0$, subtle differences in GPU kernels, quantization, or floating-point rounding can yield semantically equivalent but syntactically divergent responses.
+1. **Probabilistic Outputs:** Foundation models sample from probability distributions over token vocabularies. Even with temperature set to `0.0`, subtle differences in GPU kernels, quantization, or floating-point rounding can yield semantically equivalent but syntactically divergent responses.
 2. **Multi-Turn Trajectory Dynamics:** An agent does not merely produce text; it observes its environment, reasons, selects a tool, parses the tool's execution result, and iteratively plans its next step. The final outcome might be correct even if the trajectory took an unconventional path, or vice versa.
 3. **Open-Ended Solution Spaces:** There are often dozens of valid ways to answer an ambiguous query or write a piece of code. Exact string matching (`assert output == expected`) is completely unviable.
 4. **Cascading Failure Modes:** A slight prompt edit intended to improve reasoning in one domain can trigger sudden regressions in tool-calling precision elsewhere—a phenomenon known as the *alignment tax* or *prompt regression*.
@@ -71,29 +71,14 @@ In EDD, evals serve as executable Product Requirements Documents (PRDs). Rather 
 
 Frontier engineering teams at Anthropic, OpenAI, and leading AI platforms do not rely on a single catch-all metric. Instead, they structure their evaluation harness across three distinct tiers, moving from fast, deterministic checks to nuanced qualitative assessments:
 
-```
-+-------------------------------------------------------------------------+
-|                        TIER 3: MODEL-GRADED JUDGES                      |
-|      (LLM-as-a-Judge, Pairwise Comparisons, G-Eval Single-Dimension)    |
-+-------------------------------------------------------------------------+
-                                    ▲
-+-------------------------------------------------------------------------+
-|                  TIER 2: AGENTIC TRAJECTORY EVALUATION                  |
-|    (Tool Precision/Recall, State Invariants, Loop Detection, pass@k)     |
-+-------------------------------------------------------------------------+
-                                    ▲
-+-------------------------------------------------------------------------+
-|                   TIER 1: DETERMINISTIC CODE ASSERTIONS                 |
-|       (JSON Schema, Regex/AST Match, Latency, Token Cost, Unit Tests)   |
-+-------------------------------------------------------------------------+
-```
+> **Tier 1: Deterministic Code Assertions** &rarr; **Tier 2: Agentic Trajectory Evaluation** &rarr; **Tier 3: Model-Graded Judges**
 
 #### Tier 1: Deterministic Code-Based Assertions
 The foundation of your eval suite must be code-based, fast, and free of LLM non-determinism:
 * **Structural & Schema Validation:** Does the agent return valid JSON adhering to the specified Pydantic schema?
 * **Syntax & Compilability:** Does the generated Python, TypeScript, or SQL parse and execute without syntax errors?
 * **Negative Assertions:** Did the model refrain from emitting forbidden tokens, leaked system prompts, or hallucinated internal URLs?
-* **Resource Budgets:** Did the invocation complete within a strict latency threshold (e.g., $< 2.5$ seconds) and token ceiling (e.g., $< 1,500$ tokens)?
+* **Resource Budgets:** Did the invocation complete within a strict latency threshold (e.g., `< 2.5s`) and token ceiling (e.g., `< 1,500` tokens)?
 
 Tier 1 assertions run in milliseconds and filter out obvious execution failures before expensive model-graded judges are invoked.
 
@@ -103,7 +88,7 @@ Evaluating an autonomous agent requires inspecting the **journey**, not just the
 * **Argument Validity:** Were the function arguments structurally valid and grounded in the user's request, rather than hallucinated?
 * **State Machine Invariants:** Did the agent respect lifecycle transitions (e.g., never calling `execute_payment` prior to `verify_kyc`)?
 * **Loop Detection & Recovery:** Did the agent detect when an environment tool returned an error code, or did it repeat the exact failing invocation until hitting max recursion limits?
-* **Statistical Reliability (`pass@k` vs. `pass^k`):** Because agents exhibit variance across repeated runs, single-pass evaluations give a false sense of security. Evaluating with `pass@k` measures whether the agent can find a solution in $k$ attempts, while `pass^k` measures whether the agent succeeds reliably across all $k$ consecutive runs. Production agents require high `pass^k` consistency.
+* **Statistical Reliability (`pass@k` vs. `pass^k`):** Because agents exhibit variance across repeated runs, single-pass evaluations give a false sense of security. Evaluating with `pass@k` measures whether the agent can find a solution in *k* attempts, while `pass^k` measures whether the agent succeeds reliably across all *k* consecutive runs. Production agents require high `pass^k` consistency.
 
 #### Tier 3: Model-Graded Judges (LLM-as-a-Judge)
 For subjective qualities like answer tone, helpfulness, coherence, and RAG faithfulness, human annotation is too slow to run on every commit. Here, a stronger foundation model acts as a calibrated judge:
@@ -111,8 +96,7 @@ For subjective qualities like answer tone, helpfulness, coherence, and RAG faith
 * **Reference-Guided Evaluation:** Supply the judge model with a curated "golden reference" and clear scoring guidelines, asking it to produce step-by-step reasoning (*chain-of-thought*) before outputting its final verdict.
 * **Pairwise A/B Scoring:** When comparing two prompt variations or model versions, pass both responses to the judge in randomized order to eliminate ordering bias.
 
-> [!IMPORTANT]
-> **Calibrating Your Judges:** An automated judge is only as reliable as its alignment with human engineering consensus. Before trusting an LLM judge in your CI/CD pipeline, calibrate its decisions against a human-annotated baseline. Measure its Precision, Recall, and Cohen's Kappa score on held-out test splits. Prioritize high recall on the "fail" class—it is far better for a judge to falsely flag an edge case for human review than to let regressions slip into production.
+> **Important — Calibrating Your Judges:** An automated judge is only as reliable as its alignment with human engineering consensus. Before trusting an LLM judge in your CI/CD pipeline, calibrate its decisions against a human-annotated baseline. Measure its Precision, Recall, and Cohen's Kappa score on held-out test splits. Prioritize high recall on the "fail" class—it is far better for a judge to falsely flag an edge case for human review than to let regressions slip into production.
 
 ---
 
@@ -120,53 +104,14 @@ For subjective qualities like answer tone, helpfulness, coherence, and RAG faith
 
 The traditional Software Development Life Cycle (SDLC) assumes requirements are fixed and code behaves deterministically. The **AI Development Life Cycle (ADLC)** accommodates the experimental, empirical nature of intelligent systems. Integrating EDD into the ADLC establishes a continuous, self-reinforcing flywheel:
 
-```
-  +-----------------------------------------------------------------------+
-  |                        1. BEHAVIORAL SPECIFICATION                    |
-  |             Define user intents, failure modes, and boundaries       |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      ▼
-  +-----------------------------------------------------------------------+
-  |                        2. GOLDEN DATASET CURATION                     |
-  |         Synthesize 50-200 representative prompts & expected paths     |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      ▼
-  +-----------------------------------------------------------------------+
-  |                     3. IMPLEMENTATION & EXPERIMENTATION                |
-  |             Tune prompts, tool schemas, routing, and models           |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      ▼
-  +-----------------------------------------------------------------------+
-  |                     4. CI/CD BUILD GATES (OFFLINE EVALS)              |
-  |           Automated regression suite gates Pull Request merges        |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      ▼
-  +-----------------------------------------------------------------------+
-  |                   5. PRODUCTION TELEMETRY & SHADOW EVALS              |
-  |           Trace live executions, monitor drift, flag user edits       |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      ▼
-  +-----------------------------------------------------------------------+
-  |                      6. CLOSED-LOOP AUTO-INGESTION                    |
-  |         Cluster production failures -> Backpropagate into Goldens    |
-  +-----------------------------------------------------------------------+
-                                      │
-                                      └──────── (Closes the Loop) ───────┘
-```
+> **1. Behavioral Specification** &rarr; **2. Golden Dataset Curation** &rarr; **3. Implementation & Experimentation** &rarr; **4. CI/CD Eval Gates** &rarr; **5. Production Telemetry** &rarr; **6. Closed-Loop Auto-Ingestion**
 
-| ADLC Phase | Focus & Objective | Primary Evaluation Mechanism | Gate Criteria for Promotion |
-| :--- | :--- | :--- | :--- |
-| **1. Requirements** | Transform vague product ideas into verifiable contracts | Edge-case brainstorming & ambiguity detection | Behavioral rubric passes; edge cases enumerated |
-| **2. Curation** | Establish baseline ground truth | Golden dataset assembly (50–200 representative cases) | Ground truth calibrated against human consensus |
-| **3. Iteration** | Rapidly prototype prompts, tools, and architectures | Local eval runners & trajectory debuggers | Eval pass rate improvement without regressing baselines |
-| **4. Build & Merge** | Prevent regressions in shared branches | Automated CI/CD regression suites | $\ge 85\%$ aggregate score; 0 safety failures; token budget $\le +5\%$ |
-| **5. Deployment** | Monitor live behavior in production | OpenTelemetry distributed tracing & shadow evals | Real-time drift detection; user sentiment monitoring |
-| **6. Continuous Ops** | Turn production friction into permanent resilience | Error clustering & automatic regression generation | New test case ingested into golden suite within 24 hours |
+* **1. Requirements (Behavioral Specification):** Transform vague product ideas into verifiable contracts through edge-case brainstorming and ambiguity detection. *Gate:* Behavioral rubric passes and edge cases are enumerated.
+* **2. Curation (Golden Dataset Assembly):** Establish baseline ground truth with 50–200 representative prompts and expected trajectories. *Gate:* Ground truth is calibrated against human consensus.
+* **3. Iteration (Implementation & Experimentation):** Rapidly prototype prompts, tool schemas, routing, and model choices using local eval runners and trajectory debuggers. *Gate:* Eval pass rate improves without regressing existing baselines.
+* **4. Build & Merge (CI/CD Eval Gates):** Prevent regressions in shared branches via automated CI/CD regression suites. *Gate:* >= 85% aggregate score, 0 safety failures, and <= +5% token budget delta.
+* **5. Deployment (Production Telemetry & Shadow Evals):** Monitor live behavior with OpenTelemetry distributed tracing and shadow evals. *Gate:* Real-time drift detection and user sentiment monitoring remain healthy.
+* **6. Continuous Ops (Closed-Loop Auto-Ingestion):** Turn production friction into permanent resilience via failure clustering and automated regression case generation. *Gate:* New failure trace ingested into the golden suite within 24 hours.
 
 ---
 
@@ -178,17 +123,17 @@ As shared by practitioners across Anthropic, Eugene Yan's system patterns, and p
 A common antipattern is spending three months building an elaborate evaluation framework before understanding where the model actually fails. 
 
 Instead, start by manually reading **50 to 100 actual user interaction traces**. As Hamel Husain emphasizes, you cannot write effective evaluation rubrics in a vacuum. Group real failures into concrete taxonomy buckets:
-* *Failure Category A:* Misunderstood domain-specific jargon ($35\%$).
-* *Failure Category B:* Called tool with missing required query parameters ($25\%$).
-* *Failure Category C:* Hallucinated answer when document had no relevant context ($20\%$).
-* *Failure Category D:* Overly verbose conversational preamble ($20\%$).
+* *Failure Category A:* Misunderstood domain-specific jargon (35%).
+* *Failure Category B:* Called tool with missing required query parameters (25%).
+* *Failure Category C:* Hallucinated answer when document had no relevant context (20%).
+* *Failure Category D:* Overly verbose conversational preamble (20%).
 
 Once your error taxonomy is quantified, write targeted eval assertions specifically aimed at your top two failure modes. This guarantees immediate, high-leverage ROI.
 
 #### 2. Decouple Prompting from Model Vendor APIs
 Tying your core agent logic directly to a single provider SDK creates architectural lock-in and blinds you to cost-performance optimizations. 
 
-By wrapping your agent around a standardized evaluation suite, swapping the underlying model—e.g., testing whether an open-weights model or a smaller reasoning model can handle the task at a $70\%$ cost reduction—becomes a routine, low-risk experiment:
+By wrapping your agent around a standardized evaluation suite, swapping the underlying model—e.g., testing whether an open-weights model or a smaller reasoning model can handle the task at a 70% cost reduction—becomes a routine, low-risk experiment:
 ```bash
 # Evaluate baseline Claude 3.5 Sonnet
 python run_evals.py --model claude-3-5-sonnet --suite enterprise-goldens
@@ -203,8 +148,8 @@ In production agent repositories, eval suites should run automatically in GitHub
 
 Just like code coverage gates in standard software engineering, the CI pipeline enforces strict thresholds:
 * **No Regression Rule:** Zero regressions permitted on core golden test cases.
-* **Safety & Guardrails Floor:** $100\%$ pass rate on prompt-injection and sensitive data protection evals.
-* **Economic Governance:** Proposed changes that increase average token consumption by more than $5\%$ require explicit architectural sign-off.
+* **Safety & Guardrails Floor:** 100% pass rate on prompt-injection and sensitive data protection evals.
+* **Economic Governance:** Proposed changes that increase average token consumption by more than 5% require explicit architectural sign-off.
 
 #### 4. The Telemetry Flywheel: Transforming Traces into Goldens
 The ultimate competitive moat in AI engineering is not the base foundation model—it is the **proprietary evaluation flywheel**.
