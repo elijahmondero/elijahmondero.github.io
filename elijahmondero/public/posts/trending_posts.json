@@ -1,10 +1,5 @@
 [
   {
-    "id": "agentic-development-life-cycle",
-    "title": "The Agentic Development Life Cycle: Beyond TDD to Evaluation-Driven Development (EDD)",
-    "excerpt": "Writing code is only 20% of software engineering. As autonomous multi-agent pipelines take over the journey from PRD to production, traditional TDD and BDD are no longer sufficient to govern the macro lifecycle. Enter Evaluation-Driven Development (EDD)\u2014where rubric scoring, automated evals, and strategic human gates tame the chaos of probabilistic software systems."
-  },
-  {
     "id": "ai-and-the-future-of-work-displacement-creation-and-the-shifting-landscape",
     "title": "AI and the Future of Work: Displacement, Creation, and the Shifting Landscape",
     "excerpt": "Artificial intelligence is rapidly reshaping the global job market, displacing some roles while creating millions of new opportunities. Explore the sectors most affected, the emerging careers, and how individuals and organizations can navigate this significant transition."
@@ -48,5 +43,10 @@
     "id": "deep-dive-into-llms-like-chatgpt-a-detailed-summary",
     "title": "Deep Dive into LLMs like ChatGPT \u2013 A Detailed Summary",
     "excerpt": "Explore the fascinating world of Large Language Models (LLMs) like ChatGPT. Understand their architecture, training processes, and capabilities through this comprehensive deep dive summary."
+  },
+  {
+    "id": "deepseek-china-ai-competition",
+    "title": "South Korea's DeepSeek Faces Competition from China's AI Giants",
+    "excerpt": "South Korea's leading AI company, DeepSeek, is encountering increasing competition from China's rapidly advancing AI sector."
   }
 ]
