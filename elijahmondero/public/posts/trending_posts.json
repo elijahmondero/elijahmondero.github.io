@@ -10,11 +10,6 @@
     "excerpt": "The landscape of AI development is rapidly shifting from simple code generation to sophisticated, agentic systems. This post explores how Anthropic's Claude Code, powered by innovations like the Model Context Protocol (MCP), Command Line Interfaces (CLI), and robust plugin architecture, is leading this charge by prioritizing persistent context and autonomous capabilities."
   },
   {
-    "id": "beyond-the-chat-window-understanding-the-rise-of-ambient-agents",
-    "title": "Beyond the Chat Window: Understanding the Rise of Ambient Agents",
-    "excerpt": "Move over, chatbots. Ambient agents are a new wave of AI designed to work proactively in the background, monitoring information streams and taking intelligent action \u2014 often with smart human oversight. Discover how these agents differ from traditional AI and why the 'human-in-the-loop' is key to their success."
-  },
-  {
     "id": "beyond-training-why-test-time-compute-is-reshaping-ai-performance",
     "title": "Beyond Training: Why Test-Time Compute is Reshaping AI Performance",
     "excerpt": "Explore Test-Time Compute (TTC), the crucial-yet-often-overlooked computational cost of running AI models *after* training. Discover why TTC is a bottleneck for modern AI, its impact on user experience and cost, and how techniques like 'slow thinking' and Meta Reinforcement Fine-Tuning are unlocking new levels of AI reasoning."
@@ -48,5 +43,10 @@
     "id": "dotnet-10-preview",
     "title": "Microsoft\u2019s .NET 10 Arrives in First Preview",
     "excerpt": ".NET 10 introduces C# 14 and adds major enhancements to the .NET runtime, SDK, libraries, ASP.NET Core, Blazor, and .NET MAUI, aiming for a production release in November."
+  },
+  {
+    "id": "dotnet-9-release",
+    "title": ".NET 9 Release: What's New and Improved",
+    "excerpt": "Discover the latest features, breaking changes, and updates in the .NET 9 release, including new security measures, API changes, and improvements in C# 13."
   }
 ]
