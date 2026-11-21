@@ -1,13 +1,18 @@
 [
   {
+    "id": "container-images-for-developers",
+    "title": "Top Container Images Every .NET, ReactJS, and Generative AI Developer Must Have",
+    "excerpt": "Discover the essential container images for .NET, ReactJS, and Generative AI developers to streamline your development workflow and enhance productivity."
+  },
+  {
+    "id": "testing-strategies",
+    "title": "Testing Strategies and Integration with BDD, TDD, ReqNRoll, Playwright, and Test Containers on a ReactJS, .NET 8, and MSSQL Setup",
+    "excerpt": "Explore the integration of BDD, TDD, ReqNRoll, Playwright, and Test Containers in your ReactJS, .NET 8, and MSSQL projects to enhance your software quality and streamline development processes."
+  },
+  {
     "id": "ai-and-the-future-of-work-displacement-creation-and-the-shifting-landscape",
     "title": "AI and the Future of Work: Displacement, Creation, and the Shifting Landscape",
     "excerpt": "Artificial intelligence is rapidly reshaping the global job market, displacing some roles while creating millions of new opportunities. Explore the sectors most affected, the emerging careers, and how individuals and organizations can navigate this significant transition."
-  },
-  {
-    "id": "beyond-code-generation-how-claude-code-mcp-and-plu",
-    "title": "Beyond Code Generation: How Claude Code, MCP, and Plugins Are Revolutionizing AI Development Through Context",
-    "excerpt": "The landscape of AI development is rapidly shifting from simple code generation to sophisticated, agentic systems. This post explores how Anthropic's Claude Code, powered by innovations like the Model Context Protocol (MCP), Command Line Interfaces (CLI), and robust plugin architecture, is leading this charge by prioritizing persistent context and autonomous capabilities."
   },
   {
     "id": "beyond-training-why-test-time-compute-is-reshaping-ai-performance",
@@ -20,16 +25,6 @@
     "excerpt": "Explore how Google's Agent Development Kit (ADK) simplifies multi-agent system creation, focusing on the SequentialAgent \u2013 a powerful tool for building structured, step-by-step AI workflows by orchestrating tasks in a defined sequence."
   },
   {
-    "id": "container-images-for-developers",
-    "title": "Top Container Images Every .NET, ReactJS, and Generative AI Developer Must Have",
-    "excerpt": "Discover the essential container images for .NET, ReactJS, and Generative AI developers to streamline your development workflow and enhance productivity."
-  },
-  {
-    "id": "decoding-ai-agents-capabilities-challenges-and-a-c",
-    "title": "Decoding AI Agents: Capabilities, Challenges, and a Call for Responsible Governance",
-    "excerpt": "AI agents are transforming how we work, excelling in defined tasks but still trailing human intuition in complex research. This post explores their impressive capabilities, the pitfalls of treating them like human employees, the urgent need for robust governance, and critical safety concerns as these autonomous systems rapidly integrate into our businesses."
-  },
-  {
     "id": "deep-dive-into-llms-like-chatgpt-a-detailed-summary",
     "title": "Deep Dive into LLMs like ChatGPT \u2013 A Detailed Summary",
     "excerpt": "Explore the fascinating world of Large Language Models (LLMs) like ChatGPT. Understand their architecture, training processes, and capabilities through this comprehensive deep dive summary."
@@ -40,13 +35,18 @@
     "excerpt": "DeepSeek OCR introduces a groundbreaking approach to document processing, leveraging 'advanced visual-text compression.' This isn't about shrinking file sizes; it's about intelligently transforming complex visual document information into structured, semantic data. Discover how this innovative technology revolutionizes text extraction and document understanding."
   },
   {
-    "id": "dotnet-10-preview",
-    "title": "Microsoft\u2019s .NET 10 Arrives in First Preview",
-    "excerpt": ".NET 10 introduces C# 14 and adds major enhancements to the .NET runtime, SDK, libraries, ASP.NET Core, Blazor, and .NET MAUI, aiming for a production release in November."
+    "id": "envolution-maturation-llms",
+    "title": "The Evolution and Maturation of Large Language Models",
+    "excerpt": "Explore the fascinating journey of large language models (LLMs) from their historical roots to their current state of maturity, highlighting key developments along the way."
   },
   {
-    "id": "dotnet-9-release",
-    "title": ".NET 9 Release: What's New and Improved",
-    "excerpt": "Discover the latest features, breaking changes, and updates in the .NET 9 release, including new security measures, API changes, and improvements in C# 13."
+    "id": "eval-driven-development-adlc-industry-practices",
+    "title": "Eval-Driven Development in the AI Lifecycle: Beyond Vibe Checks to Production Rigor",
+    "excerpt": "In non-deterministic AI agents and LLM applications, standard unit tests break down. Eval-Driven Development (EDD) establishes objective, reproducible evaluation suites that replace 'vibe checks' with multi-tiered assertions, agentic trajectory metrics, and a continuous telemetry flywheel across the AI Development Life Cycle (ADLC)."
+  },
+  {
+    "id": "exploring-rag-techniques",
+    "title": "Exploring RAG (Retrieval-Augmented Generation) Techniques with Example Code",
+    "excerpt": "Discover the power of Retrieval-Augmented Generation (RAG) techniques in enhancing the capabilities of language models. This blog post provides a detailed guide on building a RAG application with LangChain, including example code and practical use cases."
   }
 ]
