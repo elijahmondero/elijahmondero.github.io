@@ -1,5 +1,10 @@
 [
   {
+    "id": "agentic-development-life-cycle",
+    "title": "The Agentic Development Life Cycle: Beyond TDD to Evaluation-Driven Development (EDD)",
+    "excerpt": "Writing code is only 20% of software engineering. As autonomous multi-agent pipelines take over the journey from PRD to production, traditional TDD and BDD are no longer sufficient to govern the macro lifecycle. Enter Evaluation-Driven Development (EDD)\u2014where rubric scoring, automated evals, and strategic human gates tame the chaos of probabilistic software systems."
+  },
+  {
     "id": "ai-and-the-future-of-work-displacement-creation-and-the-shifting-landscape",
     "title": "AI and the Future of Work: Displacement, Creation, and the Shifting Landscape",
     "excerpt": "Artificial intelligence is rapidly reshaping the global job market, displacing some roles while creating millions of new opportunities. Explore the sectors most affected, the emerging careers, and how individuals and organizations can navigate this significant transition."
@@ -12,7 +17,7 @@
   {
     "id": "beyond-the-chat-window-understanding-the-rise-of-ambient-agents",
     "title": "Beyond the Chat Window: Understanding the Rise of Ambient Agents",
-    "excerpt": "Move over, chatbots. Ambient agents are a new wave of AI designed to work proactively in the background, monitoring information streams and taking intelligent action \u2013 often with smart human oversight. Discover how these agents differ from traditional AI and why the 'human-in-the-loop' is key to their success."
+    "excerpt": "Move over, chatbots. Ambient agents are a new wave of AI designed to work proactively in the background, monitoring information streams and taking intelligent action \u2014 often with smart human oversight. Discover how these agents differ from traditional AI and why the 'human-in-the-loop' is key to their success."
   },
   {
     "id": "beyond-training-why-test-time-compute-is-reshaping-ai-performance",
@@ -27,7 +32,7 @@
   {
     "id": "building-step-by-step-ai-workflows-with-google-adks-sequentialagent",
     "title": "Building Step-by-Step AI Workflows with Google ADK's SequentialAgent",
-    "excerpt": "Explore how Google's Agent Development Kit (ADK) simplifies multi-agent system creation, focusing on the SequentialAgent \u2013 a powerful tool for building structured, step-by-step AI workflows by orchestrating tasks in a defined sequence."
+    "excerpt": "Explore how Google's Agent Development Kit (ADK) simplifies multi-agent system creation, focusing on the SequentialAgent \u2014 a powerful tool for building structured, step-by-step AI workflows by orchestrating tasks in a defined sequence."
   },
   {
     "id": "container-images-for-developers",
@@ -43,10 +48,5 @@
     "id": "deep-dive-into-llms-like-chatgpt-a-detailed-summary",
     "title": "Deep Dive into LLMs like ChatGPT \u2013 A Detailed Summary",
     "excerpt": "Explore the fascinating world of Large Language Models (LLMs) like ChatGPT. Understand their architecture, training processes, and capabilities through this comprehensive deep dive summary."
-  },
-  {
-    "id": "deepseek-china-ai-competition",
-    "title": "South Korea's DeepSeek Faces Competition from China's AI Giants",
-    "excerpt": "South Korea's leading AI company, DeepSeek, is encountering increasing competition from China's rapidly advancing AI sector."
   }
 ]
